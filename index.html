@@ -2,7 +2,9 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Cập nhật thẻ meta viewport để cố gắng ngăn chặn thu phóng -->
+    <!-- LƯU Ý QUAN TRỌNG: Các trình duyệt hiện đại có thể bỏ qua các thuộc tính này để ưu tiên trải nghiệm người dùng và khả năng tiếp cận. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>KhoaTub - Nâng cấp</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,18 +22,18 @@
             /* Light Theme */
             --bg-color-light: #f0f2f5;
             --text-color-light: #050505;
-            --text-shadow-light: 0 1px 2px rgba(0, 0, 0, 0.1);
-            --glass-bg-light: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
-            --shadow-light: 0 12px 48px 0 rgba(31, 38, 135, 0.3); /* Nâng cấp bóng đổ */
-            --border-light: rgba(255, 255, 255, 0.4);
+            --text-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.15); /* Tăng độ sâu shadow */
+            --glass-bg-light: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2)); /* Tăng độ trong */
+            --shadow-light: 0 15px 60px 0 rgba(31, 38, 135, 0.35); /* Nâng cấp bóng đổ */
+            --border-light: rgba(255, 255, 255, 0.5); /* Tăng độ nhìn thấy border */
 
             /* Dark Theme */
             --bg-color-dark: #121212;
             --text-color-dark: #e4e6eb;
-            --text-shadow-dark: 0 1px 3px rgba(0, 0, 0, 0.5);
-            --glass-bg-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            --shadow-dark: 0 12px 48px 0 rgba(0, 0, 0, 0.45); /* Nâng cấp bóng đổ */
-            --border-dark: rgba(255, 255, 255, 0.15);
+            --text-shadow-dark: 0 2px 5px rgba(0, 0, 0, 0.6); /* Tăng độ sâu shadow */
+            --glass-bg-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); /* Tăng độ trong */
+            --shadow-dark: 0 15px 60px 0 rgba(0, 0, 0, 0.5); /* Nâng cấp bóng đổ */
+            --border-dark: rgba(255, 255, 255, 0.2); /* Tăng độ nhìn thấy border */
         }
 
         * {
@@ -67,19 +69,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1554034483-043a3554524b?q=80&w=2874&auto=format&fit=crop');
+            /* Sử dụng một URL hình ảnh placeholder thay vì một URL cố định */
+            background-image: url('https://placehold.co/1920x1080/000000/FFFFFF/png?text=Background');
             background-size: cover;
             background-position: center;
-            filter: blur(35px) brightness(0.65); /* Tăng blur và giảm brightness */
+            filter: blur(40px) brightness(0.6); /* Tăng blur và giảm brightness */
             transform: scale(1.2);
             z-index: -1;
         }
 
         /* --- Hiệu ứng Glassmorphism Nâng Cấp --- */
         .glass {
-            backdrop-filter: blur(30px) saturate(200%); /* Tăng blur và saturate */
-            -webkit-backdrop-filter: blur(30px) saturate(200%);
-            border-radius: 28px; /* Tăng border-radius */
+            backdrop-filter: blur(35px) saturate(220%); /* Tăng blur và saturate */
+            -webkit-backdrop-filter: blur(35px) saturate(220%);
+            border-radius: 32px; /* Tăng border-radius */
         }
 
         .light-theme .glass {
@@ -97,78 +100,79 @@
         /* --- Header & Search Bar --- */
         header {
             position: fixed;
-            top: 15px;
-            left: 15px;
-            right: 15px;
+            top: 20px; /* Tăng khoảng cách từ trên */
+            left: 20px; /* Tăng khoảng cách từ trái */
+            right: 20px; /* Tăng khoảng cách từ phải */
             z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 25px; /* Tăng padding */
+            padding: 15px 30px; /* Tăng padding */
             transition: all 0.3s ease;
         }
 
         .logo {
-            font-size: 1.8rem; /* Tăng kích thước logo */
+            font-size: 2rem; /* Tăng kích thước logo */
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Tăng độ sâu shadow */
+            text-shadow: var(--text-shadow-light); /* Áp dụng shadow từ biến */
         }
+        .dark-theme .logo { text-shadow: var(--text-shadow-dark); }
 
         .search-bar {
             display: flex;
             flex-grow: 1;
-            margin: 0 25px; /* Tăng margin */
-            max-width: 650px; /* Tăng max-width */
+            margin: 0 30px; /* Tăng margin */
+            max-width: 700px; /* Tăng max-width */
         }
 
         #search-input {
             width: 100%;
-            padding: 14px 22px; /* Tăng padding */
+            padding: 16px 25px; /* Tăng padding */
             border: none;
-            background: rgba(255,255,255,0.08); /* Thêm background nhẹ */
-            font-size: 1.05rem; /* Tăng font-size */
+            background: rgba(255,255,255,0.1); /* Thêm background nhẹ */
+            font-size: 1.1rem; /* Tăng font-size */
             color: inherit;
-            border-radius: 18px 0 0 18px; /* Tăng border-radius */
+            border-radius: 20px 0 0 20px; /* Tăng border-radius */
             font-family: var(--font-family);
             transition: background-color 0.3s ease;
         }
-        #search-input:focus { outline: none; background: rgba(255,255,255,0.15); } /* Thêm focus effect */
-        #search-input::placeholder { color: inherit; opacity: 0.6; }
+        #search-input:focus { outline: none; background: rgba(255,255,255,0.2); } /* Thêm focus effect */
+        #search-input::placeholder { color: inherit; opacity: 0.7; }
 
         .search-button {
-            padding: 10px 18px; /* Tăng padding */
+            padding: 12px 20px; /* Tăng padding */
             border: none;
             cursor: pointer;
-            background: rgba(255,255,255,0.15); /* Thêm background */
+            background: rgba(255,255,255,0.2); /* Thêm background */
             color: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0 18px 18px 0; /* Tăng border-radius */
+            border-radius: 0 20px 20px 0; /* Tăng border-radius */
             transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .dark-theme .search-button:hover { background-color: rgba(255,255,255,0.2); }
-        .light-theme .search-button:hover { background-color: rgba(0,0,0,0.1); }
+        .dark-theme .search-button:hover { background-color: rgba(255,255,255,0.25); }
+        .light-theme .search-button:hover { background-color: rgba(0,0,0,0.12); }
 
         .theme-button {
             background: transparent;
             border: none;
             cursor: pointer;
             color: inherit;
-            padding: 12px; /* Tăng padding */
+            padding: 15px; /* Tăng padding */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.3s ease;
         }
-        .theme-button:hover { transform: scale(1.15) rotate(20deg); /* Tăng hiệu ứng hover */ }
-        .dark-theme .theme-button:hover { background-color: rgba(255,255,255,0.15); }
-        .light-theme .theme-button:hover { background-color: rgba(0,0,0,0.08); }
+        .theme-button:hover { transform: scale(1.2) rotate(25deg); /* Tăng hiệu ứng hover */ }
+        .dark-theme .theme-button:hover { background-color: rgba(255,255,255,0.2); }
+        .light-theme .theme-button:hover { background-color: rgba(0,0,0,0.1); }
 
         /* --- Main Content & Swiper --- */
         main {
-            padding: 140px 0 60px 0; /* Tăng padding trên */
+            padding: 160px 0 80px 0; /* Tăng padding trên */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -177,93 +181,96 @@
         }
 
         #main-title {
-            font-size: 2.2rem; /* Tăng font-size */
+            font-size: 2.5rem; /* Tăng font-size */
             font-weight: 700;
-            margin-bottom: 25px; /* Tăng margin */
+            margin-bottom: 30px; /* Tăng margin */
             transition: opacity 0.5s ease;
+            text-shadow: var(--text-shadow-light);
         }
         .dark-theme #main-title { text-shadow: var(--text-shadow-dark); }
-        .light-theme #main-title { text-shadow: var(--text-shadow-light); }
 
         .swiper {
             width: 100%;
-            height: 75vh; /* Tăng chiều cao swiper */
-            padding: 30px 0; /* Tăng padding */
+            height: 80vh; /* Tăng chiều cao swiper */
+            padding: 40px 0; /* Tăng padding */
+            will-change: transform;
         }
 
         .swiper-slide {
-            width: 350px; /* Tăng kích thước slide */
+            width: 380px; /* Tăng kích thước slide */
             height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1200px; /* Thêm perspective cho hiệu ứng 3D tốt hơn */
+            perspective: 1500px; /* Tăng perspective cho hiệu ứng 3D tốt hơn */
+            will-change: transform;
+            backface-visibility: hidden;
         }
 
         /* --- Video Card Nâng Cao --- */
         .video-card {
             width: 100%;
-            height: 450px; /* Tăng chiều cao card */
+            height: 480px; /* Tăng chiều cao card */
             overflow: hidden;
             cursor: grab;
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), /* Thêm độ trễ và bezier */
-                        box-shadow 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2), /* Thêm độ trễ và bezier */
+                        box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2);
             display: flex;
             flex-direction: column;
-            will-change: transform, box-shadow; /* Tối ưu hóa animation */
-            border-radius: 24px; /* Đồng bộ với glass */
+            will-change: transform, box-shadow;
+            border-radius: 28px; /* Đồng bộ với glass */
         }
 
         .video-card:hover {
-            transform: translateY(-15px) scale(1.05); /* Tăng hiệu ứng hover */
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4); /* Tăng bóng đổ hover */
+            transform: translateY(-20px) scale(1.08) rotateY(5deg); /* Tăng hiệu ứng hover, thêm xoay nhẹ */
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); /* Tăng bóng đổ hover */
         }
 
         .video-card:active {
             cursor: grabbing;
-            transform: scale(0.95); /* Tăng hiệu ứng active */
+            transform: scale(0.92); /* Tăng hiệu ứng active */
             transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .video-thumbnail {
             width: 100%;
-            height: 200px; /* Tăng chiều cao thumbnail */
+            height: 220px; /* Tăng chiều cao thumbnail */
             object-fit: cover;
-            border-radius: 20px 20px 0 0; /* Bo góc thumbnail */
+            border-radius: 24px 24px 0 0; /* Bo góc thumbnail */
         }
 
         .video-info {
-            padding: 25px; /* Tăng padding */
+            padding: 30px; /* Tăng padding */
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .video-title {
-            font-size: 1.2rem; /* Tăng font-size */
-            font-weight: 600; /* Tăng font-weight */
-            margin-bottom: 12px;
+            font-size: 1.3rem; /* Tăng font-size */
+            font-weight: 700; /* Tăng font-weight */
+            margin-bottom: 15px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            text-shadow: var(--text-shadow-light);
         }
-        .light-theme .video-title { text-shadow: var(--text-shadow-light); }
         .dark-theme .video-title { text-shadow: var(--text-shadow-dark); }
 
         .channel-title {
-            font-size: 0.95rem; /* Tăng font-size */
-            opacity: 0.75; /* Tăng opacity */
+            font-size: 1rem; /* Tăng font-size */
+            opacity: 0.85; /* Tăng opacity */
             margin-top: auto;
         }
 
         /* --- Loading Spinner --- */
         .spinner {
-            border: 6px solid rgba(255, 255, 255, 0.3); /* Tăng độ dày */
-            border-top: 6px solid;
+            border: 8px solid rgba(255, 255, 255, 0.3); /* Tăng độ dày */
+            border-top: 8px solid;
             border-radius: 50%;
-            width: 60px; /* Tăng kích thước */
-            height: 60px;
+            width: 70px; /* Tăng kích thước */
+            height: 70px;
             animation: spin 1s linear infinite;
             position: absolute;
             top: 50%;
@@ -280,41 +287,77 @@
         .modal {
             display: none; position: fixed; z-index: 1000; left: 0; top: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.7); /* Tăng độ tối background */
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); /* Tăng blur */
+            background-color: rgba(0,0,0,0.8); /* Tăng độ tối background */
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); /* Tăng blur */
             align-items: center; justify-content: center;
             opacity: 0;
-            transition: opacity 0.5s ease; /* Tăng độ trễ transition */
+            transition: opacity 0.6s ease; /* Tăng độ trễ transition */
         }
         .modal.visible { display: flex; opacity: 1; }
 
         .modal-content {
-            position: relative; padding: 25px; width: 92%; max-width: 950px; /* Tăng kích thước */
-            transform: scale(0.9); /* Tăng hiệu ứng scale */
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-radius: 28px; /* Đồng bộ với glass */
+            position: relative; padding: 30px; width: 95%; max-width: 1000px; /* Tăng kích thước */
+            transform: scale(0.85) translateY(20px); /* Tăng hiệu ứng scale và dịch chuyển */
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            border-radius: 32px; /* Đồng bộ với glass */
         }
-        .modal.visible .modal-content { transform: scale(1); }
+        .modal.visible .modal-content { transform: scale(1) translateY(0); }
 
         #youtube-player-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-        #youtube-player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 18px; /* Tăng border-radius */ }
+        #youtube-player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 20px; /* Tăng border-radius */ }
         
         .close-button {
-            position: absolute; top: -18px; right: -8px; color: #fff; /* Điều chỉnh vị trí */
-            font-size: 45px; font-weight: bold; cursor: pointer; /* Tăng kích thước */
-            text-shadow: 0 3px 6px #000; /* Tăng shadow */
-            transition: transform 0.3s ease;
+            position: absolute; top: -22px; right: -12px; color: #fff; /* Điều chỉnh vị trí */
+            font-size: 50px; font-weight: bold; cursor: pointer; /* Tăng kích thước */
+            text-shadow: 0 4px 8px #000; /* Tăng shadow */
+            transition: transform 0.3s ease, color 0.3s ease;
         }
-        .close-button:hover { transform: scale(1.3); /* Tăng hiệu ứng hover */ }
+        .close-button:hover { transform: scale(1.4) rotate(10deg); /* Tăng hiệu ứng hover */ color: #ff6b6b; }
+
+        .player-controls {
+            display: flex;
+            justify-content: flex-end; /* Căn phải các nút điều khiển */
+            gap: 20px; /* Tăng khoảng cách */
+            margin-top: 25px;
+        }
+
+        .player-control-button {
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: inherit;
+            padding: 12px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+        }
+
+        .player-control-button:hover {
+            background-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .dark-theme .player-control-button {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .dark-theme .player-control-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
 
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 25px; /* Tăng padding */
-            margin: 50px 15px 15px 15px; /* Tăng margin top */
-            font-size: 0.95rem; /* Tăng font-size */
-            opacity: 0.85; /* Tăng opacity */
-            border-radius: 28px; /* Đồng bộ với glass */
+            padding: 30px; /* Tăng padding */
+            margin: 60px 20px 20px 20px; /* Tăng margin top */
+            font-size: 1rem; /* Tăng font-size */
+            opacity: 0.9; /* Tăng opacity */
+            border-radius: 32px; /* Đồng bộ với glass */
         }
 
         /* --- Pop-up Hướng dẫn --- */
@@ -323,14 +366,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 25px 35px; /* Tăng padding */
+            padding: 30px 40px; /* Tăng padding */
             z-index: 200;
             text-align: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease; /* Tăng độ trễ transition */
+            transition: opacity 0.6s ease, visibility 0.6s ease; /* Tăng độ trễ transition */
             will-change: opacity;
-            border-radius: 28px; /* Đồng bộ với glass */
+            border-radius: 32px; /* Đồng bộ với glass */
+            max-width: 90%; /* Đảm bảo fit trên mobile */
         }
         #swipe-popup.visible {
             opacity: 1;
@@ -339,25 +383,155 @@
         #swipe-popup .popup-content {
             display: flex;
             align-items: center;
-            gap: 20px; /* Tăng khoảng cách */
+            gap: 25px; /* Tăng khoảng cách */
         }
         #swipe-popup p {
-            font-size: 1.2rem; /* Tăng font-size */
+            font-size: 1.3rem; /* Tăng font-size */
             font-weight: 500;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.4); /* Tăng shadow */
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* Tăng shadow */
         }
         #close-popup {
             background: transparent;
             border: none;
             color: inherit;
-            font-size: 35px; /* Tăng kích thước */
+            font-size: 40px; /* Tăng kích thước */
             cursor: pointer;
-            opacity: 0.8; /* Tăng opacity */
+            opacity: 0.85; /* Tăng opacity */
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
         #close-popup:hover {
             opacity: 1;
-            transform: scale(1.3); /* Tăng hiệu ứng hover */
+            transform: scale(1.4) rotate(15deg); /* Tăng hiệu ứng hover */
+        }
+
+        /* --- Video History Section --- */
+        #video-history {
+            width: 100%;
+            padding: 80px 20px; /* Tăng padding */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #history-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-shadow: var(--text-shadow-light);
+        }
+        .dark-theme #history-title { text-shadow: var(--text-shadow-dark); }
+
+        #history-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Điều chỉnh kích thước cột */
+            gap: 30px; /* Tăng khoảng cách */
+            width: 100%;
+            max-width: 1400px; /* Giới hạn chiều rộng */
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+        
+        .history-card {
+            position: relative;
+            width: 100%;
+            height: 480px; /* Đồng bộ với video-card */
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2), 
+                        box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2),
+                        opacity 0.5s ease; /* Thêm transition cho opacity */
+            display: flex;
+            flex-direction: column;
+            border-radius: 28px;
+        }
+
+        .history-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .history-card .video-thumbnail,
+        .history-card .video-info,
+        .history-card .video-title,
+        .history-card .channel-title {
+            /* Sử dụng lại style từ video-card */
+            border-radius: 24px 24px 0 0; /* Bo góc thumbnail */
+        }
+
+        .history-card .delete-history-item {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0; /* Ẩn mặc định */
+            transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .history-card:hover .delete-history-item {
+            opacity: 1; /* Hiện khi hover card */
+            transform: scale(1.1);
+        }
+
+        .history-card .delete-history-item:hover {
+            background: rgba(255, 0, 0, 0.9);
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Hiệu ứng xóa 3D */
+        .history-card.deleting {
+            animation: deletingEffect 0.7s forwards ease-out;
+        }
+
+        @keyframes deletingEffect {
+            0% { transform: scale(1) rotateY(0deg) translateX(0); opacity: 1; }
+            50% { transform: scale(0.8) rotateY(30deg) translateX(50px); opacity: 0.5; }
+            100% { transform: scale(0) rotateY(90deg) translateX(200px); opacity: 0; }
+        }
+
+        #clear-history-button {
+            background: linear-gradient(135deg, #ff6b6b, #ee5253); /* Gradient button */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #clear-history-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+            background: linear-gradient(135deg, #ee5253, #ff6b6b);
+        }
+        #clear-history-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .no-results {
+            padding: 20px; 
+            text-align: center; 
+            width: 100%; 
+            font-size: 1.2rem; 
+            opacity: 0.8;
         }
 
         /* --- Responsive --- */
@@ -366,17 +540,46 @@
                 flex-direction: column; align-items: stretch;
                 padding: 10px; top: 10px; left: 10px; right: 10px;
             }
-            .logo { text-align: center; margin-bottom: 10px; font-size: 1.6rem; }
+            .logo { text-align: center; margin-bottom: 10px; font-size: 1.8rem; }
             .search-bar { margin: 0 0 10px 0; }
-            .theme-button { position: absolute; top: 12px; right: 12px; padding: 8px; }
+            .theme-button { position: absolute; top: 12px; right: 12px; padding: 10px; }
             main { padding-top: 180px; }
-            .swiper { height: 60vh; padding: 15px 0; } /* Điều chỉnh lại chiều cao swiper */
-            .swiper-slide { width: 90%; } /* Tăng độ rộng slide trên mobile */
-            .video-card { height: 380px; }
-            #main-title { font-size: 1.8rem; }
-            #swipe-popup p { font-size: 1.05rem; }
-            .modal-content { width: 95%; padding: 15px; }
-            .close-button { top: -10px; right: 0px; font-size: 35px; }
+            #main-title, #history-title { font-size: 2rem; margin-bottom: 20px; }
+            .swiper { height: 65vh; padding: 20px 0; } /* Điều chỉnh lại chiều cao swiper */
+            .swiper-slide { width: 95%; /* Tăng độ rộng slide trên mobile */ }
+            .video-card { height: 420px; }
+            .video-thumbnail { height: 180px; }
+            .video-info { padding: 20px; }
+            .video-title { font-size: 1.1rem; }
+            .channel-title { font-size: 0.9rem; }
+
+            #swipe-popup { padding: 25px; }
+            #swipe-popup p { font-size: 1.1rem; }
+            #close-popup { font-size: 30px; }
+
+            .modal-content { width: 98%; padding: 20px; }
+            .close-button { top: -15px; right: -5px; font-size: 40px; }
+            .player-controls {
+                flex-direction: column; /* Xếp chồng các nút trên mobile */
+                gap: 15px;
+                margin-top: 20px;
+            }
+            .player-control-button {
+                width: 100%; /* Đảm bảo nút chiếm toàn bộ chiều rộng */
+                justify-content: center; /* Căn giữa nội dung nút */
+                padding: 12px;
+            }
+
+            #history-list {
+                grid-template-columns: 1fr; /* Một cột trên mobile */
+                gap: 20px;
+                padding: 0 10px;
+            }
+            .history-card { height: 420px; } /* Đồng bộ với video-card */
+            #clear-history-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
         }
 
     </style>
@@ -403,20 +606,39 @@
         <div id="loading-spinner" class="spinner hidden"></div>
         <div class="swiper" id="video-carousel">
             <div class="swiper-wrapper" id="video-container">
-                </div>
+                <!-- Video cards sẽ được thêm vào đây bởi JavaScript -->
+            </div>
             <div class="swiper-pagination"></div>
         </div>
-        <footer class="glass">
-        <p>© 2025 KhoaTub. Admin: Khoa Dev 07</p>
-    </footer>
     </main>
 
-    
+    <section id="video-history">
+        <h2 id="history-title">Lịch sử xem Video</h2>
+        <div id="history-list">
+            <!-- Lịch sử video sẽ được thêm vào đây bởi JavaScript -->
+        </div>
+        <button id="clear-history-button" class="glass">
+            <span class="material-icons-outlined">delete_sweep</span>
+            Xóa toàn bộ lịch sử
+        </button>
+    </section>
 
+    <footer>
+        <p>© 2025 KhoaTub. Admin: Khoa Dev 07</p>
+    </footer>
+    
     <div id="player-modal" class="modal">
         <div class="modal-content glass">
             <span id="close-modal" class="close-button">×</span>
             <div id="youtube-player-container"></div>
+            <div class="player-controls">
+                <button id="pip-button" class="player-control-button">
+                    <span class="material-icons-outlined">picture_in_picture_alt</span> Ảnh trong ảnh
+                </button>
+                <button id="background-play-button" class="player-control-button">
+                    <span class="material-icons-outlined">play_circle_outline</span> Phát nền
+                </button>
+            </div>
         </div>
     </div>
 
@@ -452,7 +674,7 @@
           'AIzaSyAmiie2LFeuJ3WkgMMzjSxwosZkn5jfWg8',
           'AIzaSyA9Hncb8RitAjnv-Og6Pt7mlnTXKqjmHbo',
           'AIzaSyAH1I4J2Ev7YWQfmwJ4dLapCatRReGEQts',
-          'AIzaSyCoW_ZsJSe9lV8zqQLyY57w9w7qvO_1NbQ',
+          'AIzaSyCoW_ZsJSe9lV8zqQLyY57w9w7qvO_1NbC',
           'AIzaSyCxH_tSSRYOKNAUkepir9wweilILhsgBQg'
         ];
         let currentApiKeyIndex = 0;
@@ -469,10 +691,17 @@
         const modal = document.getElementById('player-modal');
         const closeModalBtn = document.getElementById('close-modal');
         const playerContainer = document.getElementById('youtube-player-container');
-        
+        const pipButton = document.getElementById('pip-button');
+        const backgroundPlayButton = document.getElementById('background-play-button');
+        let currentPlayingIframe = null; // Để lưu trữ iframe đang phát
+
         const swipePopup = document.getElementById('swipe-popup');
         const closePopupButton = document.getElementById('close-popup');
         let popupTimeout;
+
+        const historyList = document.getElementById('history-list');
+        const clearHistoryButton = document.getElementById('clear-history-button');
+        let videoHistory = []; // Mảng để lưu trữ lịch sử
 
         // --- Khởi tạo Swiper ---
         const swiper = new Swiper('.swiper', {
@@ -481,28 +710,41 @@
             centeredSlides: true,
             slidesPerView: 'auto',
             coverflowEffect: {
-                rotate: 60,   /* Tăng góc xoay để có hiệu ứng 3D sâu hơn */
+                rotate: 40,   /* Giảm góc xoay một chút cho mobile */
                 stretch: 0,
-                depth: 250,   /* Tăng độ sâu để các slide phía sau nhỏ hơn và xa hơn */
+                depth: 250,   /* Tăng độ sâu cho hiệu ứng 3D */
                 modifier: 1,
                 slideShadows: true,
-                scale: 0.9    /* Scale slide không active để nhấn mạnh slide trung tâm */
+                scale: 0.85    /* Giảm nhẹ scale cho slide không active */
             },
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
             },
-            keyboard: true,
-            spaceBetween: 60, /* Tăng khoảng cách cho đẹp hơn và tạo cảm giác không gian */
-            // Thêm các tùy chọn để tối ưu hóa hiệu suất kéo thả
-            resistanceRatio: 0.8, 
-            longSwipesRatio: 0.3,
-            touchRatio: 1.2,
-            slideToClickedSlide: true,
-            freeMode: false,
+            keyboard: {
+                enabled: true,
+            },
             mousewheel: {
+                enabled: true,
                 releaseOnEdges: true,
             },
+            spaceBetween: 40, /* Điều chỉnh khoảng cách */
+            // Tối ưu hóa hiệu suất kéo thả
+            freeMode: false,
+            resistanceRatio: 0.8, /* Tăng resistance ratio */
+            longSwipesRatio: 0.3,
+            touchRatio: 1.8, /* Tăng touch ratio để nhạy hơn */
+            speed: 500, /* Tốc độ chuyển động */
+            preloadImages: false, /* Không preload tất cả ảnh */
+            lazy: {
+                loadPrevNext: true, /* Tải ảnh slide trước và sau */
+                loadOnTransitionStart: true,
+            },
+            watchSlidesProgress: true,
+            watchSlidesVisibility: true,
+            loop: true, // Cuộn vô hạn
+            virtualTranslate: false, // Quan trọng cho hiệu suất coverflow
+            grabCursor: true,
         });
 
         // --- Xử lý API & Xoay vòng Key ---
@@ -512,14 +754,15 @@
             try {
                 const response = await fetch(url);
                 if (response.status === 403) {
-                    console.warn(`API key ${currentApiKeyIndex + 1} đã hết hạn. Thử key tiếp theo.`);
+                    console.warn(`API key ${currentApiKeyIndex + 1} đã hết hạn hoặc quota. Thử key tiếp theo.`);
                     currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
                     if (currentApiKeyIndex === 0) {
-                        console.error("Tất cả các API key đã được sử dụng hết.");
-                        alert("Đã hết tất cả API key. Vui lòng thử lại sau.");
+                        console.error("Tất cả các API key đã được sử dụng hết hoặc hết quota.");
+                        // Sử dụng một modal tùy chỉnh thay vì alert()
+                        showCustomAlert("Đã hết tất cả API key hoặc quota. Vui lòng thử lại sau.");
                         return null;
                     }
-                    return await fetchFromYouTube(endpoint);
+                    return await fetchFromYouTube(endpoint); // Thử lại với key mới
                 }
                 if (!response.ok) {
                     const errorData = await response.json();
@@ -549,8 +792,7 @@
         async function searchVideos(query) {
             showLoading();
             mainTitle.textContent = "Kết quả tìm kiếm";
-            // GIỚI HẠN KẾT QUẢ TÌM KIẾM CÒN 5
-            const endpoint = `search?part=snippet&q=${encodeURIComponent(query)}&maxResults=5&type=video`; 
+            const endpoint = `search?part=snippet&q=${encodeURIComponent(query)}&maxResults=10&type=video`; // Tăng lên 10 kết quả
             const data = await fetchFromYouTube(endpoint);
             if (data && data.items) {
                 displayVideos(data.items, true);
@@ -579,7 +821,11 @@
 
                 const videoCardHTML = `
                     <div class="swiper-slide">
-                        <div class="video-card glass" data-video-id="${videoId}">
+                        <div class="video-card glass" 
+                             data-video-id="${videoId}" 
+                             data-video-title="${encodeURIComponent(title)}"
+                             data-channel-title="${encodeURIComponent(channelTitle)}"
+                             data-thumbnail-url="${encodeURIComponent(thumbnailUrl)}">
                             <img src="${thumbnailUrl}" alt="${title}" class="video-thumbnail">
                             <div class="video-info">
                                 <h3 class="video-title">${title}</h3>
@@ -630,17 +876,27 @@
         }
 
         // --- Modal Player Video ---
-        function openPlayer(videoId) {
-            // Sử dụng một proxy để tránh bị chặn (tùy chọn)
-            // Trong ví dụ này dùng link youtube chuẩn
-            playerContainer.innerHTML = `
-                <iframe 
-                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&iv_load_policy=3&modestbranding=1" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>`;
+        function openPlayer(videoId, videoDetails = {}) {
+            // Đảm bảo iframe cũ được xóa trước khi tạo mới
+            playerContainer.innerHTML = ''; 
+            
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('src', `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1`);
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+            iframe.setAttribute('title', 'YouTube video player');
+            iframe.style.borderRadius = '20px'; // Áp dụng border-radius từ CSS
+
+            playerContainer.appendChild(iframe);
+            currentPlayingIframe = iframe; // Lưu trữ iframe đang phát
             modal.classList.add('visible');
+
+            // Thêm vào lịch sử nếu có videoDetails
+            if (videoDetails.id) {
+                addVideoToHistory(videoDetails);
+            }
         }
 
         function closePlayer() {
@@ -648,17 +904,14 @@
             // Đợi animation kết thúc rồi mới xóa iframe để tránh giật lag
             setTimeout(() => {
                 playerContainer.innerHTML = '';
-            }, 400);
+                currentPlayingIframe = null; // Xóa tham chiếu
+            }, 600); // Tăng thời gian chờ khớp với transition của modal
         }
         
         // --- Pop-up Hướng dẫn ---
         function showSwipePopup() {
-            // Xóa timeout cũ nếu có
             clearTimeout(popupTimeout);
-            
             swipePopup.classList.add('visible');
-
-            // Tự động ẩn sau 5 giây
             popupTimeout = setTimeout(() => {
                 hideSwipePopup();
             }, 5000);
@@ -666,6 +919,178 @@
 
         function hideSwipePopup() {
             swipePopup.classList.remove('visible');
+        }
+
+        // --- Chức năng Ảnh trong ảnh (PiP) ---
+        pipButton.addEventListener('click', async () => {
+            if (currentPlayingIframe && document.pictureInPictureEnabled) {
+                try {
+                    // Kiểm tra xem iframe có thuộc tính requestPictureInPicture cho video element không
+                    // Hoặc là một YouTube iframe được nhúng hỗ trợ PiP
+                    if (currentPlayingIframe.requestPictureInPicture) {
+                        await currentPlayingIframe.requestPictureInPicture();
+                    } else {
+                        showCustomAlert("Trình duyệt hoặc video không hỗ trợ chế độ Ảnh trong ảnh.");
+                    }
+                    closePlayer(); // Đóng modal khi vào chế độ PiP
+                } catch (error) {
+                    console.error("Lỗi khi vào chế độ Ảnh trong ảnh:", error);
+                    showCustomAlert("Không thể vào chế độ Ảnh trong ảnh. Vui lòng kiểm tra quyền hoặc trình duyệt của bạn.");
+                }
+            } else {
+                showCustomAlert("Chế độ Ảnh trong ảnh không được hỗ trợ hoặc không có video đang phát.");
+            }
+        });
+
+        // --- Chức năng Phát nền (Hạn chế với YouTube iframe) ---
+        backgroundPlayButton.addEventListener('click', () => {
+            if (currentPlayingIframe) {
+                showCustomAlert("Video sẽ tiếp tục phát trong nền nếu trình duyệt của bạn hỗ trợ. Vui lòng kiểm tra tab hoặc thoát ứng dụng.");
+                modal.classList.remove('visible'); // Đóng modal, để iframe tồn tại
+            } else {
+                showCustomAlert("Không có video nào đang phát để phát nền.");
+            }
+        });
+
+        // --- Custom Alert/Confirmation Modal (thay thế alert() và confirm()) ---
+        function showCustomAlert(message, type = 'alert', callback = null) {
+            let existingModal = document.getElementById('custom-dialog-modal');
+            if (existingModal) existingModal.remove();
+
+            const dialogHTML = `
+                <div id="custom-dialog-modal" class="modal">
+                    <div class="modal-content glass" style="max-width: 400px; text-align: center; padding: 30px;">
+                        <p style="font-size: 1.1rem; margin-bottom: 25px;">${message}</p>
+                        <div style="display: flex; justify-content: center; gap: 15px;">
+                            <button id="dialog-ok-btn" class="player-control-button">OK</button>
+                            ${type === 'confirm' ? '<button id="dialog-cancel-btn" class="player-control-button" style="background: #e74c3c;">Hủy</button>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', dialogHTML);
+
+            const dialogModal = document.getElementById('custom-dialog-modal');
+            const okBtn = document.getElementById('dialog-ok-btn');
+            const cancelBtn = document.getElementById('dialog-cancel-btn');
+
+            dialogModal.classList.add('visible');
+
+            okBtn.onclick = () => {
+                dialogModal.classList.remove('visible');
+                setTimeout(() => dialogModal.remove(), 600);
+                if (callback) callback(true);
+            };
+
+            if (cancelBtn) {
+                cancelBtn.onclick = () => {
+                    dialogModal.classList.remove('visible');
+                    setTimeout(() => dialogModal.remove(), 600);
+                    if (callback) callback(false);
+                };
+            }
+        }
+
+
+        // --- Chức năng Lịch sử xem Video ---
+        function saveHistory() {
+            localStorage.setItem('videoHistory', JSON.stringify(videoHistory));
+        }
+
+        function loadHistory() {
+            const savedHistory = localStorage.getItem('videoHistory');
+            if (savedHistory) {
+                videoHistory = JSON.parse(savedHistory);
+                renderHistory();
+            }
+        }
+
+        function addVideoToHistory(video) {
+            // Tạo đối tượng video đơn giản để lưu
+            const newVideo = {
+                id: video.id,
+                title: decodeURIComponent(video.title),
+                channelTitle: decodeURIComponent(video.channelTitle),
+                thumbnailUrl: decodeURIComponent(video.thumbnailUrl)
+            };
+
+            // Kiểm tra nếu video đã tồn tại trong lịch sử thì đưa lên đầu
+            const existingIndex = videoHistory.findIndex(item => item.id === newVideo.id);
+            if (existingIndex > -1) {
+                videoHistory.splice(existingIndex, 1); // Xóa bản cũ
+            }
+            videoHistory.unshift(newVideo); // Thêm vào đầu mảng
+
+            // Giới hạn số lượng video trong lịch sử (ví dụ: 10 video)
+            if (videoHistory.length > 10) {
+                videoHistory = videoHistory.slice(0, 10);
+            }
+            saveHistory();
+            renderHistory();
+        }
+
+        function renderHistory() {
+            historyList.innerHTML = '';
+            if (videoHistory.length === 0) {
+                historyList.innerHTML = `<p class="no-results">Lịch sử xem trống.</p>`;
+                clearHistoryButton.style.display = 'none';
+                return;
+            } else {
+                clearHistoryButton.style.display = 'flex';
+            }
+
+            videoHistory.forEach(video => {
+                const historyCardHTML = `
+                    <div class="history-card glass" data-video-id="${video.id}">
+                        <img src="${video.thumbnailUrl}" alt="${video.title}" class="video-thumbnail">
+                        <div class="video-info">
+                            <h3 class="video-title">${video.title}</h3>
+                            <p class="channel-title">${video.channelTitle}</p>
+                        </div>
+                        <button class="delete-history-item" data-video-id="${video.id}">
+                            <span class="material-icons-outlined">close</span>
+                        </button>
+                    </div>
+                `;
+                historyList.insertAdjacentHTML('beforeend', historyCardHTML);
+            });
+        }
+
+        function removeVideoFromHistory(videoId) {
+            const cardToRemove = document.querySelector(`.history-card[data-video-id="${videoId}"]`);
+            if (cardToRemove) {
+                cardToRemove.classList.add('deleting');
+                cardToRemove.addEventListener('animationend', () => {
+                    videoHistory = videoHistory.filter(video => video.id !== videoId);
+                    saveHistory();
+                    renderHistory(); // Render lại danh sách sau khi xóa
+                });
+            }
+        }
+
+        function clearAllHistory() {
+            showCustomAlert("Bạn có chắc chắn muốn xóa toàn bộ lịch sử xem?", 'confirm', (result) => {
+                if (result) {
+                    const historyCards = document.querySelectorAll('.history-card');
+                    if (historyCards.length === 0) {
+                        showCustomAlert("Lịch sử đã trống.");
+                        return;
+                    }
+
+                    let animationsCompleted = 0;
+                    historyCards.forEach(card => {
+                        card.classList.add('deleting');
+                        card.addEventListener('animationend', () => {
+                            animationsCompleted++;
+                            if (animationsCompleted === historyCards.length) {
+                                videoHistory = []; // Xóa toàn bộ
+                                saveHistory();
+                                renderHistory();
+                            }
+                        }, { once: true }); // Đảm bảo event chỉ chạy 1 lần
+                    });
+                }
+            });
         }
 
 
@@ -687,9 +1112,39 @@
             const card = e.target.closest('.video-card');
             if (card) {
                 const videoId = card.dataset.videoId;
-                openPlayer(videoId);
+                // Truyền đầy đủ chi tiết video để lưu vào lịch sử
+                openPlayer(videoId, {
+                    id: videoId,
+                    title: card.dataset.videoTitle,
+                    channelTitle: card.dataset.channelTitle,
+                    thumbnailUrl: card.dataset.thumbnailUrl
+                });
             }
         });
+
+        historyList.addEventListener('click', (e) => {
+            const deleteButton = e.target.closest('.delete-history-item');
+            if (deleteButton) {
+                const videoId = deleteButton.dataset.videoId;
+                removeVideoFromHistory(videoId);
+            } else {
+                const card = e.target.closest('.history-card');
+                if (card) {
+                    const videoId = card.dataset.videoId;
+                    // Khi mở từ lịch sử, không cần thêm lại vào lịch sử vì nó đã ở đó
+                    // Cần lấy lại thông tin đầy đủ nếu muốn thêm lại vào lịch sử và đưa lên đầu
+                    // Hiện tại chỉ mở player
+                    openPlayer(videoId, {
+                        id: videoId,
+                        title: card.querySelector('.video-title').textContent,
+                        channelTitle: card.querySelector('.channel-title').textContent,
+                        thumbnailUrl: card.querySelector('.video-thumbnail').src
+                    });
+                }
+            }
+        });
+
+        clearHistoryButton.addEventListener('click', clearAllHistory);
 
         closeModalBtn.addEventListener('click', closePlayer);
         modal.addEventListener('click', (e) => {
@@ -703,6 +1158,7 @@
         // --- Tải lần đầu ---
         applySavedTheme();
         getPopularVideos();
+        loadHistory(); // Tải lịch sử khi khởi động
     });
     </script>
 </body>
