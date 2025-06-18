@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KhoaTub - Nâng cấp</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@
             --text-color-light: #050505;
             --text-shadow-light: 0 1px 2px rgba(0, 0, 0, 0.1);
             --glass-bg-light: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
-            --shadow-light: 0 12px 48px 0 rgba(31, 38, 135, 0.3); /* Nâng cấp bóng đổ */
+            --shadow-light: 0 12px 48px 0 rgba(31, 38, 135, 0.3);
             --border-light: rgba(255, 255, 255, 0.4);
 
             /* Dark Theme */
@@ -30,7 +30,7 @@
             --text-color-dark: #e4e6eb;
             --text-shadow-dark: 0 1px 3px rgba(0, 0, 0, 0.5);
             --glass-bg-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            --shadow-dark: 0 12px 48px 0 rgba(0, 0, 0, 0.45); /* Nâng cấp bóng đổ */
+            --shadow-dark: 0 12px 48px 0 rgba(0, 0, 0, 0.45);
             --border-dark: rgba(255, 255, 255, 0.15);
         }
 
@@ -38,10 +38,16 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Loại bỏ highlight khi tap trên mobile */
+            -webkit-touch-callout: none; /* Ngăn menu callout trên iOS */
+            -webkit-user-select: none; /* Ngăn chọn text trên mobile */
+            user-select: none;
         }
 
         html {
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%; /* Ngăn tự động điều chỉnh text size trên iOS */
+            touch-action: manipulation; /* Tối ưu touch events */
         }
 
         body {
@@ -49,7 +55,7 @@
             transition: background-color 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
             position: relative;
-            touch-action: manipulation; /* Ngăn chặn double-tap zoom và cải thiện phản hồi chạm */
+            overscroll-behavior: contain; /* Ngăn hiệu ứng pull-to-refresh */
         }
 
         .light-theme {
@@ -71,20 +77,18 @@
             background-image: url('https://images.unsplash.com/photo-1554034483-043a3554524b?q=80&w=2874&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
-            filter: blur(35px) brightness(0.65); /* Tăng blur và giảm brightness */
+            filter: blur(35px) brightness(0.65);
             transform: scale(1.2);
             z-index: -1;
-            /* Tối ưu hóa hiệu suất */
-            will-change: transform, filter;
+            will-change: transform, filter; /* Tối ưu hiệu ứng */
         }
 
         /* --- Hiệu ứng Glassmorphism Nâng Cấp --- */
         .glass {
-            backdrop-filter: blur(30px) saturate(200%); /* Tăng blur và saturate */
+            backdrop-filter: blur(30px) saturate(200%);
             -webkit-backdrop-filter: blur(30px) saturate(200%);
-            border-radius: 28px; /* Tăng border-radius */
-            /* Tối ưu hóa hiệu suất */
-            will-change: background, box-shadow;
+            border-radius: 28px;
+            transform: translateZ(0); /* Kích hoạt hardware acceleration */
         }
 
         .light-theme .glass {
@@ -109,47 +113,54 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 25px; /* Tăng padding */
+            padding: 12px 25px;
             transition: all 0.3s ease;
+            transform: translateZ(0); /* Kích hoạt hardware acceleration */
         }
 
         .logo {
-            font-size: 1.8rem; /* Tăng kích thước logo */
+            font-size: 1.8rem;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Tăng độ sâu shadow */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px; /* Giới hạn chiều rộng logo */
         }
 
         .search-bar {
             display: flex;
             flex-grow: 1;
-            margin: 0 25px; /* Tăng margin */
-            max-width: 650px; /* Tăng max-width */
+            margin: 0 25px;
+            max-width: 650px;
+            min-width: 0; /* Fix flexbox overflow trên mobile */
         }
 
         #search-input {
             width: 100%;
-            padding: 14px 22px; /* Tăng padding */
+            padding: 14px 22px;
             border: none;
-            background: rgba(255,255,255,0.08); /* Thêm background nhẹ */
-            font-size: 1.05rem; /* Tăng font-size */
+            background: rgba(255,255,255,0.08);
+            font-size: 1.05rem;
             color: inherit;
-            border-radius: 18px 0 0 18px; /* Tăng border-radius */
+            border-radius: 18px 0 0 18px;
             font-family: var(--font-family);
             transition: background-color 0.3s ease;
+            -webkit-appearance: none; /* Loại bỏ styling mặc định trên iOS */
         }
-        #search-input:focus { outline: none; background: rgba(255,255,255,0.15); } /* Thêm focus effect */
+        #search-input:focus { outline: none; background: rgba(255,255,255,0.15); }
         #search-input::placeholder { color: inherit; opacity: 0.6; }
 
         .search-button {
-            padding: 10px 18px; /* Tăng padding */
+            padding: 10px 18px;
             border: none;
             cursor: pointer;
-            background: rgba(255,255,255,0.15); /* Thêm background */
+            background: rgba(255,255,255,0.15);
             color: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0 18px 18px 0; /* Tăng border-radius */
+            border-radius: 0 18px 18px 0;
             transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .dark-theme .search-button:hover { background-color: rgba(255,255,255,0.2); }
@@ -160,20 +171,21 @@
             border: none;
             cursor: pointer;
             color: inherit;
-            padding: 12px; /* Tăng padding */
+            padding: 12px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.3s ease;
+            flex-shrink: 0; /* Ngăn nút bị co lại */
         }
-        .theme-button:hover { transform: scale(1.15) rotate(20deg); /* Tăng hiệu ứng hover */ }
+        .theme-button:hover { transform: scale(1.15) rotate(20deg); }
         .dark-theme .theme-button:hover { background-color: rgba(255,255,255,0.15); }
         .light-theme .theme-button:hover { background-color: rgba(0,0,0,0.08); }
 
         /* --- Main Content & Swiper --- */
         main {
-            padding: 140px 0 60px 0; /* Tăng padding trên */
+            padding: 140px 0 60px 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -182,103 +194,108 @@
         }
 
         #main-title {
-            font-size: 2.2rem; /* Tăng font-size */
+            font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: 25px; /* Tăng margin */
+            margin-bottom: 25px;
             transition: opacity 0.5s ease;
+            text-align: center;
+            padding: 0 15px;
+            word-break: break-word;
         }
         .dark-theme #main-title { text-shadow: var(--text-shadow-dark); }
         .light-theme #main-title { text-shadow: var(--text-shadow-light); }
 
         .swiper {
             width: 100%;
-            height: 75vh; /* Tăng chiều cao swiper */
-            padding: 30px 0; /* Tăng padding */
-            /* Thêm tối ưu hóa hiệu suất cho Swiper */
+            height: 75vh;
+            padding: 30px 0;
             will-change: transform;
-            overflow: hidden; /* Quan trọng để tránh scrollbar ngang */
+            -webkit-overflow-scrolling: touch; /* Tối ưu scroll trên iOS */
+            transform: translate3d(0,0,0); /* Kích hoạt hardware acceleration */
         }
 
         .swiper-slide {
-            width: 350px; /* Tăng kích thước slide */
+            width: 350px;
             height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1200px; /* Thêm perspective cho hiệu ứng 3D tốt hơn */
-            /* Thêm tối ưu hóa hiệu suất cho Swiper */
+            perspective: 1200px;
             will-change: transform;
-            backface-visibility: hidden; /* Ngăn ngừa flickr trong một số trình duyệt */
-            -webkit-font-smoothing: antialiased; /* iOS font rendering */
-            -moz-osx-font-smoothing: grayscale; /* macOS font rendering */
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transform: translate3d(0,0,0); /* Tối ưu hiệu suất */
         }
 
         /* --- Video Card Nâng Cao --- */
         .video-card {
             width: 100%;
-            height: 450px; /* Tăng chiều cao card */
+            height: 450px;
             overflow: hidden;
-            cursor: grab;
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), /* Thêm độ trễ và bezier */
+            cursor: pointer;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
                         box-shadow 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
-            will-change: transform, box-shadow; /* Tối ưu hóa animation */
-            border-radius: 24px; /* Đồng bộ với glass */
-            -webkit-tap-highlight-color: transparent; /* Loại bỏ highlight khi chạm trên mobile */
+            will-change: transform, box-shadow;
+            border-radius: 24px;
+            transform: translate3d(0,0,0); /* Tối ưu hiệu suất */
         }
 
         .video-card:hover {
-            transform: translateY(-15px) scale(1.05); /* Tăng hiệu ứng hover */
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4); /* Tăng bóng đổ hover */
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
         }
 
         .video-card:active {
-            cursor: grabbing;
-            transform: scale(0.95); /* Tăng hiệu ứng active */
+            transform: scale(0.95);
             transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .video-thumbnail {
             width: 100%;
-            height: 200px; /* Tăng chiều cao thumbnail */
+            height: 200px;
             object-fit: cover;
-            border-radius: 20px 20px 0 0; /* Bo góc thumbnail */
-            display: block; /* Tránh khoảng trắng dưới ảnh */
-            pointer-events: none; /* Ngăn chặn sự kiện chạm trên ảnh gây kéo card thay vì swiper */
+            border-radius: 20px 20px 0 0;
+            background-color: #eee; /* Màu nền khi ảnh chưa load */
+            transform: translateZ(0); /* Kích hoạt hardware acceleration */
         }
 
         .video-info {
-            padding: 25px; /* Tăng padding */
+            padding: 25px;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .video-title {
-            font-size: 1.2rem; /* Tăng font-size */
-            font-weight: 600; /* Tăng font-weight */
+            font-size: 1.2rem;
+            font-weight: 600;
             margin-bottom: 12px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            word-break: break-word;
         }
         .light-theme .video-title { text-shadow: var(--text-shadow-light); }
         .dark-theme .video-title { text-shadow: var(--text-shadow-dark); }
 
         .channel-title {
-            font-size: 0.95rem; /* Tăng font-size */
-            opacity: 0.75; /* Tăng opacity */
+            font-size: 0.95rem;
+            opacity: 0.75;
             margin-top: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* --- Loading Spinner --- */
         .spinner {
-            border: 6px solid rgba(255, 255, 255, 0.3); /* Tăng độ dày */
+            border: 6px solid rgba(255, 255, 255, 0.3);
             border-top: 6px solid;
             border-radius: 50%;
-            width: 60px; /* Tăng kích thước */
+            width: 60px;
             height: 60px;
             animation: spin 1s linear infinite;
             position: absolute;
@@ -296,41 +313,54 @@
         .modal {
             display: none; position: fixed; z-index: 1000; left: 0; top: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.7); /* Tăng độ tối background */
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); /* Tăng blur */
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             align-items: center; justify-content: center;
             opacity: 0;
-            transition: opacity 0.5s ease; /* Tăng độ trễ transition */
-            /* Tối ưu hóa hiệu suất */
-            will-change: opacity;
+            transition: opacity 0.5s ease;
+            transform: translateZ(0); /* Kích hoạt hardware acceleration */
         }
         .modal.visible { display: flex; opacity: 1; }
 
         .modal-content {
-            position: relative; padding: 25px; width: 92%; max-width: 950px; /* Tăng kích thước */
-            transform: scale(0.9); /* Tăng hiệu ứng scale */
+            position: relative; padding: 25px; width: 92%; max-width: 950px;
+            transform: scale(0.9);
             transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border-radius: 28px; /* Đồng bộ với glass */
-            /* Tối ưu hóa hiệu suất */
-            will-change: transform;
+            border-radius: 28px;
+            transform: translate3d(0,0,0); /* Tối ưu hiệu suất */
         }
         .modal.visible .modal-content { transform: scale(1); }
 
-        #youtube-player-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-        #youtube-player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 18px; /* Tăng border-radius */ }
+        #youtube-player-container { 
+            position: relative; 
+            padding-bottom: 56.25%; 
+            height: 0; 
+            overflow: hidden; 
+            transform: translateZ(0); /* Kích hoạt hardware acceleration */
+        }
+        #youtube-player-container iframe { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+            border-radius: 18px;
+            transform: translateZ(0); /* Kích hoạt hardware acceleration */
+        }
         
         .close-button {
-            position: absolute; top: -18px; right: -8px; color: #fff; /* Điều chỉnh vị trí */
-            font-size: 45px; font-weight: bold; cursor: pointer; /* Tăng kích thước */
-            text-shadow: 0 3px 6px #000; /* Tăng shadow */
+            position: absolute; top: -18px; right: -8px; color: #fff;
+            font-size: 45px; font-weight: bold; cursor: pointer;
+            text-shadow: 0 3px 6px #000;
             transition: transform 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
+            z-index: 10;
         }
-        .close-button:hover { transform: scale(1.3); /* Tăng hiệu ứng hover */ }
+        .close-button:hover { transform: scale(1.3); }
 
         .player-controls {
             display: flex;
-            justify-content: flex-end; /* Căn phải các nút điều khiển */
+            justify-content: flex-end;
             gap: 15px;
             margin-top: 20px;
         }
@@ -347,7 +377,7 @@
             align-items: center;
             gap: 8px;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
+            -webkit-appearance: none; /* Loại bỏ styling mặc định trên iOS */
         }
 
         .player-control-button:hover {
@@ -366,11 +396,11 @@
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 25px; /* Tăng padding */
-            margin: 50px 15px 15px 15px; /* Tăng margin top */
-            font-size: 0.95rem; /* Tăng font-size */
-            opacity: 0.85; /* Tăng opacity */
-            border-radius: 28px; /* Đồng bộ với glass */
+            padding: 25px;
+            margin: 50px 15px 15px 15px;
+            font-size: 0.95rem;
+            opacity: 0.85;
+            border-radius: 28px;
         }
 
         /* --- Pop-up Hướng dẫn --- */
@@ -379,14 +409,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 25px 35px; /* Tăng padding */
+            padding: 25px 35px;
             z-index: 200;
             text-align: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease; /* Tăng độ trễ transition */
+            transition: opacity 0.5s ease, visibility 0.5s ease;
             will-change: opacity;
-            border-radius: 28px; /* Đồng bộ với glass */
+            border-radius: 28px;
+            transform: translate3d(0,0,0); /* Tối ưu hiệu suất */
         }
         #swipe-popup.visible {
             opacity: 1;
@@ -395,100 +426,151 @@
         #swipe-popup .popup-content {
             display: flex;
             align-items: center;
-            gap: 20px; /* Tăng khoảng cách */
+            gap: 20px;
         }
         #swipe-popup p {
-            font-size: 1.2rem; /* Tăng font-size */
+            font-size: 1.2rem;
             font-weight: 500;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.4); /* Tăng shadow */
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
         }
         #close-popup {
             background: transparent;
             border: none;
             color: inherit;
-            font-size: 35px; /* Tăng kích thước */
+            font-size: 35px;
             cursor: pointer;
-            opacity: 0.8; /* Tăng opacity */
+            opacity: 0.8;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
+            -webkit-appearance: none; /* Loại bỏ styling mặc định trên iOS */
         }
         #close-popup:hover {
             opacity: 1;
-            transform: scale(1.3); /* Tăng hiệu ứng hover */
+            transform: scale(1.3);
         }
 
         /* --- Responsive --- */
         @media (max-width: 768px) {
             header {
-                flex-direction: column; align-items: stretch;
-                padding: 10px; top: 10px; left: 10px; right: 10px;
+                flex-direction: column; 
+                align-items: stretch;
+                padding: 10px; 
+                top: 10px; 
+                left: 10px; 
+                right: 10px;
             }
-            .logo { text-align: center; margin-bottom: 10px; font-size: 1.6rem; }
-            .search-bar { margin: 0 0 10px 0; }
-            #search-input { border-radius: 18px 0 0 18px; padding: 12px 18px; font-size: 0.95rem; }
-            .search-button { border-radius: 0 18px 18px 0; padding: 8px 15px; }
-
+            
+            .logo { 
+                text-align: center; 
+                margin-bottom: 10px; 
+                font-size: 1.6rem; 
+                max-width: none;
+            }
+            
+            .search-bar { 
+                margin: 0 0 10px 0; 
+                order: 2; /* Đưa search bar xuống dưới */
+            }
+            
             .theme-button { 
-                position: absolute; top: 10px; right: 10px; padding: 8px; 
-                transform: none !important; /* Reset hover transform on mobile */
+                position: absolute; 
+                top: 12px; 
+                right: 12px; 
+                padding: 8px; 
+                order: 1; /* Đưa nút theme lên trên */
             }
-            .theme-button:hover { transform: none; } /* Vô hiệu hóa hover trên mobile nếu không cần thiết */
-
-            main { padding-top: 150px; } /* Điều chỉnh padding cho header mới */
-            #main-title { font-size: 1.8rem; margin-bottom: 20px; }
-
+            
+            main { 
+                padding-top: 150px; /* Giảm padding top */
+                padding-bottom: 20px;
+            }
+            
             .swiper { 
-                height: 65vh; /* Điều chỉnh lại chiều cao swiper cho mobile */
+                height: 65vh; /* Điều chỉnh lại chiều cao swiper */
                 padding: 15px 0; 
             }
+            
             .swiper-slide { 
                 width: 85%; /* Tăng độ rộng slide trên mobile */
             }
-            .video-card { height: 380px; }
-            .video-thumbnail { height: 180px; } /* Điều chỉnh chiều cao thumbnail */
-            .video-info { padding: 20px; }
-            .video-title { font-size: 1.1rem; }
-            .channel-title { font-size: 0.9rem; }
-
-            #swipe-popup p { font-size: 1.05rem; }
-            .modal-content { width: 95%; padding: 15px; }
-            .close-button { top: -10px; right: 0px; font-size: 35px; }
+            
+            .video-card { 
+                height: 380px; 
+            }
+            
+            #main-title { 
+                font-size: 1.8rem; 
+                margin-bottom: 15px;
+            }
+            
+            #swipe-popup p { 
+                font-size: 1.05rem; 
+            }
+            
+            .modal-content { 
+                width: 95%; 
+                padding: 15px; 
+            }
+            
+            .close-button { 
+                top: -10px; 
+                right: 0px; 
+                font-size: 35px; 
+            }
+            
             .player-controls {
-                flex-direction: column; /* Xếp chồng các nút trên mobile */
+                flex-direction: column;
                 gap: 10px;
                 margin-top: 15px;
             }
+            
             .player-control-button {
-                width: 100%; /* Đảm bảo nút chiếm toàn bộ chiều rộng */
-                justify-content: center; /* Căn giữa nội dung nút */
+                width: 100%;
+                justify-content: center;
+                padding: 12px;
+            }
+            
+            footer {
+                margin-top: 30px;
+                padding: 15px;
             }
         }
 
-        /* Thêm media query cho màn hình cực nhỏ (ví dụ iPhone SE cũ) */
-        @media (max-width: 480px) {
-            .logo { font-size: 1.5rem; }
-            #search-input { padding: 10px 15px; font-size: 0.9rem; }
-            .search-button { padding: 6px 12px; }
-            .theme-button { padding: 6px; }
-
-            main { padding-top: 140px; }
-            #main-title { font-size: 1.6rem; }
-            .swiper { height: 60vh; padding: 10px 0; }
-            .swiper-slide { width: 95%; } /* Tăng độ rộng hơn nữa */
-            .video-card { height: 360px; }
-            .video-thumbnail { height: 160px; }
-            .video-info { padding: 15px; }
-            .video-title { font-size: 1rem; }
-            .channel-title { font-size: 0.85rem; }
-
-            #swipe-popup { padding: 20px; }
-            #swipe-popup p { font-size: 1rem; }
-            #close-popup { font-size: 30px; }
-
-            .modal-content { padding: 10px; }
-            .close-button { font-size: 30px; top: -5px; right: 5px; }
-            .player-control-button { padding: 8px 15px; font-size: 0.9rem; }
+        /* Tối ưu cho iPhone X trở lên */
+        @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3),
+               only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2),
+               only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3),
+               only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3),
+               only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+            main {
+                padding-top: 160px; /* Thêm padding cho notch */
+                padding-bottom: constant(safe-area-inset-bottom); /* Support iOS 11.0-11.2 */
+                padding-bottom: env(safe-area-inset-bottom); /* Support iOS 11.2+ */
+            }
+            
+            header {
+                padding-top: calc(10px + constant(safe-area-inset-top));
+                padding-top: calc(10px + env(safe-area-inset-top));
+                top: 0;
+            }
         }
+
+        /* Tắt hiệu ứng hover trên mobile */
+        @media (hover: none) {
+            .video-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .theme-button:hover, 
+            .search-button:hover, 
+            .player-control-button:hover,
+            .close-button:hover,
+            #close-popup:hover {
+                transform: none;
+                background-color: initial;
+            }
+        }
+
     </style>
 </head>
 <body class="light-theme">
@@ -513,15 +595,14 @@
         <div id="loading-spinner" class="spinner hidden"></div>
         <div class="swiper" id="video-carousel">
             <div class="swiper-wrapper" id="video-container">
-                </div>
+                <!-- Video cards will be inserted here -->
+            </div>
             <div class="swiper-pagination"></div>
         </div>
         <footer class="glass">
-        <p>© 2025 KhoaTub. Admin: Khoa Dev 07</p>
-    </footer>
+            <p>© 2025 KhoaTub. Admin: Khoa Dev 07</p>
+        </footer>
     </main>
-
-    
 
     <div id="player-modal" class="modal">
         <div class="modal-content glass">
@@ -549,29 +630,42 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Ngăn chặn zoom bằng gesture trên mobile
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        // Ngăn chặn double tap để zoom
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
 
         // --- CẤU HÌNH ---
-        // QUAN TRỌNG: Thay thế các API key của bạn vào đây
         const apiKeys = [
-          'AIzaSyC45El3EMCPOblydSDVvLgycfWrAkoS9Ko',
-          'AIzaSyDN-6wwPIkbzsBgd0lmwY2ePCeORUg7ojs',
-          'AIzaSyDdiPKTKm60beD-KchAp-03_qdf9UnUR7M',
-          'AIzaSyBelqF8Es856eH0Ufp3D6DZU88q1Ws1wK4',
-          'AIzaSyC8YeO_HtkIbp1wy4kwcCozG3tlu26fcRo',
-          'AIzaSyDNiixU1B0Pqv4Fz-jTkGGrAf_eGZ6UzYU',
-          'AIzaSyDUNaoEz0hFOZVDxKjZOLr58f6gavQstz0',
-          'AIzaSyCGdDspUL-5Tg6x0TY_hy9b5M3URSYZgPY',
-          'AIzaSyD7ROKfYBCdVrYWHxJqPmRxfArGMf-2rl4',
-          'AIzaSyCUqmtyXZsMUOI223XL3IlptfAd02JGcBo',
-          'AIzaSyDJgS8HMkIszXihjRARa8-1Z6Ra_-NmpJQ',
-          'AIzaSyAUH8jYFHdGaqWMJWWQt19PY6-nEQeN4bI',
-          'AIzaSyBbn4Uh27COzxupVNW9J8ja1hKpJEWcU-Y',
-          'AIzaSyBCSUVRzb3Rfu3rXiM1W40eWXZZorFVD3g',
-          'AIzaSyAmiie2LFeuJ3WkgMMzjSxwosZkn5jfWg8',
-          'AIzaSyA9Hncb8RitAjnv-Og6Pt7mlnTXKqjmHbo',
-          'AIzaSyAH1I4J2Ev7YWQfmwJ4dLapCatRReGEQts',
-          'AIzaSyCoW_ZsJSe9lV8zqQLyY57w9w7qvO_1NbQ',
-          'AIzaSyCxH_tSSRYOKNAUkepir9wweilILhsgBQg'
+            'AIzaSyC45El3EMCPOblydSDVvLgycfWrAkoS9Ko',
+            'AIzaSyDN-6wwPIkbzsBgd0lmwY2ePCeORUg7ojs',
+            'AIzaSyDdiPKTKm60beD-KchAp-03_qdf9UnUR7M',
+            'AIzaSyBelqF8Es856eH0Ufp3D6DZU88q1Ws1wK4',
+            'AIzaSyC8YeO_HtkIbp1wy4kwcCozG3tlu26fcRo',
+            'AIzaSyDNiixU1B0Pqv4Fz-jTkGGrAf_eGZ6UzYU',
+            'AIzaSyDUNaoEz0hFOZVDxKjZOLr58f6gavQstz0',
+            'AIzaSyCGdDspUL-5Tg6x0TY_hy9b5M3URSYZgPY',
+            'AIzaSyD7ROKfYBCdVrYWHxJqPmRxfArGMf-2rl4',
+            'AIzaSyCUqmtyXZsMUOI223XL3IlptfAd02JGcBo',
+            'AIzaSyDJgS8HMkIszXihjRARa8-1Z6Ra_-NmpJQ',
+            'AIzaSyAUH8jYFHdGaqWMJWWQt19PY6-nEQeN4bI',
+            'AIzaSyBbn4Uh27COzxupVNW9J8ja1hKpJEWcU-Y',
+            'AIzaSyBCSUVRzb3Rfu3rXiM1W40eWXZZorFVD3g',
+            'AIzaSyAmiie2LFeuJ3WkgMMzjSxwosZkn5jfWg8',
+            'AIzaSyA9Hncb8RitAjnv-Og6Pt7mlnTXKqjmHbo',
+            'AIzaSyAH1I4J2Ev7YWQfmwJ4dLapCatRReGEQts',
+            'AIzaSyCoW_ZsJSe9lV8zqQLyY57w9w7qvO_1NbQ',
+            'AIzaSyCxH_tSSRYOKNAUkepir9wweilILhsgBQg'
         ];
         let currentApiKeyIndex = 0;
         const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
@@ -589,25 +683,25 @@
         const playerContainer = document.getElementById('youtube-player-container');
         const pipButton = document.getElementById('pip-button');
         const backgroundPlayButton = document.getElementById('background-play-button');
-        let currentPlayingIframe = null; // Để lưu trữ iframe đang phát
+        let currentPlayingIframe = null;
 
         const swipePopup = document.getElementById('swipe-popup');
         const closePopupButton = document.getElementById('close-popup');
         let popupTimeout;
 
-        // --- Khởi tạo Swiper ---
+        // --- Khởi tạo Swiper tối ưu cho mobile ---
         const swiper = new Swiper('.swiper', {
             effect: 'coverflow',
             grabCursor: true,
             centeredSlides: true,
             slidesPerView: 'auto',
             coverflowEffect: {
-                rotate: 35,   /* Giảm góc xoay để mượt hơn trên mobile */
+                rotate: 30,   // Giảm góc xoay cho mobile
                 stretch: 0,
-                depth: 150,   /* Giảm độ sâu để mượt hơn trên mobile */
+                depth: 100,   // Giảm độ sâu cho mobile
                 modifier: 1,
-                slideShadows: true,
-                scale: 0.9    
+                slideShadows: false, // Tắt shadow để tăng hiệu suất
+                scale: 0.85    
             },
             pagination: {
                 el: '.swiper-pagination',
@@ -617,35 +711,59 @@
                 enabled: true,
             },
             mousewheel: {
-                enabled: true,
-                releaseOnEdges: true,
+                enabled: false, // Tắt mousewheel trên mobile
             },
-            spaceBetween: 20, /* Điều chỉnh khoảng cách cho mobile */
-            // Tối ưu hóa hiệu suất kéo thả trên mobile
+            touchEventsTarget: 'container', // Tối ưu touch
+            spaceBetween: 20, // Giảm khoảng cách cho mobile
             freeMode: false,
-            resistanceRatio: 0.85, /* Tăng resistance ratio */
-            longSwipesRatio: 0.4,
-            touchRatio: 1.8, /* Tăng touch ratio để nhạy hơn */
-            speed: 500, /* Tốc độ chuyển động tăng lên để cảm giác mượt hơn */
-            preloadImages: false, /* Không preload tất cả ảnh */
+            resistanceRatio: 0.7, // Giảm resistance để vuốt mượt hơn
+            longSwipesRatio: 0.3,
+            touchRatio: 1, // Độ nhạy touch
+            speed: 300, // Tốc độ chuyển động nhanh hơn
+            preloadImages: false,
             lazy: {
-                loadPrevNext: true, /* Tải ảnh slide trước và sau */
+                loadPrevNext: true,
                 loadOnTransitionStart: true,
             },
             watchSlidesProgress: true,
             watchSlidesVisibility: true,
-            // Thêm các tùy chọn để tăng độ mượt
-            loop: true, // Nếu muốn cuộn vô hạn
-            virtualTranslate: false, // Quan trọng cho hiệu suất coverflow
-            // Để cải thiện FPS trên mobile, bật Hardware Acceleration
+            loop: true, // Bật loop để trải nghiệm tốt hơn
+            virtualTranslate: false,
             grabCursor: true,
-            // Thêm tùy chọn tối ưu hóa cho iOS Safari
+            // Tối ưu hóa cho iOS
+            iosEdgeSwipeDetection: true,
+            iosEdgeSwipeThreshold: 20,
+            // Tối ưu hiệu suất
+            observer: true,
+            observeParents: true,
+            observeSlideChildren: true,
+            // Giảm hiệu ứng để tăng FPS
+            parallax: false,
+            fadeEffect: {
+                crossFade: false
+            },
+            // Tối ưu render
+            updateOnWindowResize: false,
+            preventInteractionOnTransition: true,
+            // Tối ưu touch
+            touchAngle: 45,
             simulateTouch: true,
-            touchEventsTarget: 'wrapper',
+            passiveListeners: true,
+            // Tối ưu transition
+            threshold: 5,
+            followFinger: true,
+            shortSwipes: true,
             longSwipes: true,
-            resistance: true,
-            preventInteractionOnTransition: true, // Ngăn chặn tương tác trong quá trình chuyển đổi
+            longSwipesMs: 300,
+            slideToClickedSlide: false
         });
+
+        // Thêm passive event listener để tối ưu scroll
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.closest('.swiper')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         // --- Xử lý API & Xoay vòng Key ---
         async function fetchFromYouTube(endpoint) {
@@ -691,8 +809,7 @@
         async function searchVideos(query) {
             showLoading();
             mainTitle.textContent = "Kết quả tìm kiếm";
-            // GIỚI HẠN KẾT QUẢ TÌM KIẾM CÒN 5
-            const endpoint = `search?part=snippet&q=${encodeURIComponent(query)}&maxResults=5&type=video`; 
+            const endpoint = `search?part=snippet&q=${encodeURIComponent(query)}&maxResults=5&type=video`;
             const data = await fetchFromYouTube(endpoint);
             if (data && data.items) {
                 displayVideos(data.items, true);
@@ -713,36 +830,49 @@
                 return;
             }
 
+            // Tạo fragment để tối ưu DOM manipulation
+            const fragment = document.createDocumentFragment();
+            
             videos.forEach(video => {
                 const videoId = isSearchResult ? video.id.videoId : video.id;
                 const title = video.snippet.title;
                 const channelTitle = video.snippet.channelTitle;
-                const thumbnailUrl = video.snippet.thumbnails.high.url; // Có thể cân nhắc .medium.url cho mobile nếu high.url quá lớn
+                const thumbnailUrl = video.snippet.thumbnails.high.url;
 
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
                 const videoCardHTML = `
-                    <div class="swiper-slide">
-                        <div class="video-card glass" data-video-id="${videoId}">
-                            <img src="${thumbnailUrl}" alt="${title}" class="video-thumbnail" loading="lazy">
-                            <div class="video-info">
-                                <h3 class="video-title">${title}</h3>
-                                <p class="channel-title">${channelTitle}</p>
-                            </div>
+                    <div class="video-card glass" data-video-id="${videoId}">
+                        <img src="${thumbnailUrl}" alt="${title}" class="video-thumbnail" loading="lazy">
+                        <div class="video-info">
+                            <h3 class="video-title">${title}</h3>
+                            <p class="channel-title">${channelTitle}</p>
                         </div>
                     </div>
                 `;
-                videoContainer.insertAdjacentHTML('beforeend', videoCardHTML);
+                
+                slide.innerHTML = videoCardHTML;
+                fragment.appendChild(slide);
             });
             
-            swiper.update();
-            swiper.slideTo(0, 500);
+            videoContainer.appendChild(fragment);
+            
+            // Force swiper to update layout
+            setTimeout(() => {
+                swiper.update();
+                swiper.slideTo(0, 0);
+            }, 50);
         }
 
         function showLoading() {
             loadingSpinner.classList.remove('hidden');
+            mainTitle.style.opacity = '0.5';
         }
 
         function hideLoading() {
             loadingSpinner.classList.add('hidden');
+            mainTitle.style.opacity = '1';
         }
 
         // --- Nút chuyển Theme ---
@@ -788,8 +918,6 @@
             playerContainer.appendChild(iframe);
             currentPlayingIframe = iframe; // Lưu trữ iframe đang phát
             modal.classList.add('visible');
-             // Ngăn chặn cuộn body khi modal mở
-            document.body.style.overflow = 'hidden';
         }
 
         function closePlayer() {
@@ -798,8 +926,6 @@
             setTimeout(() => {
                 playerContainer.innerHTML = '';
                 currentPlayingIframe = null; // Xóa tham chiếu
-                 // Cho phép cuộn body trở lại
-                document.body.style.overflow = '';
             }, 400);
         }
         
@@ -824,18 +950,13 @@
         pipButton.addEventListener('click', async () => {
             if (currentPlayingIframe && document.pictureInPictureEnabled) {
                 try {
-                    // Kiểm tra xem iframe có nội dung video sẵn sàng cho PiP hay không
-                    // Điều này phức tạp với iframe YouTube, thường yêu cầu API của YouTube Player
-                    // Để đơn giản, chúng ta sẽ thử gọi requestPictureInPicture trực tiếp trên iframe.
-                    // Lưu ý: Chrome/Safari có thể cho phép PiP với iframe, Firefox thì không.
                     if (currentPlayingIframe.requestPictureInPicture) {
                         await currentPlayingIframe.requestPictureInPicture();
-                    } else if (currentPlayingIframe.contentWindow && currentPlayingIframe.contentWindow.document.querySelector('video') && currentPlayingIframe.contentWindow.document.querySelector('video').requestPictureInPicture) {
-                         // Fallback nếu iframe có video element bên trong
-                        await currentPlayingIframe.contentWindow.document.querySelector('video').requestPictureInPicture();
+                    } else if (currentPlayingIframe.videoWidth && currentPlayingIframe.videoHeight && currentPlayingIframe.requestPictureInPicture) {
+                        // For video elements, though we are using iframe for YouTube
+                        await currentPlayingIframe.requestPictureInPicture();
                     } else {
-                        alert("Trình duyệt hoặc video không hỗ trợ chế độ Ảnh trong ảnh. Đảm bảo bạn đang sử dụng Chrome hoặc Safari.");
-                        return; // Ngăn không cho đóng modal nếu PiP không thành công
+                        alert("Trình duyệt hoặc video không hỗ trợ chế độ Ảnh trong ảnh.");
                     }
                     closePlayer(); // Đóng modal khi vào chế độ PiP
                 } catch (error) {
@@ -849,10 +970,15 @@
 
         // --- Chức năng Phát nền (Hạn chế với YouTube iframe) ---
         backgroundPlayButton.addEventListener('click', () => {
+            // Đối với iframe YouTube, "phát nền" thực sự khi thoát trình duyệt
+            // rất khó thực hiện do chính sách của YouTube và trình duyệt.
+            // Tuy nhiên, chúng ta có thể đóng modal và để iframe tiếp tục phát
+            // nếu trình duyệt cho phép âm thanh chạy ngầm khi tab không active.
+            // Điều này vẫn phụ thuộc vào trình duyệt và hệ điều hành.
             if (currentPlayingIframe) {
-                alert("Video sẽ tiếp tục phát trong nền nếu trình duyệt của bạn hỗ trợ (ví dụ: khi chuyển tab hoặc ứng dụng).");
+                alert("Video sẽ tiếp tục phát trong nền nếu trình duyệt của bạn hỗ trợ. Vui lòng kiểm tra tab hoặc thoát ứng dụng.");
                 modal.classList.remove('visible'); // Đóng modal, để iframe tồn tại
-                document.body.style.overflow = ''; // Cho phép cuộn body trở lại
+                // Không xóa iframe ở đây để nó có thể tiếp tục phát.
             } else {
                 alert("Không có video nào đang phát để phát nền.");
             }
@@ -896,4 +1022,4 @@
     });
     </script>
 </body>
-</html>
+</html>           
