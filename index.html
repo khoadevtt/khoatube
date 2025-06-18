@@ -2,9 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <!-- Cập nhật thẻ meta viewport để cố gắng ngăn chặn thu phóng -->
-    <!-- LƯU Ý QUAN TRỌNG: Các trình duyệt hiện đại có thể bỏ qua các thuộc tính này để ưu tiên trải nghiệm người dùng và khả năng tiếp cận. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>KhoaTub - Nâng cấp</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,18 +20,18 @@
             /* Light Theme */
             --bg-color-light: #f0f2f5;
             --text-color-light: #050505;
-            --text-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.15); /* Tăng độ sâu shadow */
-            --glass-bg-light: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2)); /* Tăng độ trong */
-            --shadow-light: 0 15px 60px 0 rgba(31, 38, 135, 0.35); /* Nâng cấp bóng đổ */
-            --border-light: rgba(255, 255, 255, 0.5); /* Tăng độ nhìn thấy border */
+            --text-shadow-light: 0 1px 2px rgba(0, 0, 0, 0.1);
+            --glass-bg-light: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
+            --shadow-light: 0 12px 48px 0 rgba(31, 38, 135, 0.3); /* Nâng cấp bóng đổ */
+            --border-light: rgba(255, 255, 255, 0.4);
 
             /* Dark Theme */
             --bg-color-dark: #121212;
             --text-color-dark: #e4e6eb;
-            --text-shadow-dark: 0 2px 5px rgba(0, 0, 0, 0.6); /* Tăng độ sâu shadow */
-            --glass-bg-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08)); /* Tăng độ trong */
-            --shadow-dark: 0 15px 60px 0 rgba(0, 0, 0, 0.5); /* Nâng cấp bóng đổ */
-            --border-dark: rgba(255, 255, 255, 0.2); /* Tăng độ nhìn thấy border */
+            --text-shadow-dark: 0 1px 3px rgba(0, 0, 0, 0.5);
+            --glass-bg-dark: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            --shadow-dark: 0 12px 48px 0 rgba(0, 0, 0, 0.45); /* Nâng cấp bóng đổ */
+            --border-dark: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -51,6 +49,7 @@
             transition: background-color 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
             position: relative;
+            touch-action: manipulation; /* Ngăn chặn double-tap zoom và cải thiện phản hồi chạm */
         }
 
         .light-theme {
@@ -69,20 +68,23 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Sử dụng một URL hình ảnh placeholder thay vì một URL cố định */
-            background-image: url('https://placehold.co/1920x1080/000000/FFFFFF/png?text=Background');
+            background-image: url('https://images.unsplash.com/photo-1554034483-043a3554524b?q=80&w=2874&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
-            filter: blur(40px) brightness(0.6); /* Tăng blur và giảm brightness */
+            filter: blur(35px) brightness(0.65); /* Tăng blur và giảm brightness */
             transform: scale(1.2);
             z-index: -1;
+            /* Tối ưu hóa hiệu suất */
+            will-change: transform, filter;
         }
 
         /* --- Hiệu ứng Glassmorphism Nâng Cấp --- */
         .glass {
-            backdrop-filter: blur(35px) saturate(220%); /* Tăng blur và saturate */
-            -webkit-backdrop-filter: blur(35px) saturate(220%);
-            border-radius: 32px; /* Tăng border-radius */
+            backdrop-filter: blur(30px) saturate(200%); /* Tăng blur và saturate */
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border-radius: 28px; /* Tăng border-radius */
+            /* Tối ưu hóa hiệu suất */
+            will-change: background, box-shadow;
         }
 
         .light-theme .glass {
@@ -100,79 +102,78 @@
         /* --- Header & Search Bar --- */
         header {
             position: fixed;
-            top: 20px; /* Tăng khoảng cách từ trên */
-            left: 20px; /* Tăng khoảng cách từ trái */
-            right: 20px; /* Tăng khoảng cách từ phải */
+            top: 15px;
+            left: 15px;
+            right: 15px;
             z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px 30px; /* Tăng padding */
+            padding: 12px 25px; /* Tăng padding */
             transition: all 0.3s ease;
         }
 
         .logo {
-            font-size: 2rem; /* Tăng kích thước logo */
+            font-size: 1.8rem; /* Tăng kích thước logo */
             font-weight: 700;
-            text-shadow: var(--text-shadow-light); /* Áp dụng shadow từ biến */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Tăng độ sâu shadow */
         }
-        .dark-theme .logo { text-shadow: var(--text-shadow-dark); }
 
         .search-bar {
             display: flex;
             flex-grow: 1;
-            margin: 0 30px; /* Tăng margin */
-            max-width: 700px; /* Tăng max-width */
+            margin: 0 25px; /* Tăng margin */
+            max-width: 650px; /* Tăng max-width */
         }
 
         #search-input {
             width: 100%;
-            padding: 16px 25px; /* Tăng padding */
+            padding: 14px 22px; /* Tăng padding */
             border: none;
-            background: rgba(255,255,255,0.1); /* Thêm background nhẹ */
-            font-size: 1.1rem; /* Tăng font-size */
+            background: rgba(255,255,255,0.08); /* Thêm background nhẹ */
+            font-size: 1.05rem; /* Tăng font-size */
             color: inherit;
-            border-radius: 20px 0 0 20px; /* Tăng border-radius */
+            border-radius: 18px 0 0 18px; /* Tăng border-radius */
             font-family: var(--font-family);
             transition: background-color 0.3s ease;
         }
-        #search-input:focus { outline: none; background: rgba(255,255,255,0.2); } /* Thêm focus effect */
-        #search-input::placeholder { color: inherit; opacity: 0.7; }
+        #search-input:focus { outline: none; background: rgba(255,255,255,0.15); } /* Thêm focus effect */
+        #search-input::placeholder { color: inherit; opacity: 0.6; }
 
         .search-button {
-            padding: 12px 20px; /* Tăng padding */
+            padding: 10px 18px; /* Tăng padding */
             border: none;
             cursor: pointer;
-            background: rgba(255,255,255,0.2); /* Thêm background */
+            background: rgba(255,255,255,0.15); /* Thêm background */
             color: inherit;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0 20px 20px 0; /* Tăng border-radius */
+            border-radius: 0 18px 18px 0; /* Tăng border-radius */
             transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .dark-theme .search-button:hover { background-color: rgba(255,255,255,0.25); }
-        .light-theme .search-button:hover { background-color: rgba(0,0,0,0.12); }
+        .dark-theme .search-button:hover { background-color: rgba(255,255,255,0.2); }
+        .light-theme .search-button:hover { background-color: rgba(0,0,0,0.1); }
 
         .theme-button {
             background: transparent;
             border: none;
             cursor: pointer;
             color: inherit;
-            padding: 15px; /* Tăng padding */
+            padding: 12px; /* Tăng padding */
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.3s ease;
         }
-        .theme-button:hover { transform: scale(1.2) rotate(25deg); /* Tăng hiệu ứng hover */ }
-        .dark-theme .theme-button:hover { background-color: rgba(255,255,255,0.2); }
-        .light-theme .theme-button:hover { background-color: rgba(0,0,0,0.1); }
+        .theme-button:hover { transform: scale(1.15) rotate(20deg); /* Tăng hiệu ứng hover */ }
+        .dark-theme .theme-button:hover { background-color: rgba(255,255,255,0.15); }
+        .light-theme .theme-button:hover { background-color: rgba(0,0,0,0.08); }
 
         /* --- Main Content & Swiper --- */
         main {
-            padding: 160px 0 80px 0; /* Tăng padding trên */
+            padding: 140px 0 60px 0; /* Tăng padding trên */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -181,96 +182,104 @@
         }
 
         #main-title {
-            font-size: 2.5rem; /* Tăng font-size */
+            font-size: 2.2rem; /* Tăng font-size */
             font-weight: 700;
-            margin-bottom: 30px; /* Tăng margin */
+            margin-bottom: 25px; /* Tăng margin */
             transition: opacity 0.5s ease;
-            text-shadow: var(--text-shadow-light);
         }
         .dark-theme #main-title { text-shadow: var(--text-shadow-dark); }
+        .light-theme #main-title { text-shadow: var(--text-shadow-light); }
 
         .swiper {
             width: 100%;
-            height: 80vh; /* Tăng chiều cao swiper */
-            padding: 40px 0; /* Tăng padding */
+            height: 75vh; /* Tăng chiều cao swiper */
+            padding: 30px 0; /* Tăng padding */
+            /* Thêm tối ưu hóa hiệu suất cho Swiper */
             will-change: transform;
+            overflow: hidden; /* Quan trọng để tránh scrollbar ngang */
         }
 
         .swiper-slide {
-            width: 380px; /* Tăng kích thước slide */
+            width: 350px; /* Tăng kích thước slide */
             height: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1500px; /* Tăng perspective cho hiệu ứng 3D tốt hơn */
+            perspective: 1200px; /* Thêm perspective cho hiệu ứng 3D tốt hơn */
+            /* Thêm tối ưu hóa hiệu suất cho Swiper */
             will-change: transform;
-            backface-visibility: hidden;
+            backface-visibility: hidden; /* Ngăn ngừa flickr trong một số trình duyệt */
+            -webkit-font-smoothing: antialiased; /* iOS font rendering */
+            -moz-osx-font-smoothing: grayscale; /* macOS font rendering */
         }
 
         /* --- Video Card Nâng Cao --- */
         .video-card {
             width: 100%;
-            height: 480px; /* Tăng chiều cao card */
+            height: 450px; /* Tăng chiều cao card */
             overflow: hidden;
             cursor: grab;
-            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2), /* Thêm độ trễ và bezier */
-                        box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), /* Thêm độ trễ và bezier */
+                        box-shadow 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
-            will-change: transform, box-shadow;
-            border-radius: 28px; /* Đồng bộ với glass */
+            will-change: transform, box-shadow; /* Tối ưu hóa animation */
+            border-radius: 24px; /* Đồng bộ với glass */
+            -webkit-tap-highlight-color: transparent; /* Loại bỏ highlight khi chạm trên mobile */
         }
 
         .video-card:hover {
-            transform: translateY(-20px) scale(1.08) rotateY(5deg); /* Tăng hiệu ứng hover, thêm xoay nhẹ */
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5); /* Tăng bóng đổ hover */
+            transform: translateY(-15px) scale(1.05); /* Tăng hiệu ứng hover */
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4); /* Tăng bóng đổ hover */
         }
 
         .video-card:active {
             cursor: grabbing;
-            transform: scale(0.92); /* Tăng hiệu ứng active */
+            transform: scale(0.95); /* Tăng hiệu ứng active */
             transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .video-thumbnail {
             width: 100%;
-            height: 220px; /* Tăng chiều cao thumbnail */
+            height: 200px; /* Tăng chiều cao thumbnail */
             object-fit: cover;
-            border-radius: 24px 24px 0 0; /* Bo góc thumbnail */
+            border-radius: 20px 20px 0 0; /* Bo góc thumbnail */
+            display: block; /* Tránh khoảng trắng dưới ảnh */
+            pointer-events: none; /* Ngăn chặn sự kiện chạm trên ảnh gây kéo card thay vì swiper */
         }
 
         .video-info {
-            padding: 30px; /* Tăng padding */
+            padding: 25px; /* Tăng padding */
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
 
         .video-title {
-            font-size: 1.3rem; /* Tăng font-size */
-            font-weight: 700; /* Tăng font-weight */
-            margin-bottom: 15px;
+            font-size: 1.2rem; /* Tăng font-size */
+            font-weight: 600; /* Tăng font-weight */
+            margin-bottom: 12px;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            text-shadow: var(--text-shadow-light);
         }
+        .light-theme .video-title { text-shadow: var(--text-shadow-light); }
         .dark-theme .video-title { text-shadow: var(--text-shadow-dark); }
 
         .channel-title {
-            font-size: 1rem; /* Tăng font-size */
-            opacity: 0.85; /* Tăng opacity */
+            font-size: 0.95rem; /* Tăng font-size */
+            opacity: 0.75; /* Tăng opacity */
             margin-top: auto;
         }
 
         /* --- Loading Spinner --- */
         .spinner {
-            border: 8px solid rgba(255, 255, 255, 0.3); /* Tăng độ dày */
-            border-top: 8px solid;
+            border: 6px solid rgba(255, 255, 255, 0.3); /* Tăng độ dày */
+            border-top: 6px solid;
             border-radius: 50%;
-            width: 70px; /* Tăng kích thước */
-            height: 70px;
+            width: 60px; /* Tăng kích thước */
+            height: 60px;
             animation: spin 1s linear infinite;
             position: absolute;
             top: 50%;
@@ -287,77 +296,81 @@
         .modal {
             display: none; position: fixed; z-index: 1000; left: 0; top: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.8); /* Tăng độ tối background */
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); /* Tăng blur */
+            background-color: rgba(0,0,0,0.7); /* Tăng độ tối background */
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); /* Tăng blur */
             align-items: center; justify-content: center;
             opacity: 0;
-            transition: opacity 0.6s ease; /* Tăng độ trễ transition */
+            transition: opacity 0.5s ease; /* Tăng độ trễ transition */
+            /* Tối ưu hóa hiệu suất */
+            will-change: opacity;
         }
         .modal.visible { display: flex; opacity: 1; }
 
         .modal-content {
-            position: relative; padding: 30px; width: 95%; max-width: 1000px; /* Tăng kích thước */
-            transform: scale(0.85) translateY(20px); /* Tăng hiệu ứng scale và dịch chuyển */
-            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2);
-            border-radius: 32px; /* Đồng bộ với glass */
+            position: relative; padding: 25px; width: 92%; max-width: 950px; /* Tăng kích thước */
+            transform: scale(0.9); /* Tăng hiệu ứng scale */
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 28px; /* Đồng bộ với glass */
+            /* Tối ưu hóa hiệu suất */
+            will-change: transform;
         }
-        .modal.visible .modal-content { transform: scale(1) translateY(0); }
+        .modal.visible .modal-content { transform: scale(1); }
 
         #youtube-player-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
-        #youtube-player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 20px; /* Tăng border-radius */ }
+        #youtube-player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 18px; /* Tăng border-radius */ }
         
         .close-button {
-            position: absolute; top: -22px; right: -12px; color: #fff; /* Điều chỉnh vị trí */
-            font-size: 50px; font-weight: bold; cursor: pointer; /* Tăng kích thước */
-            text-shadow: 0 4px 8px #000; /* Tăng shadow */
-            transition: transform 0.3s ease, color 0.3s ease;
+            position: absolute; top: -18px; right: -8px; color: #fff; /* Điều chỉnh vị trí */
+            font-size: 45px; font-weight: bold; cursor: pointer; /* Tăng kích thước */
+            text-shadow: 0 3px 6px #000; /* Tăng shadow */
+            transition: transform 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
-        .close-button:hover { transform: scale(1.4) rotate(10deg); /* Tăng hiệu ứng hover */ color: #ff6b6b; }
+        .close-button:hover { transform: scale(1.3); /* Tăng hiệu ứng hover */ }
 
         .player-controls {
             display: flex;
             justify-content: flex-end; /* Căn phải các nút điều khiển */
-            gap: 20px; /* Tăng khoảng cách */
-            margin-top: 25px;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .player-control-button {
-            background: rgba(255, 255, 255, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: inherit;
-            padding: 12px 20px;
-            border-radius: 20px;
+            padding: 10px 18px;
+            border-radius: 18px;
             cursor: pointer;
-            font-size: 1.05rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+            gap: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .player-control-button:hover {
-            background-color: rgba(255, 255, 255, 0.35);
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
         .dark-theme .player-control-button {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .dark-theme .player-control-button:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.25);
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 30px; /* Tăng padding */
-            margin: 60px 20px 20px 20px; /* Tăng margin top */
-            font-size: 1rem; /* Tăng font-size */
-            opacity: 0.9; /* Tăng opacity */
-            border-radius: 32px; /* Đồng bộ với glass */
+            padding: 25px; /* Tăng padding */
+            margin: 50px 15px 15px 15px; /* Tăng margin top */
+            font-size: 0.95rem; /* Tăng font-size */
+            opacity: 0.85; /* Tăng opacity */
+            border-radius: 28px; /* Đồng bộ với glass */
         }
 
         /* --- Pop-up Hướng dẫn --- */
@@ -366,15 +379,14 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 30px 40px; /* Tăng padding */
+            padding: 25px 35px; /* Tăng padding */
             z-index: 200;
             text-align: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.6s ease, visibility 0.6s ease; /* Tăng độ trễ transition */
+            transition: opacity 0.5s ease, visibility 0.5s ease; /* Tăng độ trễ transition */
             will-change: opacity;
-            border-radius: 32px; /* Đồng bộ với glass */
-            max-width: 90%; /* Đảm bảo fit trên mobile */
+            border-radius: 28px; /* Đồng bộ với glass */
         }
         #swipe-popup.visible {
             opacity: 1;
@@ -383,155 +395,26 @@
         #swipe-popup .popup-content {
             display: flex;
             align-items: center;
-            gap: 25px; /* Tăng khoảng cách */
+            gap: 20px; /* Tăng khoảng cách */
         }
         #swipe-popup p {
-            font-size: 1.3rem; /* Tăng font-size */
+            font-size: 1.2rem; /* Tăng font-size */
             font-weight: 500;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* Tăng shadow */
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4); /* Tăng shadow */
         }
         #close-popup {
             background: transparent;
             border: none;
             color: inherit;
-            font-size: 40px; /* Tăng kích thước */
+            font-size: 35px; /* Tăng kích thước */
             cursor: pointer;
-            opacity: 0.85; /* Tăng opacity */
+            opacity: 0.8; /* Tăng opacity */
             transition: opacity 0.3s ease, transform 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
         #close-popup:hover {
             opacity: 1;
-            transform: scale(1.4) rotate(15deg); /* Tăng hiệu ứng hover */
-        }
-
-        /* --- Video History Section --- */
-        #video-history {
-            width: 100%;
-            padding: 80px 20px; /* Tăng padding */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #history-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            text-shadow: var(--text-shadow-light);
-        }
-        .dark-theme #history-title { text-shadow: var(--text-shadow-dark); }
-
-        #history-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Điều chỉnh kích thước cột */
-            gap: 30px; /* Tăng khoảng cách */
-            width: 100%;
-            max-width: 1400px; /* Giới hạn chiều rộng */
-            margin-bottom: 40px;
-            justify-content: center;
-        }
-        
-        .history-card {
-            position: relative;
-            width: 100%;
-            height: 480px; /* Đồng bộ với video-card */
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2), 
-                        box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2),
-                        opacity 0.5s ease; /* Thêm transition cho opacity */
-            display: flex;
-            flex-direction: column;
-            border-radius: 28px;
-        }
-
-        .history-card:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .history-card .video-thumbnail,
-        .history-card .video-info,
-        .history-card .video-title,
-        .history-card .channel-title {
-            /* Sử dụng lại style từ video-card */
-            border-radius: 24px 24px 0 0; /* Bo góc thumbnail */
-        }
-
-        .history-card .delete-history-item {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 0, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            opacity: 0; /* Ẩn mặc định */
-            transition: opacity 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
-            z-index: 10;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .history-card:hover .delete-history-item {
-            opacity: 1; /* Hiện khi hover card */
-            transform: scale(1.1);
-        }
-
-        .history-card .delete-history-item:hover {
-            background: rgba(255, 0, 0, 0.9);
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        /* Hiệu ứng xóa 3D */
-        .history-card.deleting {
-            animation: deletingEffect 0.7s forwards ease-out;
-        }
-
-        @keyframes deletingEffect {
-            0% { transform: scale(1) rotateY(0deg) translateX(0); opacity: 1; }
-            50% { transform: scale(0.8) rotateY(30deg) translateX(50px); opacity: 0.5; }
-            100% { transform: scale(0) rotateY(90deg) translateX(200px); opacity: 0; }
-        }
-
-        #clear-history-button {
-            background: linear-gradient(135deg, #ff6b6b, #ee5253); /* Gradient button */
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #clear-history-button:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
-            background: linear-gradient(135deg, #ee5253, #ff6b6b);
-        }
-        #clear-history-button:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
-        }
-        
-        .no-results {
-            padding: 20px; 
-            text-align: center; 
-            width: 100%; 
-            font-size: 1.2rem; 
-            opacity: 0.8;
+            transform: scale(1.3); /* Tăng hiệu ứng hover */
         }
 
         /* --- Responsive --- */
@@ -540,48 +423,72 @@
                 flex-direction: column; align-items: stretch;
                 padding: 10px; top: 10px; left: 10px; right: 10px;
             }
-            .logo { text-align: center; margin-bottom: 10px; font-size: 1.8rem; }
+            .logo { text-align: center; margin-bottom: 10px; font-size: 1.6rem; }
             .search-bar { margin: 0 0 10px 0; }
-            .theme-button { position: absolute; top: 12px; right: 12px; padding: 10px; }
-            main { padding-top: 180px; }
-            #main-title, #history-title { font-size: 2rem; margin-bottom: 20px; }
-            .swiper { height: 65vh; padding: 20px 0; } /* Điều chỉnh lại chiều cao swiper */
-            .swiper-slide { width: 95%; /* Tăng độ rộng slide trên mobile */ }
-            .video-card { height: 420px; }
-            .video-thumbnail { height: 180px; }
+            #search-input { border-radius: 18px 0 0 18px; padding: 12px 18px; font-size: 0.95rem; }
+            .search-button { border-radius: 0 18px 18px 0; padding: 8px 15px; }
+
+            .theme-button { 
+                position: absolute; top: 10px; right: 10px; padding: 8px; 
+                transform: none !important; /* Reset hover transform on mobile */
+            }
+            .theme-button:hover { transform: none; } /* Vô hiệu hóa hover trên mobile nếu không cần thiết */
+
+            main { padding-top: 150px; } /* Điều chỉnh padding cho header mới */
+            #main-title { font-size: 1.8rem; margin-bottom: 20px; }
+
+            .swiper { 
+                height: 65vh; /* Điều chỉnh lại chiều cao swiper cho mobile */
+                padding: 15px 0; 
+            }
+            .swiper-slide { 
+                width: 85%; /* Tăng độ rộng slide trên mobile */
+            }
+            .video-card { height: 380px; }
+            .video-thumbnail { height: 180px; } /* Điều chỉnh chiều cao thumbnail */
             .video-info { padding: 20px; }
             .video-title { font-size: 1.1rem; }
             .channel-title { font-size: 0.9rem; }
 
-            #swipe-popup { padding: 25px; }
-            #swipe-popup p { font-size: 1.1rem; }
-            #close-popup { font-size: 30px; }
-
-            .modal-content { width: 98%; padding: 20px; }
-            .close-button { top: -15px; right: -5px; font-size: 40px; }
+            #swipe-popup p { font-size: 1.05rem; }
+            .modal-content { width: 95%; padding: 15px; }
+            .close-button { top: -10px; right: 0px; font-size: 35px; }
             .player-controls {
                 flex-direction: column; /* Xếp chồng các nút trên mobile */
-                gap: 15px;
-                margin-top: 20px;
+                gap: 10px;
+                margin-top: 15px;
             }
             .player-control-button {
                 width: 100%; /* Đảm bảo nút chiếm toàn bộ chiều rộng */
                 justify-content: center; /* Căn giữa nội dung nút */
-                padding: 12px;
-            }
-
-            #history-list {
-                grid-template-columns: 1fr; /* Một cột trên mobile */
-                gap: 20px;
-                padding: 0 10px;
-            }
-            .history-card { height: 420px; } /* Đồng bộ với video-card */
-            #clear-history-button {
-                padding: 12px 25px;
-                font-size: 1rem;
             }
         }
 
+        /* Thêm media query cho màn hình cực nhỏ (ví dụ iPhone SE cũ) */
+        @media (max-width: 480px) {
+            .logo { font-size: 1.5rem; }
+            #search-input { padding: 10px 15px; font-size: 0.9rem; }
+            .search-button { padding: 6px 12px; }
+            .theme-button { padding: 6px; }
+
+            main { padding-top: 140px; }
+            #main-title { font-size: 1.6rem; }
+            .swiper { height: 60vh; padding: 10px 0; }
+            .swiper-slide { width: 95%; } /* Tăng độ rộng hơn nữa */
+            .video-card { height: 360px; }
+            .video-thumbnail { height: 160px; }
+            .video-info { padding: 15px; }
+            .video-title { font-size: 1rem; }
+            .channel-title { font-size: 0.85rem; }
+
+            #swipe-popup { padding: 20px; }
+            #swipe-popup p { font-size: 1rem; }
+            #close-popup { font-size: 30px; }
+
+            .modal-content { padding: 10px; }
+            .close-button { font-size: 30px; top: -5px; right: 5px; }
+            .player-control-button { padding: 8px 15px; font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body class="light-theme">
@@ -606,27 +513,16 @@
         <div id="loading-spinner" class="spinner hidden"></div>
         <div class="swiper" id="video-carousel">
             <div class="swiper-wrapper" id="video-container">
-                <!-- Video cards sẽ được thêm vào đây bởi JavaScript -->
-            </div>
+                </div>
             <div class="swiper-pagination"></div>
         </div>
-    </main>
-
-    <section id="video-history">
-        <h2 id="history-title">Lịch sử xem Video</h2>
-        <div id="history-list">
-            <!-- Lịch sử video sẽ được thêm vào đây bởi JavaScript -->
-        </div>
-        <button id="clear-history-button" class="glass">
-            <span class="material-icons-outlined">delete_sweep</span>
-            Xóa toàn bộ lịch sử
-        </button>
-    </section>
-
-    <footer>
+        <footer class="glass">
         <p>© 2025 KhoaTub. Admin: Khoa Dev 07</p>
     </footer>
+    </main>
+
     
+
     <div id="player-modal" class="modal">
         <div class="modal-content glass">
             <span id="close-modal" class="close-button">×</span>
@@ -674,7 +570,7 @@
           'AIzaSyAmiie2LFeuJ3WkgMMzjSxwosZkn5jfWg8',
           'AIzaSyA9Hncb8RitAjnv-Og6Pt7mlnTXKqjmHbo',
           'AIzaSyAH1I4J2Ev7YWQfmwJ4dLapCatRReGEQts',
-          'AIzaSyCoW_ZsJSe9lV8zqQLyY57w9w7qvO_1NbC',
+          'AIzaSyCoW_ZsJSe9lV8zqQLyY57w9w7qvO_1NbQ',
           'AIzaSyCxH_tSSRYOKNAUkepir9wweilILhsgBQg'
         ];
         let currentApiKeyIndex = 0;
@@ -699,10 +595,6 @@
         const closePopupButton = document.getElementById('close-popup');
         let popupTimeout;
 
-        const historyList = document.getElementById('history-list');
-        const clearHistoryButton = document.getElementById('clear-history-button');
-        let videoHistory = []; // Mảng để lưu trữ lịch sử
-
         // --- Khởi tạo Swiper ---
         const swiper = new Swiper('.swiper', {
             effect: 'coverflow',
@@ -710,12 +602,12 @@
             centeredSlides: true,
             slidesPerView: 'auto',
             coverflowEffect: {
-                rotate: 40,   /* Giảm góc xoay một chút cho mobile */
+                rotate: 35,   /* Giảm góc xoay để mượt hơn trên mobile */
                 stretch: 0,
-                depth: 250,   /* Tăng độ sâu cho hiệu ứng 3D */
+                depth: 150,   /* Giảm độ sâu để mượt hơn trên mobile */
                 modifier: 1,
                 slideShadows: true,
-                scale: 0.85    /* Giảm nhẹ scale cho slide không active */
+                scale: 0.9    
             },
             pagination: {
                 el: '.swiper-pagination',
@@ -728,13 +620,13 @@
                 enabled: true,
                 releaseOnEdges: true,
             },
-            spaceBetween: 40, /* Điều chỉnh khoảng cách */
-            // Tối ưu hóa hiệu suất kéo thả
+            spaceBetween: 20, /* Điều chỉnh khoảng cách cho mobile */
+            // Tối ưu hóa hiệu suất kéo thả trên mobile
             freeMode: false,
-            resistanceRatio: 0.8, /* Tăng resistance ratio */
-            longSwipesRatio: 0.3,
+            resistanceRatio: 0.85, /* Tăng resistance ratio */
+            longSwipesRatio: 0.4,
             touchRatio: 1.8, /* Tăng touch ratio để nhạy hơn */
-            speed: 500, /* Tốc độ chuyển động */
+            speed: 500, /* Tốc độ chuyển động tăng lên để cảm giác mượt hơn */
             preloadImages: false, /* Không preload tất cả ảnh */
             lazy: {
                 loadPrevNext: true, /* Tải ảnh slide trước và sau */
@@ -742,9 +634,17 @@
             },
             watchSlidesProgress: true,
             watchSlidesVisibility: true,
-            loop: true, // Cuộn vô hạn
+            // Thêm các tùy chọn để tăng độ mượt
+            loop: true, // Nếu muốn cuộn vô hạn
             virtualTranslate: false, // Quan trọng cho hiệu suất coverflow
+            // Để cải thiện FPS trên mobile, bật Hardware Acceleration
             grabCursor: true,
+            // Thêm tùy chọn tối ưu hóa cho iOS Safari
+            simulateTouch: true,
+            touchEventsTarget: 'wrapper',
+            longSwipes: true,
+            resistance: true,
+            preventInteractionOnTransition: true, // Ngăn chặn tương tác trong quá trình chuyển đổi
         });
 
         // --- Xử lý API & Xoay vòng Key ---
@@ -754,15 +654,14 @@
             try {
                 const response = await fetch(url);
                 if (response.status === 403) {
-                    console.warn(`API key ${currentApiKeyIndex + 1} đã hết hạn hoặc quota. Thử key tiếp theo.`);
+                    console.warn(`API key ${currentApiKeyIndex + 1} đã hết hạn. Thử key tiếp theo.`);
                     currentApiKeyIndex = (currentApiKeyIndex + 1) % apiKeys.length;
                     if (currentApiKeyIndex === 0) {
-                        console.error("Tất cả các API key đã được sử dụng hết hoặc hết quota.");
-                        // Sử dụng một modal tùy chỉnh thay vì alert()
-                        showCustomAlert("Đã hết tất cả API key hoặc quota. Vui lòng thử lại sau.");
+                        console.error("Tất cả các API key đã được sử dụng hết.");
+                        alert("Đã hết tất cả API key. Vui lòng thử lại sau.");
                         return null;
                     }
-                    return await fetchFromYouTube(endpoint); // Thử lại với key mới
+                    return await fetchFromYouTube(endpoint);
                 }
                 if (!response.ok) {
                     const errorData = await response.json();
@@ -792,7 +691,8 @@
         async function searchVideos(query) {
             showLoading();
             mainTitle.textContent = "Kết quả tìm kiếm";
-            const endpoint = `search?part=snippet&q=${encodeURIComponent(query)}&maxResults=10&type=video`; // Tăng lên 10 kết quả
+            // GIỚI HẠN KẾT QUẢ TÌM KIẾM CÒN 5
+            const endpoint = `search?part=snippet&q=${encodeURIComponent(query)}&maxResults=5&type=video`; 
             const data = await fetchFromYouTube(endpoint);
             if (data && data.items) {
                 displayVideos(data.items, true);
@@ -817,16 +717,12 @@
                 const videoId = isSearchResult ? video.id.videoId : video.id;
                 const title = video.snippet.title;
                 const channelTitle = video.snippet.channelTitle;
-                const thumbnailUrl = video.snippet.thumbnails.high.url;
+                const thumbnailUrl = video.snippet.thumbnails.high.url; // Có thể cân nhắc .medium.url cho mobile nếu high.url quá lớn
 
                 const videoCardHTML = `
                     <div class="swiper-slide">
-                        <div class="video-card glass" 
-                             data-video-id="${videoId}" 
-                             data-video-title="${encodeURIComponent(title)}"
-                             data-channel-title="${encodeURIComponent(channelTitle)}"
-                             data-thumbnail-url="${encodeURIComponent(thumbnailUrl)}">
-                            <img src="${thumbnailUrl}" alt="${title}" class="video-thumbnail">
+                        <div class="video-card glass" data-video-id="${videoId}">
+                            <img src="${thumbnailUrl}" alt="${title}" class="video-thumbnail" loading="lazy">
                             <div class="video-info">
                                 <h3 class="video-title">${title}</h3>
                                 <p class="channel-title">${channelTitle}</p>
@@ -876,7 +772,7 @@
         }
 
         // --- Modal Player Video ---
-        function openPlayer(videoId, videoDetails = {}) {
+        function openPlayer(videoId) {
             // Đảm bảo iframe cũ được xóa trước khi tạo mới
             playerContainer.innerHTML = ''; 
             
@@ -885,18 +781,15 @@
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
             iframe.setAttribute('allowfullscreen', '');
-            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-            iframe.setAttribute('title', 'YouTube video player');
-            iframe.style.borderRadius = '20px'; // Áp dụng border-radius từ CSS
+            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin'); // Thêm để tương thích tốt hơn
+            iframe.setAttribute('title', 'YouTube video player'); // Thêm title cho accessibility
+            iframe.style.borderRadius = '18px'; // Áp dụng border-radius từ CSS
 
             playerContainer.appendChild(iframe);
             currentPlayingIframe = iframe; // Lưu trữ iframe đang phát
             modal.classList.add('visible');
-
-            // Thêm vào lịch sử nếu có videoDetails
-            if (videoDetails.id) {
-                addVideoToHistory(videoDetails);
-            }
+             // Ngăn chặn cuộn body khi modal mở
+            document.body.style.overflow = 'hidden';
         }
 
         function closePlayer() {
@@ -905,13 +798,19 @@
             setTimeout(() => {
                 playerContainer.innerHTML = '';
                 currentPlayingIframe = null; // Xóa tham chiếu
-            }, 600); // Tăng thời gian chờ khớp với transition của modal
+                 // Cho phép cuộn body trở lại
+                document.body.style.overflow = '';
+            }, 400);
         }
         
         // --- Pop-up Hướng dẫn ---
         function showSwipePopup() {
+            // Xóa timeout cũ nếu có
             clearTimeout(popupTimeout);
+            
             swipePopup.classList.add('visible');
+
+            // Tự động ẩn sau 5 giây
             popupTimeout = setTimeout(() => {
                 hideSwipePopup();
             }, 5000);
@@ -925,173 +824,39 @@
         pipButton.addEventListener('click', async () => {
             if (currentPlayingIframe && document.pictureInPictureEnabled) {
                 try {
-                    // Kiểm tra xem iframe có thuộc tính requestPictureInPicture cho video element không
-                    // Hoặc là một YouTube iframe được nhúng hỗ trợ PiP
+                    // Kiểm tra xem iframe có nội dung video sẵn sàng cho PiP hay không
+                    // Điều này phức tạp với iframe YouTube, thường yêu cầu API của YouTube Player
+                    // Để đơn giản, chúng ta sẽ thử gọi requestPictureInPicture trực tiếp trên iframe.
+                    // Lưu ý: Chrome/Safari có thể cho phép PiP với iframe, Firefox thì không.
                     if (currentPlayingIframe.requestPictureInPicture) {
                         await currentPlayingIframe.requestPictureInPicture();
+                    } else if (currentPlayingIframe.contentWindow && currentPlayingIframe.contentWindow.document.querySelector('video') && currentPlayingIframe.contentWindow.document.querySelector('video').requestPictureInPicture) {
+                         // Fallback nếu iframe có video element bên trong
+                        await currentPlayingIframe.contentWindow.document.querySelector('video').requestPictureInPicture();
                     } else {
-                        showCustomAlert("Trình duyệt hoặc video không hỗ trợ chế độ Ảnh trong ảnh.");
+                        alert("Trình duyệt hoặc video không hỗ trợ chế độ Ảnh trong ảnh. Đảm bảo bạn đang sử dụng Chrome hoặc Safari.");
+                        return; // Ngăn không cho đóng modal nếu PiP không thành công
                     }
                     closePlayer(); // Đóng modal khi vào chế độ PiP
                 } catch (error) {
                     console.error("Lỗi khi vào chế độ Ảnh trong ảnh:", error);
-                    showCustomAlert("Không thể vào chế độ Ảnh trong ảnh. Vui lòng kiểm tra quyền hoặc trình duyệt của bạn.");
+                    alert("Không thể vào chế độ Ảnh trong ảnh. Vui lòng kiểm tra quyền hoặc trình duyệt của bạn.");
                 }
             } else {
-                showCustomAlert("Chế độ Ảnh trong ảnh không được hỗ trợ hoặc không có video đang phát.");
+                alert("Chế độ Ảnh trong ảnh không được hỗ trợ hoặc không có video đang phát.");
             }
         });
 
         // --- Chức năng Phát nền (Hạn chế với YouTube iframe) ---
         backgroundPlayButton.addEventListener('click', () => {
             if (currentPlayingIframe) {
-                showCustomAlert("Video sẽ tiếp tục phát trong nền nếu trình duyệt của bạn hỗ trợ. Vui lòng kiểm tra tab hoặc thoát ứng dụng.");
+                alert("Video sẽ tiếp tục phát trong nền nếu trình duyệt của bạn hỗ trợ (ví dụ: khi chuyển tab hoặc ứng dụng).");
                 modal.classList.remove('visible'); // Đóng modal, để iframe tồn tại
+                document.body.style.overflow = ''; // Cho phép cuộn body trở lại
             } else {
-                showCustomAlert("Không có video nào đang phát để phát nền.");
+                alert("Không có video nào đang phát để phát nền.");
             }
         });
-
-        // --- Custom Alert/Confirmation Modal (thay thế alert() và confirm()) ---
-        function showCustomAlert(message, type = 'alert', callback = null) {
-            let existingModal = document.getElementById('custom-dialog-modal');
-            if (existingModal) existingModal.remove();
-
-            const dialogHTML = `
-                <div id="custom-dialog-modal" class="modal">
-                    <div class="modal-content glass" style="max-width: 400px; text-align: center; padding: 30px;">
-                        <p style="font-size: 1.1rem; margin-bottom: 25px;">${message}</p>
-                        <div style="display: flex; justify-content: center; gap: 15px;">
-                            <button id="dialog-ok-btn" class="player-control-button">OK</button>
-                            ${type === 'confirm' ? '<button id="dialog-cancel-btn" class="player-control-button" style="background: #e74c3c;">Hủy</button>' : ''}
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', dialogHTML);
-
-            const dialogModal = document.getElementById('custom-dialog-modal');
-            const okBtn = document.getElementById('dialog-ok-btn');
-            const cancelBtn = document.getElementById('dialog-cancel-btn');
-
-            dialogModal.classList.add('visible');
-
-            okBtn.onclick = () => {
-                dialogModal.classList.remove('visible');
-                setTimeout(() => dialogModal.remove(), 600);
-                if (callback) callback(true);
-            };
-
-            if (cancelBtn) {
-                cancelBtn.onclick = () => {
-                    dialogModal.classList.remove('visible');
-                    setTimeout(() => dialogModal.remove(), 600);
-                    if (callback) callback(false);
-                };
-            }
-        }
-
-
-        // --- Chức năng Lịch sử xem Video ---
-        function saveHistory() {
-            localStorage.setItem('videoHistory', JSON.stringify(videoHistory));
-        }
-
-        function loadHistory() {
-            const savedHistory = localStorage.getItem('videoHistory');
-            if (savedHistory) {
-                videoHistory = JSON.parse(savedHistory);
-                renderHistory();
-            }
-        }
-
-        function addVideoToHistory(video) {
-            // Tạo đối tượng video đơn giản để lưu
-            const newVideo = {
-                id: video.id,
-                title: decodeURIComponent(video.title),
-                channelTitle: decodeURIComponent(video.channelTitle),
-                thumbnailUrl: decodeURIComponent(video.thumbnailUrl)
-            };
-
-            // Kiểm tra nếu video đã tồn tại trong lịch sử thì đưa lên đầu
-            const existingIndex = videoHistory.findIndex(item => item.id === newVideo.id);
-            if (existingIndex > -1) {
-                videoHistory.splice(existingIndex, 1); // Xóa bản cũ
-            }
-            videoHistory.unshift(newVideo); // Thêm vào đầu mảng
-
-            // Giới hạn số lượng video trong lịch sử (ví dụ: 10 video)
-            if (videoHistory.length > 10) {
-                videoHistory = videoHistory.slice(0, 10);
-            }
-            saveHistory();
-            renderHistory();
-        }
-
-        function renderHistory() {
-            historyList.innerHTML = '';
-            if (videoHistory.length === 0) {
-                historyList.innerHTML = `<p class="no-results">Lịch sử xem trống.</p>`;
-                clearHistoryButton.style.display = 'none';
-                return;
-            } else {
-                clearHistoryButton.style.display = 'flex';
-            }
-
-            videoHistory.forEach(video => {
-                const historyCardHTML = `
-                    <div class="history-card glass" data-video-id="${video.id}">
-                        <img src="${video.thumbnailUrl}" alt="${video.title}" class="video-thumbnail">
-                        <div class="video-info">
-                            <h3 class="video-title">${video.title}</h3>
-                            <p class="channel-title">${video.channelTitle}</p>
-                        </div>
-                        <button class="delete-history-item" data-video-id="${video.id}">
-                            <span class="material-icons-outlined">close</span>
-                        </button>
-                    </div>
-                `;
-                historyList.insertAdjacentHTML('beforeend', historyCardHTML);
-            });
-        }
-
-        function removeVideoFromHistory(videoId) {
-            const cardToRemove = document.querySelector(`.history-card[data-video-id="${videoId}"]`);
-            if (cardToRemove) {
-                cardToRemove.classList.add('deleting');
-                cardToRemove.addEventListener('animationend', () => {
-                    videoHistory = videoHistory.filter(video => video.id !== videoId);
-                    saveHistory();
-                    renderHistory(); // Render lại danh sách sau khi xóa
-                });
-            }
-        }
-
-        function clearAllHistory() {
-            showCustomAlert("Bạn có chắc chắn muốn xóa toàn bộ lịch sử xem?", 'confirm', (result) => {
-                if (result) {
-                    const historyCards = document.querySelectorAll('.history-card');
-                    if (historyCards.length === 0) {
-                        showCustomAlert("Lịch sử đã trống.");
-                        return;
-                    }
-
-                    let animationsCompleted = 0;
-                    historyCards.forEach(card => {
-                        card.classList.add('deleting');
-                        card.addEventListener('animationend', () => {
-                            animationsCompleted++;
-                            if (animationsCompleted === historyCards.length) {
-                                videoHistory = []; // Xóa toàn bộ
-                                saveHistory();
-                                renderHistory();
-                            }
-                        }, { once: true }); // Đảm bảo event chỉ chạy 1 lần
-                    });
-                }
-            });
-        }
 
 
         // --- Event Listeners ---
@@ -1112,39 +877,9 @@
             const card = e.target.closest('.video-card');
             if (card) {
                 const videoId = card.dataset.videoId;
-                // Truyền đầy đủ chi tiết video để lưu vào lịch sử
-                openPlayer(videoId, {
-                    id: videoId,
-                    title: card.dataset.videoTitle,
-                    channelTitle: card.dataset.channelTitle,
-                    thumbnailUrl: card.dataset.thumbnailUrl
-                });
+                openPlayer(videoId);
             }
         });
-
-        historyList.addEventListener('click', (e) => {
-            const deleteButton = e.target.closest('.delete-history-item');
-            if (deleteButton) {
-                const videoId = deleteButton.dataset.videoId;
-                removeVideoFromHistory(videoId);
-            } else {
-                const card = e.target.closest('.history-card');
-                if (card) {
-                    const videoId = card.dataset.videoId;
-                    // Khi mở từ lịch sử, không cần thêm lại vào lịch sử vì nó đã ở đó
-                    // Cần lấy lại thông tin đầy đủ nếu muốn thêm lại vào lịch sử và đưa lên đầu
-                    // Hiện tại chỉ mở player
-                    openPlayer(videoId, {
-                        id: videoId,
-                        title: card.querySelector('.video-title').textContent,
-                        channelTitle: card.querySelector('.channel-title').textContent,
-                        thumbnailUrl: card.querySelector('.video-thumbnail').src
-                    });
-                }
-            }
-        });
-
-        clearHistoryButton.addEventListener('click', clearAllHistory);
 
         closeModalBtn.addEventListener('click', closePlayer);
         modal.addEventListener('click', (e) => {
@@ -1158,7 +893,6 @@
         // --- Tải lần đầu ---
         applySavedTheme();
         getPopularVideos();
-        loadHistory(); // Tải lịch sử khi khởi động
     });
     </script>
 </body>
