@@ -62,7 +62,7 @@
                 color: var(--text-color-dark);
             }
             .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
-            .history-header, .back-to-video-btn, .nav-menu-pc, #floatingMiniPlayer, .settings-panel { /* Apply glass effect to history-header and back-to-video-btn as well */
+            .history-header, .back-to-video-btn, .nav-menu-pc { /* Apply glass effect to history-header and back-to-video-btn as well */
                 background: var(--card-background-dark), var(--glass-overlay); /* Apply overlay */
                 border: 1px solid var(--border-color-dark); /* Apply glass border */
                 backdrop-filter: blur(var(--glass-blur));
@@ -74,13 +74,13 @@
                 color: var(--text-color-dark);
                 border: none; /* No individual border, parent handles it */
             }
-            .search-clear-btn, .search-icon-btn, .settings-icon-btn {
+            .search-clear-btn, .search-icon-btn {
                 color: var(--text-color-dark);
             }
-            .nav-menu-item.active, .settings-panel label input[type="checkbox"]:checked + span {
+            .nav-menu-item.active {
                 background-color: rgb(98 149 142 / 24%);
             }
-            .history-clear-btn, .history-item button, .settings-panel button {
+            .history-clear-btn, .history-item button {
                 background-color: transparent; /* Transparent background for glass effect */
                 color: var(--text-color-dark);
                 border: 1px solid var(--border-color-dark); /* Add border */
@@ -88,8 +88,7 @@
             .nav-menu-pc .nav-menu-item:hover, .nav-menu-mobile .nav-menu-item:hover {
                 background-color: rgba(255,255,255,0.08); /* Dark hover */
             }
-            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover,
-            .settings-panel button:hover {
+            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover {
                 background-color: var(--accent-color-hover-dark);
                 color: var(--text-color-dark); /* Ensure text color is readable on hover */
             }
@@ -101,9 +100,6 @@
             .video-player-info p, .history-item .video-channel, .video-card .video-channel, .video-card .video-views-date {
                 color: #b0b0b0;
             }
-            .settings-panel label {
-                color: var(--text-color-dark);
-            }
         }
 
         /* Light Mode Preferences */
@@ -113,7 +109,7 @@
                 color: var(--text-color-light);
             }
             .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
-            .history-header, .back-to-video-btn, .nav-menu-pc, #floatingMiniPlayer, .settings-panel { /* Apply glass effect to history-header and back-to-video-btn as well */
+            .history-header, .back-to-video-btn, .nav-menu-pc { /* Apply glass effect to history-header and back-to-video-btn as well */
                 background: var(--card-background-light), var(--glass-overlay); /* Apply overlay */
                 border: 1px solid var(--border-color-light); /* Apply glass border */
                 backdrop-filter: blur(var(--glass-blur));
@@ -125,13 +121,13 @@
                 color: var(--text-color-light);
                 border: none; /* No individual border, parent handles it */
             }
-            .search-clear-btn, .search-icon-btn, .settings-icon-btn {
+            .search-clear-btn, .search-icon-btn {
                 color: var(--text-color-light);
             }
-            .nav-menu-item.active, .settings-panel label input[type="checkbox"]:checked + span {
+            .nav-menu-item.active {
                 background-color: var(--accent-color-light);
             }
-            .history-clear-btn, .history-item button, .settings-panel button {
+            .history-clear-btn, .history-item button {
                 background-color: transparent; /* Transparent background for glass effect */
                 color: var(--text-color-light); /* Changed to text-color-light for consistency */
                 border: 1px solid var(--border-color-light); /* Add border */
@@ -139,8 +135,7 @@
             .nav-menu-pc .nav-menu-item:hover, .nav-menu-mobile .nav-menu-item:hover {
                 background-color: rgba(0,0,0,0.05); /* Light hover */
             }
-            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover,
-            .settings-panel button:hover {
+            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover {
                 background-color: var(--accent-color-hover-light);
                 color: #fff; /* Ensure text color is readable on hover */
             }
@@ -150,9 +145,6 @@
                 -webkit-text-fill-color: transparent;
             }
             .intro-message {
-                color: var(--text-color-light);
-            }
-            .settings-panel label {
                 color: var(--text-color-light);
             }
         }
@@ -189,9 +181,8 @@
             z-index: 100;
         }
         .header .logo {
-            font-size: 36px; /* Larger font size */
-            font-weight: 900; /* Bolder */
-            letter-spacing: -1.5px; /* Tighter letter spacing */
+            font-size: 28px;
+            font-weight: bold;
             margin-right: auto;
             margin-left: 0;
             background: var(--logo-color-light); /* Default to light mode, overridden by media query */
@@ -232,7 +223,7 @@
         .search-container input[type="text"]:focus {
             box-shadow: none;
         }
-        .search-clear-btn, .search-icon-btn, .settings-icon-btn {
+        .search-clear-btn, .search-icon-btn {
             background: none;
             padding: 8px;
             border-radius: 50%;
@@ -256,26 +247,6 @@
             opacity: 1;
             pointer-events: auto;
             transform: scale(1);
-        }
-        .settings-icon-btn {
-            opacity: 1; /* Always visible */
-            pointer-events: auto;
-            transform: scale(1);
-            margin-left: 10px; /* Space from search container */
-            position: relative; /* For the notification dot */
-        }
-        .settings-icon-btn .notification-dot {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 8px;
-            height: 8px;
-            background-color: red;
-            border-radius: 50%;
-            display: none; /* Hidden by default */
-        }
-        .settings-icon-btn .notification-dot.visible {
-            display: block;
         }
 
         /* Main layout for PC (sidebar) */
@@ -499,13 +470,6 @@
             border-radius: var(--border-radius-large);
             overflow: hidden;
             margin-bottom: 20px;
-            /* Added for swipe gesture */
-            touch-action: pan-y; /* Allows vertical swipe */
-            position: relative;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        }
-        .video-player-container.swiping {
-             transition: none; /* Disable transition during active swipe for immediate feedback */
         }
         .video-player-container iframe {
             width: 100%;
@@ -516,9 +480,6 @@
             width: 100%;
             max-width: 900px;
             padding: 0 10px 20px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* Align text to start */
         }
         .video-player-info h2 {
             font-size: 24px;
@@ -781,210 +742,15 @@
             text-overflow: ellipsis;
         }
 
-        /* Mini Player - Upgraded for smooth dragging */
-        #floatingMiniPlayer {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 300px;
-            height: 170px;
-            z-index: 9999;
-            border-radius: var(--border-radius-medium);
-            overflow: hidden;
-            display: none; /* Hidden by default */
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Use transform for scaling */
-            transform: scale(0.8);
-            opacity: 0;
-            cursor: grab;
-            touch-action: none; /* Prevent browser gestures during drag */
+        /* Shimmer Effect (Optional) */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
-        #floatingMiniPlayer.visible {
-            display: block;
-            transform: scale(1);
-            opacity: 1;
-        }
-        #floatingMiniPlayer.dragging {
-            transition: none; /* Disable transition during drag for direct manipulation */
-        }
-        #floatingMiniPlayer iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            pointer-events: none; /* Prevent clicks on iframe during drag */
-        }
-        #floatingMiniPlayer .mini-player-controls {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            pointer-events: none;
-        }
-        #floatingMiniPlayer:hover .mini-player-controls {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        #floatingMiniPlayer .mini-player-controls button {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 5px;
-            cursor: pointer;
-            pointer-events: auto;
-        }
-        #floatingMiniPlayer .mini-player-controls button:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Settings Panel */
-        .settings-panel {
-            position: fixed;
-            top: 70px; /* Adjust based on header height */
-            right: 20px;
-            width: 300px;
-            padding: 20px;
-            border-radius: var(--border-radius-large);
-            z-index: 1001;
-            display: none; /* Hidden by default */
-            flex-direction: column;
-            gap: 15px;
-            box-shadow: var(--glass-shadow);
-            backdrop-filter: blur(var(--glass-blur));
-            -webkit-backdrop-filter: blur(var(--glass-blur));
-        }
-        .settings-panel h3 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-        }
-        .settings-panel label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 0.95em;
-            transition: color var(--transition-speed);
-        }
-        .settings-panel input[type="checkbox"] {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color-light);
-            border-radius: 5px;
-            background-color: var(--card-background-light);
-            cursor: pointer;
-            position: relative;
-            transition: all var(--transition-speed);
-        }
-        @media (prefers-color-scheme: dark) {
-            .settings-panel input[type="checkbox"] {
-                border-color: var(--border-color-dark);
-                background-color: var(--card-background-dark);
-            }
-        }
-        .settings-panel input[type="checkbox"]:checked {
-            background-color: var(--accent-color-light);
-            border-color: var(--accent-color-light);
-        }
-        @media (prefers-color-scheme: dark) {
-            .settings-panel input[type="checkbox"]:checked {
-                background-color: var(--accent-color-dark);
-                border-color: var(--accent-color-dark);
-            }
-        }
-        .settings-panel input[type="checkbox"]:checked::after {
-            content: '✔';
-            color: white;
-            font-size: 14px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        @media (prefers-color-scheme: dark) {
-            .settings-panel input[type="checkbox"]:checked::after {
-                color: var(--text-color-dark);
-            }
-        }
-        .settings-panel button {
-            margin-top: 10px;
-            padding: 10px 15px;
-            border-radius: var(--border-radius-medium);
-            background-color: transparent;
-            border: 1px solid var(--border-color-light);
-            color: var(--text-color-light);
-            font-weight: 500;
-        }
-        .settings-panel button:hover {
-            background-color: var(--accent-color-hover-light);
-            color: #fff;
-        }
-        @media (prefers-color-scheme: dark) {
-            .settings-panel button {
-                border-color: var(--border-color-dark);
-                color: var(--text-color-dark);
-            }
-            .settings-panel button:hover {
-                background-color: var(--accent-color-hover-dark);
-                color: var(--text-color-dark);
-            }
-        }
-
-        /* Theater Mode CSS */
-        body.theater-mode .main-layout {
-            flex-direction: column;
-            align-items: center;
-        }
-        body.theater-mode .nav-menu-pc,
-        body.theater-mode .nav-menu-mobile,
-        body.theater-mode .header {
-            display: none !important; /* Ẩn sidebar và header */
-        }
-        body.theater-mode .video-player-container {
-            max-width: 100vw;
-            width: 100vw;
-            height: 80vh; /* hoặc full viewport */
-            border-radius: 0;
-        }
-        body.theater-mode .video-player-page {
-            width: 100vw;
-            padding: 0;
-        }
-        body.theater-mode .video-player-info {
-            max-width: 100vw;
-            padding: 20px;
-            text-align: center;
-        }
-        .theater-mode-btn {
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 16px;
-            background-color: var(--accent-color-light);
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        @media (prefers-color-scheme: dark) {
-            .theater-mode-btn {
-                background-color: var(--accent-color-dark);
-                color: var(--text-color-dark);
-            }
+        .shimmer-effect {
+            background: linear-gradient(90deg, transparent 20%, rgba(255,255,255,0.2) 50%, transparent 80%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
         }
 
 
@@ -1014,12 +780,6 @@
                 width: 100%;
                 margin: 0;
                 border-radius: var(--border-radius-medium);
-            }
-            .settings-icon-btn {
-                position: absolute;
-                top: 15px;
-                right: 15px;
-                margin-left: 0;
             }
             .main-layout {
                 flex-direction: column;
@@ -1097,18 +857,6 @@
             .back-to-video-btn .video-title-preview {
                 max-width: 60%; /* Adjust for smaller screens */
             }
-            #floatingMiniPlayer {
-                bottom: 80px;
-                right: 10px;
-                width: 250px;
-                height: 140px;
-            }
-            .settings-panel {
-                width: calc(100% - 40px);
-                right: 20px;
-                left: 20px;
-                top: 120px; /* Below the search bar on mobile */
-            }
         }
     </style>
 </head>
@@ -1118,11 +866,10 @@
             <div class="logo">KhoaTube</div>
         </div>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm trên KhoaTube...">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm tr">
             <button id="searchClearBtn" class="search-clear-btn material-icons">close</button>
             <button id="searchIconBtn" class="search-icon-btn material-icons">search</button>
         </div>
-        <button id="settingsIconBtn" class="settings-icon-btn material-icons">settings<span class="notification-dot"></span></button>
     </div>
 
     <div class="main-layout">
@@ -1147,14 +894,13 @@
             </div>
 
             <div id="videoPlayerPage" class="video-player-page">
-                <div id="mainPlayerContainer" class="video-player-container">
+                <div class="video-player-container">
                     <iframe id="videoPlayerIframe" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
                 <div class="video-player-info">
                     <h2 id="playerVideoTitle"></h2>
                     <p id="playerVideoChannel"></p>
                     <p id="playerVideoViewsDate"></p>
-                    <button id="toggleTheaterModeBtn" class="theater-mode-btn">🎬 Chế độ xem rạp</button>
                 </div>
                 <div class="related-videos">
                     <h3>Video liên quan</h3>
@@ -1195,35 +941,10 @@
         </button>
     </div>
 
-    <div id="floatingMiniPlayer">
-        <iframe id="miniPlayerIframe" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        <div class="mini-player-controls">
-            <button id="miniPlayerPlayPauseBtn" class="material-icons">pause</button>
-            <button id="miniPlayerCloseBtn" class="material-icons">close</button>
-        </div>
-    </div>
-
-    <div id="settingsPanel" class="settings-panel">
-        <h3>KhoaTube Settings</h3>
-        <label>
-            <input type="checkbox" id="backgroundPlaybackToggle">
-            <span>Phát nhạc nền</span>
-        </label>
-        <label>
-            <input type="checkbox" id="autoplayNextVideoToggle">
-            <span>Tự động phát video tiếp theo</span>
-        </label>
-        <label>
-            <input type="checkbox" id="blockIframeAdsToggle">
-            <span>Chặn quảng cáo</span>
-        </label>
-        <button id="closeSettingsBtn">Đóng</button>
-    </div>
-
     <script>
         const API_KEYS = [
             'AIzaSyC45El3EMCPOblydSDVvLgycfWrAkoS9Ko',
-            'AIzaSyDN-6wwPIkbzsBgd0lmwY2ePCePCeORUg7ojs',
+            'AIzaSyDN-6wwPIkbzsBgd0lmwY2ePCeORUg7ojs',
             'AIzaSyDdiPKTKm60beD-KchAp-03_qdf9UnUR7M',
             'AIzaSyBelqF8Es856eH0Ufp3D6DZU88q1Ws1wK4',
             'AIzaSyC8YeO_HtkIbp1wy4kwcCozG3tlu26fcRo',
@@ -1252,7 +973,7 @@
 
         const searchInput = document.getElementById('searchInput');
         const searchClearBtn = document.getElementById('searchClearBtn');
-        const searchIconBtn = document.getElementById('searchIconBtn');
+        const searchIconBtn = document.getElementById('searchIconBtn'); // New search icon button
         const videoGrid = document.getElementById('videoGrid');
         const introMessage = document.querySelector('.intro-message');
         const loadingMore = document.getElementById('loadingMore');
@@ -1262,7 +983,6 @@
         const videoPlayerPage = document.getElementById('videoPlayerPage');
         const historyPage = document.getElementById('historyPage');
 
-        const mainPlayerContainer = document.getElementById('mainPlayerContainer');
         const videoPlayerIframe = document.getElementById('videoPlayerIframe');
         const playerVideoTitle = document.getElementById('playerVideoTitle');
         const playerVideoChannel = document.getElementById('playerVideoChannel');
@@ -1279,47 +999,10 @@
         const backToVideoBtn = document.getElementById('backToVideoBtn');
         const backToVideoTitlePreview = backToVideoBtn.querySelector('.video-title-preview');
 
-        const floatingMiniPlayer = document.getElementById('floatingMiniPlayer');
-        const miniPlayerIframe = document.getElementById('miniPlayerIframe');
-        const miniPlayerPlayPauseBtn = document.getElementById('miniPlayerPlayPauseBtn');
-        const miniPlayerCloseBtn = document.getElementById('miniPlayerCloseBtn');
-
-        const settingsIconBtn = document.getElementById('settingsIconBtn');
-        const settingsPanel = document.getElementById('settingsPanel');
-        const backgroundPlaybackToggle = document.getElementById('backgroundPlaybackToggle');
-        const autoplayNextVideoToggle = document.getElementById('autoplayNextVideoToggle');
-        const blockIframeAdsToggle = document.getElementById('blockIframeAdsToggle');
-        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
-        const settingsNotificationDot = settingsIconBtn.querySelector('.notification-dot');
-
-        const toggleTheaterModeBtn = document.getElementById('toggleTheaterModeBtn');
-
         let nextPageToken = '';
         let currentSearchQuery = '';
         let isLoading = false;
-        let lastPlayedVideo = null;
-        let currentPlayingVideoId = null;
-        let isMiniPlayerActive = false;
-        let playerCurrentTime = 0; // Unified time tracking
-
-        // --- Mini-player Dragging & Swipe Logic (Upgraded for Mobile) ---
-        let isDragging = false;
-        let startX, startY;
-        let currentX = 0, currentY = 0;
-        let lastX = 0, lastY = 0; // Store last position for transform
-        
-        // --- Main Player Swipe-to-Minimize Logic ---
-        let isSwipingPlayer = false;
-        let swipeStartY, swipeCurrentY;
-        
-        // Settings from localStorage
-        let settings = {
-            backgroundPlayback: localStorage.getItem('backgroundPlayback') !== null ? JSON.parse(localStorage.getItem('backgroundPlayback')) : true,
-            autoplayNextVideo: localStorage.getItem('autoplayNextVideo') !== null ? JSON.parse(localStorage.getItem('autoplayNextVideo')) : true,
-            blockIframeAds: localStorage.getItem('blockIframeAds') !== null ? JSON.parse(localStorage.getItem('blockIframeAds')) : true
-        };
-        let settingsDotShown = localStorage.getItem('settingsDotShown') === 'true';
-
+        let lastPlayedVideo = null; // Store information about the last played video
 
         // --- Utility Functions ---
         function formatNumber(num) {
@@ -1345,31 +1028,6 @@
             return Math.floor(seconds) + " giây trước";
         }
 
-        function saveSettings() {
-            localStorage.setItem('backgroundPlayback', JSON.stringify(settings.backgroundPlayback));
-            localStorage.setItem('autoplayNextVideo', JSON.stringify(settings.autoplayNextVideo));
-            localStorage.setItem('blockIframeAds', JSON.stringify(settings.blockIframeAds));
-            applySettings();
-        }
-
-        function applySettings() {
-            backgroundPlaybackToggle.checked = settings.backgroundPlayback;
-            autoplayNextVideoToggle.checked = settings.autoplayNextVideo;
-            blockIframeAdsToggle.checked = settings.blockIframeAds;
-        }
-
-        function showSettingsDot() {
-            if (!settingsDotShown) {
-                settingsNotificationDot.classList.add('visible');
-            }
-        }
-
-        function hideSettingsDot() {
-            settingsNotificationDot.classList.remove('visible');
-            settingsDotShown = true;
-            localStorage.setItem('settingsDotShown', 'true');
-        }
-
         // --- API Key Management ---
         async function fetchWithApiKey(url) {
             let attempt = 0;
@@ -1380,73 +1038,101 @@
                     const response = await fetch(fullUrl);
                     if (!response.ok) {
                         const errorData = await response.json();
-                        if (errorData.error && errorData.error.errors && errorData.error.errors[0].reason === 'quotaExceeded') {
+                        console.error(`API Error with key ${currentApiKeyIndex}:`, errorData);
+                        if (errorData.error.errors[0].reason === 'quotaExceeded') {
                             console.warn(`Quota exceeded for API Key ${currentApiKeyIndex}. Switching to next key.`);
                             currentApiKeyIndex = (currentApiKeyIndex + 1) % API_KEYS.length;
                             attempt++;
                             continue;
-                        } else { throw new Error(`API request failed: ${response.status} ${response.statusText}`); }
+                        } else {
+                            throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+                        }
                     }
                     return response.json();
                 } catch (error) {
                     console.error('Network or parsing error:', error);
                     currentApiKeyIndex = (currentApiKeyIndex + 1) % API_KEYS.length;
                     attempt++;
+                    if (attempt === API_KEYS.length) {
+                        alert('Tất cả các khóa API đã hết hạn hoặc gặp lỗi. Vui lòng kiểm tra lại.');
+                        throw error;
+                    }
                 }
             }
-            alert('Tất cả các khóa API đã hết hạn hoặc gặp lỗi. Vui lòng kiểm tra lại.');
             throw new Error('All API keys exhausted or failed.');
         }
 
         // --- UI Navigation ---
         function showPage(pageId) {
-            const pages = { 'home': homePage, 'videoPlayer': videoPlayerPage, 'history': historyPage };
-            Object.keys(pages).forEach(id => {
-                pages[id].style.display = (id === pageId) ? 'flex' : 'none';
-            });
-            navMenuItems.forEach(item => item.classList.toggle('active', item.dataset.page === pageId));
-            
-            introMessage.classList.toggle('hidden', !(pageId === 'home' && !currentSearchQuery && videoGrid.children.length === 0));
-            scrollToTopBtn.classList.toggle('visible', pageId === 'home' && window.scrollY > 300);
+            const pages = {
+                'home': homePage,
+                'videoPlayer': videoPlayerPage,
+                'history': historyPage
+            };
 
-            if (pageId !== 'videoPlayer' && lastPlayedVideo && currentPlayingVideoId) {
-                if (!isMiniPlayerActive) {
-                    backToVideoContainer.classList.add('visible');
-                    backToVideoTitlePreview.textContent = lastPlayedVideo.title;
+            for (let id in pages) {
+                if (id === pageId) {
+                    pages[id].style.display = 'flex';
+                } else {
+                    pages[id].style.display = 'none';
                 }
-            } else {
-                backToVideoContainer.classList.remove('visible');
             }
 
-            if (pageId !== 'videoPlayer' && currentPlayingVideoId) {
-                activateMiniPlayer();
+            navMenuItems.forEach(item => {
+                if (item.dataset.page === pageId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            if (pageId === 'home' && !currentSearchQuery && videoGrid.children.length === 0) {
+                introMessage.classList.remove('hidden');
             } else {
-                deactivateMiniPlayer();
+                introMessage.classList.add('hidden');
+            }
+
+            if (pageId !== 'home') {
+                scrollToTopBtn.classList.remove('visible');
+            }
+
+            // Manage "Back to Video" button visibility
+            if (pageId !== 'videoPlayer' && lastPlayedVideo) {
+                backToVideoContainer.classList.add('visible');
+                backToVideoTitlePreview.textContent = lastPlayedVideo.title;
+            } else {
+                backToVideoContainer.classList.remove('visible');
             }
         }
 
         navMenuItems.forEach(item => {
             item.addEventListener('click', () => {
-                if (item.dataset.page === 'history') renderHistory();
                 showPage(item.dataset.page);
+                if (item.dataset.page === 'history') {
+                    renderHistory();
+                }
+                if (videoPlayerPage.style.display === 'flex' && item.dataset.page !== 'videoPlayer') {
+                    // Only clear iframe if navigating away from video player
+                    // and not returning to the same video via "Back to Video" button
+                    if (!backToVideoBtn.classList.contains('active-restore')) { // Custom class for "restore" action
+                        videoPlayerIframe.src = '';
+                        lastPlayedVideo = null; // Clear last played if user explicitly navigates away
+                    }
+                    backToVideoBtn.classList.remove('active-restore');
+                }
             });
         });
 
         // --- Search Functionality ---
         async function performSearch() {
-            deactivateMiniPlayer();
+            if (videoPlayerPage.style.display === 'flex') {
+                videoPlayerIframe.src = '';
+                lastPlayedVideo = null; // Clear last played if user searches new video
+            }
             currentSearchQuery = searchInput.value.trim();
             showPage('home');
             searchVideos(currentSearchQuery);
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        async function searchOrPopular(query, pageToken = '', append = false) {
-             if (!query && !currentSearchQuery) {
-                fetchAndRenderPopularVideos(pageToken, append);
-            } else {
-                searchVideos(query || currentSearchQuery, pageToken, append);
-            }
         }
 
         async function searchVideos(query, pageToken = '', append = false) {
@@ -1456,19 +1142,27 @@
                 loadMoreBtn.style.display = 'none';
                 return;
             }
+            
             introMessage.classList.add('hidden');
+
             isLoading = true;
             loadingMore.style.display = 'block';
             loadMoreBtn.style.display = 'none';
 
             let url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent(query)}`;
-            if (pageToken) url += `&pageToken=${pageToken}`;
+            if (pageToken) {
+                url += `&pageToken=${pageToken}`;
+            }
 
             try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
                 renderVideos(data.items, !append);
-                loadMoreBtn.style.display = nextPageToken ? 'block' : 'none';
+                if (nextPageToken) {
+                    loadMoreBtn.style.display = 'block';
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
             } catch (error) {
                 console.error('Error fetching YouTube videos:', error);
                 loadMoreBtn.style.display = 'none';
@@ -1485,13 +1179,19 @@
             loadMoreBtn.style.display = 'none';
 
             let url = YOUTUBE_POPULAR_VIDEO_URL;
-            if (pageToken) url += `&pageToken=${pageToken}`;
+            if (pageToken) {
+                url += `&pageToken=${pageToken}`;
+            }
 
             try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
                 renderVideos(data.items, !append);
-                loadMoreBtn.style.display = nextPageToken ? 'block' : 'none';
+                if (nextPageToken) {
+                    loadMoreBtn.style.display = 'block';
+                } else {
+                    loadMoreBtn.style.display = 'none';
+                }
             } catch (error) {
                 console.error('Error fetching popular YouTube videos:', error);
                 introMessage.textContent = 'Không thể tải video phổ biến. Vui lòng thử lại sau.';
@@ -1508,10 +1208,11 @@
             const url = `${YOUTUBE_VIDEO_DETAIL_BASE_URL}part=statistics&id=${videoIds.join(',')}`;
             try {
                 const data = await fetchWithApiKey(url);
-                return data.items.reduce((acc, item) => {
-                    acc[item.id] = item.statistics;
-                    return acc;
-                }, {});
+                const details = {};
+                data.items.forEach(item => {
+                    details[item.id] = item.statistics;
+                });
+                return details;
             } catch (error) {
                 console.error('Error fetching video details:', error);
                 return {};
@@ -1519,37 +1220,54 @@
         }
 
         async function renderVideos(videos, clearExisting = true, targetGrid = videoGrid) {
-            if (clearExisting) targetGrid.innerHTML = '';
+            if (clearExisting) {
+                targetGrid.innerHTML = '';
+            }
+
             const videoIds = videos.map(video => video.id.videoId || video.id).filter(Boolean);
             const videoDetails = await fetchVideoDetails(videoIds);
 
             videos.forEach(video => {
                 const videoId = video.id.videoId || video.id;
                 if (!videoId) return;
-                const { title, channelTitle, thumbnails, publishedAt } = video.snippet;
-                const thumbnail = thumbnails?.high?.url || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
+                const title = video.snippet.title;
+                const channel = video.snippet.channelTitle;
+                const thumbnail = video.snippet.thumbnails && video.snippet.thumbnails.high ? video.snippet.thumbnails.high.url : `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+                const publishedAt = video.snippet.publishedAt;
                 const views = videoDetails[videoId] ? formatNumber(videoDetails[videoId].viewCount) : 'N/A';
                 const date = timeSince(publishedAt);
 
                 const videoCard = document.createElement('div');
-                videoCard.className = 'video-card';
+                videoCard.classList.add('video-card');
                 videoCard.dataset.videoId = videoId;
                 videoCard.innerHTML = `
                     <img src="${thumbnail}" alt="${title}">
                     <div class="video-info">
                         <div class="video-title">${title}</div>
-                        <div class="video-channel">${channelTitle}</div>
+                        <div class="video-channel">${channel}</div>
                         <div class="video-views-date">${views} lượt xem • ${date}</div>
-                    </div>`;
-                videoCard.addEventListener('click', () => playVideo(videoId, title, channelTitle, views, date));
+                    </div>
+                `;
+                videoCard.addEventListener('click', () => playVideo(videoId, title, channel, views, date));
                 targetGrid.appendChild(videoCard);
             });
         }
+
+        searchInput.addEventListener('input', () => {
+            searchClearBtn.classList.toggle('visible', searchInput.value.length > 0);
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
         
-        // --- Event Listeners for Search ---
-        searchInput.addEventListener('input', () => searchClearBtn.classList.toggle('visible', searchInput.value.length > 0));
-        searchInput.addEventListener('keypress', e => { if (e.key === 'Enter') performSearch(); });
-        searchIconBtn.addEventListener('click', performSearch);
+        searchIconBtn.addEventListener('click', () => { // Event listener for search icon button
+            performSearch();
+        });
+
         searchClearBtn.addEventListener('click', () => {
             searchInput.value = '';
             searchClearBtn.classList.remove('visible');
@@ -1559,74 +1277,89 @@
             currentSearchQuery = '';
             loadMoreBtn.style.display = 'none';
             fetchAndRenderPopularVideos();
+            
             if (videoPlayerPage.style.display === 'flex') {
+                videoPlayerIframe.src = '';
+                lastPlayedVideo = null; // Clear last played if user clears search
                 showPage('home');
-                deactivateMiniPlayer(true);
             }
         });
-        
-        loadMoreBtn.addEventListener('click', () => searchOrPopular(currentSearchQuery, nextPageToken, true));
+
+        // --- Load More Button Functionality ---
+        loadMoreBtn.addEventListener('click', () => {
+            if (currentSearchQuery) {
+                searchVideos(currentSearchQuery, nextPageToken, true);
+            } else {
+                fetchAndRenderPopularVideos(nextPageToken, true);
+            }
+        });
 
         // --- Video Playback ---
-        function playVideo(videoId, title, channel, views, date, startTime = 0) {
-            if(isMiniPlayerActive) deactivateMiniPlayer(true);
-            
-            currentPlayingVideoId = videoId;
+        function playVideo(videoId, title, channel, views, date) {
+            // Save the current video being played
             lastPlayedVideo = { videoId, title, channel, views, date };
 
             showPage('videoPlayer');
-            let iframeSrc = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&enablejsapi=1&start=${Math.floor(startTime)}&origin=${window.location.origin}`;
-            if (settings.blockIframeAds) {
-                iframeSrc += '&modestbranding=1&rel=0';
-                videoPlayerIframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-autoplay');
-            } else {
-                videoPlayerIframe.removeAttribute('sandbox');
-            }
-            videoPlayerIframe.src = iframeSrc;
-
+            videoPlayerIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             playerVideoTitle.textContent = title;
             playerVideoChannel.textContent = channel;
             playerVideoViewsDate.textContent = `${views} lượt xem • ${date}`;
-            
             addVideoToHistory({ videoId, title, channel, thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` });
-            
-            // Reset swipe transform
-            mainPlayerContainer.style.transform = '';
-            mainPlayerContainer.style.opacity = '1';
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
 
-            const relatedVideosList = Array.from(videoGrid.children)
-                .map(card => ({
+            // Collect related videos from the current grid (if available)
+            renderRelatedVideos(Array.from(videoGrid.children).map(card => {
+                return {
                     id: { videoId: card.dataset.videoId },
                     snippet: {
                         title: card.querySelector('.video-title').textContent,
                         channelTitle: card.querySelector('.video-channel').textContent,
                         thumbnails: { high: { url: card.querySelector('img').src } },
-                        publishedAt: 'N/A'
+                        publishedAt: 'N/A' // Placeholder, as full details aren't in card
                     }
-                }))
-                .filter(video => video.id.videoId !== videoId);
-            renderRelatedVideos(relatedVideosList);
+                };
+            }).filter(video => video.id.videoId !== videoId));
         }
 
         function renderRelatedVideos(videos) {
-            renderVideos(videos.slice(0, 12), true, relatedVideoGrid);
+            relatedVideoGrid.innerHTML = '';
+            const limitedVideos = videos.slice(0, 12);
+            renderVideos(limitedVideos, false, relatedVideoGrid);
         }
         
         // --- History Management ---
-        const getHistory = () => JSON.parse(localStorage.getItem('khoatube_history')) || [];
-        const saveHistory = history => localStorage.setItem('khoatube_history', JSON.stringify(history));
-        
+        function getHistory() {
+            try {
+                const history = JSON.parse(localStorage.getItem('khoatube_history')) || [];
+                return history;
+            } catch (e) {
+                console.error("Error parsing history from localStorage:", e);
+                return [];
+            }
+        }
+
+        function saveHistory(history) {
+            localStorage.setItem('khoatube_history', JSON.stringify(history));
+        }
+
         function addVideoToHistory(videoInfo) {
-            let history = getHistory().filter(item => item.videoId !== videoInfo.videoId);
+            let history = getHistory();
+            history = history.filter(item => item.videoId !== videoInfo.videoId);
             history.unshift(videoInfo);
-            if (history.length > 50) history = history.slice(0, 50);
+            if (history.length > 50) {
+                history = history.slice(0, 50);
+            }
             saveHistory(history);
         }
-        
+
         function removeHistoryItem(videoId) {
-            saveHistory(getHistory().filter(item => item.videoId !== videoId));
+            let history = getHistory();
+            history = history.filter(item => item.videoId !== videoId);
+            saveHistory(history);
             renderHistory();
         }
 
@@ -1636,7 +1369,7 @@
                 renderHistory();
             }
         }
-        
+
         function renderHistory() {
             const history = getHistory();
             historyList.innerHTML = '';
@@ -1646,296 +1379,73 @@
                 return;
             }
             clearHistoryBtn.style.display = 'flex';
+
             history.forEach(item => {
                 const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
+                historyItem.classList.add('history-item');
                 historyItem.innerHTML = `
                     <img src="${item.thumbnail}" alt="${item.title}">
                     <div class="video-info">
                         <div class="video-title">${item.title}</div>
                         <div class="video-channel">${item.channel}</div>
                     </div>
-                    <button class="remove-history-btn" data-video-id="${item.videoId}"><span class="material-icons">delete</span> Xóa</button>`;
-                historyItem.addEventListener('click', e => {
-                    if (!e.target.closest('.remove-history-btn')) {
+                    <button class="remove-history-btn" data-video-id="${item.videoId}">
+                        <span class="material-icons">delete</span> Xóa
+                    </button>
+                `;
+                historyItem.addEventListener('click', (event) => {
+                    if (!event.target.closest('.remove-history-btn')) {
                         playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A');
                     }
                 });
                 historyList.appendChild(historyItem);
             });
+
             document.querySelectorAll('.remove-history-btn').forEach(button => {
-                button.addEventListener('click', e => {
-                    removeHistoryItem(e.currentTarget.dataset.videoId);
+                button.addEventListener('click', (e) => {
+                    const videoId = e.target.dataset.videoId || e.target.closest('button').dataset.videoId;
+                    removeHistoryItem(videoId);
                 });
             });
         }
+
         clearHistoryBtn.addEventListener('click', clearAllHistory);
 
-        // --- Scroll & Back-to-Top ---
+        // --- Scroll to Top Functionality ---
         window.addEventListener('scroll', () => {
-            scrollToTopBtn.classList.toggle('visible', homePage.style.display === 'flex' && window.scrollY > 300);
-            if (videoPlayerPage.style.display === 'flex') {
-                const playerRect = mainPlayerContainer.getBoundingClientRect();
-                if (playerRect.bottom < 0 && currentPlayingVideoId && !isMiniPlayerActive) {
-                    activateMiniPlayer();
-                }
+            if (homePage.style.display === 'flex' && window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
             }
         });
-        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // --- Back to Video ---
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // --- Back to Video Functionality ---
         backToVideoBtn.addEventListener('click', () => {
             if (lastPlayedVideo) {
-                playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date, playerCurrentTime);
+                // Add a temporary class to signal that navigation is for restoring video
+                backToVideoBtn.classList.add('active-restore'); 
+                playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date);
             }
-        });
-        
-        // --- Mini-Player Functionality ---
-        function activateMiniPlayer() {
-            if (!currentPlayingVideoId || isMiniPlayerActive) return;
-
-            isMiniPlayerActive = true;
-            let iframeSrc = `https://www.youtube-nocookie.com/embed/${currentPlayingVideoId}?autoplay=1&enablejsapi=1&start=${Math.floor(playerCurrentTime)}&origin=${window.location.origin}`;
-            if (settings.blockIframeAds) {
-                 iframeSrc += '&modestbranding=1&rel=0';
-                 miniPlayerIframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-autoplay');
-            } else {
-                 miniPlayerIframe.removeAttribute('sandbox');
-            }
-            miniPlayerIframe.src = iframeSrc;
-            
-            // Set initial position if not already set by dragging
-            if (floatingMiniPlayer.style.transform === '') {
-                const rect = floatingMiniPlayer.getBoundingClientRect();
-                lastX = rect.left;
-                lastY = rect.top;
-            }
-
-            floatingMiniPlayer.classList.add('visible');
-            miniPlayerPlayPauseBtn.textContent = 'pause';
-            backToVideoContainer.classList.remove('visible');
-             // Hide main player page content to avoid confusion
-            if (videoPlayerPage.style.display === 'flex') {
-                showPage('home'); // or another suitable page
-            }
-        }
-
-        function deactivateMiniPlayer(isClosing = false) {
-            if (!isMiniPlayerActive) return;
-            
-            isMiniPlayerActive = false;
-            miniPlayerIframe.src = '';
-            floatingMiniPlayer.classList.remove('visible');
-
-            if (isClosing) {
-                currentPlayingVideoId = null;
-                lastPlayedVideo = null;
-                backToVideoContainer.classList.remove('visible');
-            } else if (lastPlayedVideo) {
-                backToVideoContainer.classList.add('visible');
-            }
-        }
-
-        miniPlayerPlayPauseBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            const playerState = miniPlayerPlayPauseBtn.textContent;
-            const command = playerState === 'pause' ? 'pauseVideo' : 'playVideo';
-            miniPlayerIframe.contentWindow.postMessage(JSON.stringify({ event: "command", func: command, args: "" }), '*');
-            miniPlayerPlayPauseBtn.textContent = playerState === 'pause' ? 'play_arrow' : 'pause';
-        });
-
-        miniPlayerCloseBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            deactivateMiniPlayer(true); // true means closing permanently
-        });
-
-        floatingMiniPlayer.addEventListener('click', e => {
-            if (isDragging || e.target.closest('.mini-player-controls button')) return;
-            if (lastPlayedVideo) {
-                playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date, playerCurrentTime);
-            }
-        });
-        
-        // --- Mini-player Dragging (Upgraded for Mobile) ---
-        function dragStart(e) {
-            e.preventDefault();
-            isDragging = true;
-            floatingMiniPlayer.classList.add('dragging');
-            floatingMiniPlayer.style.cursor = 'grabbing';
-            const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-            const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-            
-            const rect = floatingMiniPlayer.getBoundingClientRect();
-            // We use transform, so we need to calculate start based on current transform values
-            const style = window.getComputedStyle(floatingMiniPlayer);
-            const matrix = new DOMMatrixReadOnly(style.transform);
-            lastX = matrix.m41;
-            lastY = matrix.m42;
-            
-            startX = clientX - lastX;
-            startY = clientY - lastY;
-
-            document.addEventListener('mousemove', dragMove);
-            document.addEventListener('touchmove', dragMove, { passive: false });
-            document.addEventListener('mouseup', dragEnd);
-            document.addEventListener('touchend', dragEnd);
-        }
-
-        function dragMove(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-
-            currentX = clientX - startX;
-            currentY = clientY - startY;
-
-            // Boundary checks
-            const rect = floatingMiniPlayer.getBoundingClientRect();
-            currentX = Math.max(-rect.left + 10, Math.min(currentX, window.innerWidth - rect.right - 10));
-            currentY = Math.max(-rect.top + 10, Math.min(currentY, window.innerHeight - rect.bottom - 10));
-
-            floatingMiniPlayer.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
-        }
-
-        function dragEnd() {
-            if (!isDragging) return;
-            isDragging = false;
-            floatingMiniPlayer.classList.remove('dragging');
-            floatingMiniPlayer.style.cursor = 'grab';
-            document.removeEventListener('mousemove', dragMove);
-            document.removeEventListener('touchmove', dragMove);
-            document.removeEventListener('mouseup', dragEnd);
-            document.removeEventListener('touchend', dragEnd);
-        }
-
-        floatingMiniPlayer.addEventListener('mousedown', dragStart);
-        floatingMiniPlayer.addEventListener('touchstart', dragStart);
-
-        // --- Main Player Swipe-to-Minimize ---
-        function playerSwipeStart(e) {
-            if (isMiniPlayerActive) return;
-            isSwipingPlayer = true;
-            mainPlayerContainer.classList.add('swiping');
-            swipeStartY = e.touches[0].clientY;
-        }
-
-        function playerSwipeMove(e) {
-            if (!isSwipingPlayer) return;
-            swipeCurrentY = e.touches[0].clientY;
-            let diffY = swipeCurrentY - swipeStartY;
-
-            if (diffY < 0) diffY = 0; // Only allow swiping down
-
-            const scale = Math.max(0.5, 1 - (diffY / window.innerHeight));
-            const opacity = Math.max(0.5, 1 - (diffY / (window.innerHeight * 0.7)));
-
-            mainPlayerContainer.style.transform = `translateY(${diffY}px) scale(${scale})`;
-            mainPlayerContainer.style.opacity = opacity;
-        }
-
-        function playerSwipeEnd(e) {
-            if (!isSwipingPlayer) return;
-            isSwipingPlayer = false;
-            mainPlayerContainer.classList.remove('swiping');
-            
-            let diffY = swipeCurrentY - swipeStartY;
-            // If swiped down more than 1/4 of the screen height, activate mini-player
-            if (diffY > window.innerHeight / 4) {
-                 mainPlayerContainer.style.opacity = '0';
-                 activateMiniPlayer();
-            } else {
-                // Animate back to original position
-                mainPlayerContainer.style.transform = 'translateY(0) scale(1)';
-                mainPlayerContainer.style.opacity = '1';
-            }
-        }
-        
-        mainPlayerContainer.addEventListener('touchstart', playerSwipeStart, { passive: true });
-        mainPlayerContainer.addEventListener('touchmove', playerSwipeMove, { passive: false });
-        mainPlayerContainer.addEventListener('touchend', playerSwipeEnd);
-
-        // --- YouTube Iframe API Communication ---
-        window.addEventListener('message', event => {
-            if (!event.origin.startsWith('https://www.youtube-nocookie.com')) return;
-            try {
-                const data = JSON.parse(event.data);
-                if (data.event === 'infoDelivery' && data.info) {
-                     if (typeof data.info.currentTime !== 'undefined') {
-                        playerCurrentTime = data.info.currentTime;
-                    }
-                    if (typeof data.info.playerState !== 'undefined') {
-                        handlePlayerStateChange(data.info.playerState, event.source);
-                    }
-                }
-            } catch (e) { /* Ignore non-JSON messages */ }
-        });
-        
-        function handlePlayerStateChange(playerState, source) {
-             const isMainPlayer = source === videoPlayerIframe.contentWindow;
-             const isMiniPlayer = source === miniPlayerIframe.contentWindow;
-             
-             if (playerState === 0 && isMainPlayer && settings.autoplayNextVideo) { // Ended
-                playNextRelatedVideo();
-             }
-             if(isMiniPlayer){
-                miniPlayerPlayPauseBtn.textContent = playerState === 1 ? 'pause' : 'play_arrow';
-             }
-        }
-        
-        function playNextRelatedVideo() {
-            const firstRelatedVideo = relatedVideoGrid.querySelector('.video-card');
-            if (firstRelatedVideo) {
-                firstRelatedVideo.click();
-            } else {
-                showPage('home');
-                deactivateMiniPlayer(true);
-            }
-        }
-
-        // --- Polling to request time updates from players ---
-        setInterval(() => {
-            const requestTimeCommand = JSON.stringify({ event: "command", func: "getCurrentTime", args: "" });
-            if (videoPlayerPage.style.display === 'flex' && videoPlayerIframe.contentWindow) {
-                videoPlayerIframe.contentWindow.postMessage(requestTimeCommand, '*');
-            }
-            if (isMiniPlayerActive && miniPlayerIframe.contentWindow) {
-                miniPlayerIframe.contentWindow.postMessage(requestTimeCommand, '*');
-            }
-        }, 1000);
-
-        // --- Settings Panel ---
-        settingsIconBtn.addEventListener('click', () => {
-            settingsPanel.style.display = settingsPanel.style.display === 'flex' ? 'none' : 'flex';
-            if (settingsPanel.style.display === 'flex') hideSettingsDot();
-        });
-        closeSettingsBtn.addEventListener('click', () => settingsPanel.style.display = 'none');
-        
-        backgroundPlaybackToggle.addEventListener('change', e => { settings.backgroundPlayback = e.target.checked; saveSettings(); });
-        autoplayNextVideoToggle.addEventListener('change', e => { settings.autoplayNextVideo = e.target.checked; saveSettings(); });
-        blockIframeAdsToggle.addEventListener('change', e => {
-            settings.blockIframeAds = e.target.checked;
-            saveSettings();
-            if (currentPlayingVideoId && lastPlayedVideo) {
-                playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date, playerCurrentTime);
-            }
-        });
-
-        // --- Theater Mode ---
-        toggleTheaterModeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('theater-mode');
-            toggleTheaterModeBtn.textContent = document.body.classList.contains('theater-mode') ? '🚪 Thoát chế độ rạp' : '🎬 Chế độ xem rạp';
         });
 
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', () => {
-            applySettings();
             showPage('home');
-            currentSearchQuery = searchInput.value.trim();
-            searchOrPopular(currentSearchQuery);
-            showSettingsDot();
+            if (searchInput.value.trim()) {
+                 currentSearchQuery = searchInput.value.trim();
+                 searchVideos(currentSearchQuery);
+            } else {
+                fetchAndRenderPopularVideos();
+            }
         });
-
     </script>
 </body>
 </html>
