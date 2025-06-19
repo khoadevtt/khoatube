@@ -7,98 +7,154 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            --background-color-light: #f5f5f5; /* Light grey background */
+            /* Light Mode Colors */
+            --background-color-light: #f0f2f5; /* Slightly darker light grey background */
             --text-color-light: #212121; /* Dark grey text */
-            --card-background-light: #ffffff;
-            --border-color-light: #e0e0e0;
-            --accent-color-light: #6200EE; /* Deep purple for accent */
-            --accent-color-hover-light: #3700B3; /* Darker purple on hover */
+            --card-background-light: rgba(255, 255, 255, 0.25); /* Translucent white for glass effect, reduced opacity */
+            --border-color-light: rgba(224, 224, 224, 0.5); /* Lighter, more translucent border */
+            --accent-color-light: rgba(0, 122, 255, 0.8); /* iOS Blue, slightly translucent */
+            --accent-color-hover-light: rgba(0, 86, 179, 0.9); /* Darker blue on hover, more opaque */
+            --logo-color-light: linear-gradient(135deg, rgba(0, 122, 255, 0.8), rgba(0, 198, 255, 0.8)); /* iOS Gradient Blue, translucent */
 
-            --background-color-dark: #121212; /* Darker background */
+            /* Dark Mode Colors */
+            --background-color-dark: #1a1a1a; /* Darker background */
             --text-color-dark: #e0e0e0; /* Light grey text */
-            --card-background-dark: #1e1e1e;
-            --border-color-dark: #3a3a3a;
-            --accent-color-dark: #BB86FC; /* Lighter purple for dark mode */
-            --accent-color-hover-dark: #9A5AFB; /* Darker lighter purple on hover */
+            --card-background-dark: rgba(30, 30, 30, 0.25); /* Translucent dark for glass effect, reduced opacity */
+            --border-color-dark: rgba(58, 58, 58, 0.5); /* Darker, more translucent border */
+            --accent-color-dark: rgba(100, 210, 255, 0.8); /* Lighter blue for dark mode, translucent */
+            --accent-color-hover-dark: rgba(63, 179, 227, 0.9); /* Darker lighter blue on hover, more opaque */
+            --logo-color-dark: linear-gradient(135deg, rgba(100, 210, 255, 0.8), rgba(0, 191, 255, 0.8)); /* iOS Gradient Light Blue, translucent */
 
-            --border-radius-large: 20px;
-            --border-radius-medium: 12px;
+            /* Glass Effect Properties */
+            --glass-blur: 30px; /* Increased blur for more liquid feel */
+            --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.12); /* Enhanced shadow */
+            --glass-overlay: linear-gradient(120deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)); /* Overlay for light reflection */
+            --glass-border: 1px solid var(--border-color-light); /* Dynamic border based on mode */
+            --glass-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3); /* Inset shadow for light reflection */
+
+
+            /* Border Radii */
+            --border-radius-large: 30px; /* Larger border radius */
+            --border-radius-medium: 20px; /* Medium border radius */
             --border-radius-small: 8px;
-            --transition-speed: 0.3s ease-in-out;
+
+            /* Transition Speed */
+            --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
         }
 
-        /* Dark mode settings */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Base Body Styles */
+        body {
+            font-family: 'SF Pro Display', 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* Dark Mode Preferences */
         @media (prefers-color-scheme: dark) {
             body {
                 background-color: var(--background-color-dark);
                 color: var(--text-color-dark);
             }
-            .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn {
-                background-color: var(--card-background-dark);
-                border-color: var(--border-color-dark);
+            .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
+            .history-header, .back-to-video-btn, .nav-menu-pc, #floatingMiniPlayer, .settings-panel, .swipe-page .swipe-close-btn { /* Apply glass effect to history-header and back-to-video-btn as well */
+                background: var(--card-background-dark), var(--glass-overlay); /* Apply overlay */
+                border: 1px solid var(--border-color-dark); /* Apply glass border */
+                backdrop-filter: blur(var(--glass-blur));
+                -webkit-backdrop-filter: blur(var(--glass-blur));
+                box-shadow: var(--glass-shadow), var(--glass-inset-shadow); /* Apply inset shadow */
             }
             input[type="text"] {
-                background-color: #2c2c2c;
+                background-color: transparent; /* Transparent background for input */
                 color: var(--text-color-dark);
-                border-color: var(--border-color-dark);
+                border: none; /* No individual border, parent handles it */
             }
-            .search-clear-btn {
+            .search-clear-btn, .search-icon-btn, .settings-icon-btn {
                 color: var(--text-color-dark);
             }
-            .nav-menu-item.active {
-                background-color: var(--accent-color-dark);
+            .nav-menu-item.active, .settings-panel label input[type="checkbox"]:checked + span {
+                background-color: rgb(98 149 142 / 24%);
             }
-            .history-clear-btn, .history-item button, .back-to-home-btn {
-                background-color: var(--accent-color-dark);
+            .history-clear-btn, .history-item button, .settings-panel button {
+                background-color: transparent; /* Transparent background for glass effect */
                 color: var(--text-color-dark);
+                border: 1px solid var(--border-color-dark); /* Add border */
             }
             .nav-menu-pc .nav-menu-item:hover, .nav-menu-mobile .nav-menu-item:hover {
                 background-color: rgba(255,255,255,0.08); /* Dark hover */
             }
-            .history-item button:hover, .back-to-home-btn:hover, .load-more-btn:hover, .scroll-to-top-btn:hover {
+            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover,
+            .settings-panel button:hover, .swipe-page .swipe-close-btn:hover {
                 background-color: var(--accent-color-hover-dark);
+                color: var(--text-color-dark); /* Ensure text color is readable on hover */
+            }
+            .logo { /* Logo for dark mode */
+                background: var(--logo-color-dark);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .video-player-info p, .history-item .video-channel, .video-card .video-channel, .video-card .video-views-date {
+                color: #b0b0b0;
+            }
+            .settings-panel label {
+                color: var(--text-color-dark);
             }
         }
 
-        /* Light mode settings */
+        /* Light Mode Preferences */
         @media (prefers-color-scheme: light) {
             body {
                 background-color: var(--background-color-light);
                 color: var(--text-color-light);
             }
-            .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn {
-                background-color: var(--card-background-light);
-                border-color: var(--border-color-light);
+            .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
+            .history-header, .back-to-video-btn, .nav-menu-pc, #floatingMiniPlayer, .settings-panel, .swipe-page .swipe-close-btn { /* Apply glass effect to history-header and back-to-video-btn as well */
+                background: var(--card-background-light), var(--glass-overlay); /* Apply overlay */
+                border: 1px solid var(--border-color-light); /* Apply glass border */
+                backdrop-filter: blur(var(--glass-blur));
+                -webkit-backdrop-filter: blur(var(--glass-blur));
+                box-shadow: var(--glass-shadow), var(--glass-inset-shadow); /* Apply inset shadow */
             }
             input[type="text"] {
-                background-color: #ffffff;
+                background-color: transparent; /* Transparent background for input */
                 color: var(--text-color-light);
-                border-color: var(--border-color-light);
+                border: none; /* No individual border, parent handles it */
             }
-            .search-clear-btn {
+            .search-clear-btn, .search-icon-btn, .settings-icon-btn {
                 color: var(--text-color-light);
             }
-            .nav-menu-item.active {
+            .nav-menu-item.active, .settings-panel label input[type="checkbox"]:checked + span {
                 background-color: var(--accent-color-light);
             }
-            .history-clear-btn, .history-item button, .back-to-home-btn {
-                background-color: var(--accent-color-light);
-                color: #ffffff;
+            .history-clear-btn, .history-item button, .settings-panel button {
+                background-color: transparent; /* Transparent background for glass effect */
+                color: var(--text-color-light); /* Changed to text-color-light for consistency */
+                border: 1px solid var(--border-color-light); /* Add border */
             }
             .nav-menu-pc .nav-menu-item:hover, .nav-menu-mobile .nav-menu-item:hover {
                 background-color: rgba(0,0,0,0.05); /* Light hover */
             }
-            .history-item button:hover, .back-to-home-btn:hover, .load-more-btn:hover, .scroll-to-top-btn:hover {
+            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover,
+            .settings-panel button:hover, .swipe-page .swipe-close-btn:hover {
                 background-color: var(--accent-color-hover-light);
+                color: #fff; /* Ensure text color is readable on hover */
             }
-        }
-
-        body {
-            font-family: 'SF Pro Display', 'Roboto', sans-serif; /* Inspired by iOS fonts */
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
+            .logo { /* Logo for light mode */
+                background: var(--logo-color-light);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .intro-message {
+                color: var(--text-color-light);
+            }
+            .settings-panel label {
+                color: var(--text-color-light);
+            }
         }
 
         /* Global UI styles */
@@ -112,7 +168,7 @@
             border: none;
             outline: none;
             font-family: inherit;
-            transition: background-color var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
+            transition: background-color var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
         }
 
         button {
@@ -121,72 +177,62 @@
             border-radius: var(--border-radius-medium);
         }
 
-        /* Header (PC only for search) */
+        /* Header */
         .header {
             display: flex;
-            justify-content: center; /* Center the content */
+            justify-content: center;
             align-items: center;
             padding: 15px 20px;
-            border-bottom: 1px solid var(--border-color-light);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             border-radius: var(--border-radius-large);
-            margin: 10px; /* To make it float and show border-radius */
+            margin: 10px;
+            position: relative;
+            z-index: 100;
         }
         .header .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--accent-color-light);
-            margin-right: auto; /* Push logo to left, allow search to center */
+            font-size: 36px; /* Larger font size */
+            font-weight: 900; /* Bolder */
+            letter-spacing: -1.5px; /* Tighter letter spacing */
+            margin-right: auto;
             margin-left: 0;
+            background: var(--logo-color-light); /* Default to light mode, overridden by media query */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap; /* Prevent wrapping */
         }
         .header .search-container {
-            flex-grow: 0; /* Don't let search container grow excessively */
-            margin: 0 auto; /* Center the search container */
+            flex-grow: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            border-radius: var(--border-radius-large);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
-        /* Adjust for logo to be truly centered if no other elements beside search */
         .header .logo-wrapper {
             flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
-        .header .logo {
-            margin-right: 0;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .header .search-container {
-            margin-left: auto;
-            margin-right: 20px; /* Adjust as needed for alignment */
-        }
-
 
         /* Search Bar */
-        .search-container {
-            position: relative;
-            flex-grow: 1;
-            max-width: 600px;
-            margin: 0 20px;
-            border-radius: var(--border-radius-large);
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
         .search-container input[type="text"] {
             flex-grow: 1;
             padding: 12px 15px;
             border-radius: var(--border-radius-large);
             font-size: 16px;
-            background: transparent; /* Use parent's background */
-            border: 1px solid var(--border-color-light);
+            background: transparent;
+            border: none;
         }
         .search-container input[type="text"]:focus {
-            border-color: var(--accent-color-light);
-            box-shadow: 0 0 0 3px rgba(98, 0, 238, 0.2); /* Accent color shadow */
+            box-shadow: none;
         }
-        .search-clear-btn {
+        .search-clear-btn, .search-icon-btn, .settings-icon-btn {
             background: none;
             padding: 8px;
             border-radius: 50%;
@@ -195,34 +241,60 @@
             justify-content: center;
             font-size: 20px;
             margin-right: 5px;
-            opacity: 0;
+            opacity: 0; /* Hidden by default */
             pointer-events: none;
             transform: scale(0.8);
             transition: opacity var(--transition-speed), transform var(--transition-speed);
+        }
+        .search-icon-btn {
+            opacity: 1; /* Always visible */
+            pointer-events: auto;
+            transform: scale(1);
+            margin-right: 10px; /* Space from clear button */
         }
         .search-clear-btn.visible {
             opacity: 1;
             pointer-events: auto;
             transform: scale(1);
         }
+        .settings-icon-btn {
+            opacity: 1; /* Always visible */
+            pointer-events: auto;
+            transform: scale(1);
+            margin-left: 10px; /* Space from search container */
+            position: relative; /* For the notification dot */
+        }
+        .settings-icon-btn .notification-dot {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 8px;
+            height: 8px;
+            background-color: red;
+            border-radius: 50%;
+            display: none; /* Hidden by default */
+        }
+        .settings-icon-btn .notification-dot.visible {
+            display: block;
+        }
 
         /* Main layout for PC (sidebar) */
         .main-layout {
             display: flex;
-            min-height: calc(100vh - 80px); /* Adjust based on header height */
+            min-height: calc(100vh - 80px);
+            position: relative;
+            z-index: 1;
+            padding: 0 10px;
         }
 
         /* PC Sidebar Menu */
         .nav-menu-pc {
             width: 250px;
             padding: 20px;
-            border-right: 1px solid var(--border-color-light);
-            display: flex;
-            flex-direction: column;
             border-radius: var(--border-radius-large);
             margin: 10px;
-            margin-right: 0; /* Align with content */
-            align-self: flex-start; /* Stick to top */
+            margin-right: 10px;
+            align-self: flex-start;
         }
         .nav-menu-pc .nav-menu-item {
             display: flex;
@@ -231,7 +303,7 @@
             margin-bottom: 10px;
             border-radius: var(--border-radius-medium);
             cursor: pointer;
-            transition: background-color var(--transition-speed);
+            transition: all var(--transition-speed); /* Apply smoother transition */
             font-weight: 500;
         }
         .nav-menu-pc .nav-menu-item .material-icons {
@@ -239,35 +311,37 @@
             font-size: 24px;
         }
         .nav-menu-pc .nav-menu-item:hover {
-            background-color: rgba(0,0,0,0.05); /* Light hover */
+            background-color: rgba(0,0,0,0.05);
+            transform: translateY(-3px); /* Add subtle hover effect */
         }
         @media (prefers-color-scheme: dark) {
             .nav-menu-pc .nav-menu-item:hover {
-                background-color: rgba(255,255,255,0.05); /* Dark hover */
+                background-color: rgba(255,255,255,0.05);
             }
         }
         .nav-menu-pc .nav-menu-item.active {
             background-color: var(--accent-color-light);
             color: #fff;
-            box-shadow: 0 4px 8px rgba(98, 0, 238, 0.2); /* Accent color shadow */
+            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.2);
         }
         @media (prefers-color-scheme: dark) {
             .nav-menu-pc .nav-menu-item.active {
-                background-color: var(--accent-color-dark);
+                background-color: rgb(98 149 142 / 24%);
+                box-shadow: 0 4px 10px rgba(100, 210, 255, 0.2);
             }
         }
 
         /* Mobile Fixed Bottom Menu */
         .nav-menu-mobile {
-            display: none; /* Hidden by default on PC */
+            display: none;
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             width: 100%;
             padding: 10px 0;
-            border-top: 1px solid var(--border-color-light);
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+            border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             display: flex;
             justify-content: space-around;
             z-index: 1000;
@@ -276,7 +350,7 @@
             flex: 1;
             text-align: center;
             padding: 8px 0;
-            border-radius: var(--border-radius-large); /* Fully round on mobile */
+            border-radius: var(--border-radius-large);
             margin: 0 5px;
             cursor: pointer;
             transition: background-color var(--transition-speed);
@@ -298,12 +372,12 @@
             }
         }
         .nav-menu-mobile .nav-menu-item.active {
-            background-color: var(--accent-color-light);
+            background-color: rgb(98 149 142 / 24%);
             color: #fff;
         }
         @media (prefers-color-scheme: dark) {
             .nav-menu-mobile .nav-menu-item.active {
-                background-color: var(--accent-color-dark);
+                background-color: rgb(98 149 142 / 24%);
             }
         }
 
@@ -328,20 +402,14 @@
             text-align: center;
             margin-top: 50px;
             opacity: 1;
-            transition: opacity 0.5s ease-out;
-            color: var(--text-color-light);
-        }
-        @media (prefers-color-scheme: dark) {
-            .intro-message {
-                color: var(--text-color-dark);
-            }
+            transition: opacity 0.5s ease-out, margin-top 0.5s ease-out, height 0.5s ease-out;
         }
         .intro-message.hidden {
             opacity: 0;
             pointer-events: none;
-            height: 0; /* Collapse height when hidden */
-            margin-top: 0; /* Remove top margin when hidden */
-            overflow: hidden; /* Hide overflow */
+            height: 0;
+            margin-top: 0;
+            overflow: hidden;
         }
 
         .video-grid {
@@ -349,24 +417,22 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             width: 100%;
-            max-width: 1200px; /* Limit width */
+            max-width: 1200px;
             padding-top: 20px;
         }
         .video-card {
             border-radius: var(--border-radius-large);
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            border: 1px solid var(--border-color-light);
+            transition: all var(--transition-speed); /* Apply smoother transition */
         }
         .video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transform: scale(1.02) translateY(-3px); /* Scale and translateY on hover */
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
         .video-card img {
             width: 100%;
-            height: 180px; /* Fixed height for thumbnails */
+            height: 180px;
             object-fit: cover;
             display: block;
             border-top-left-radius: var(--border-radius-large);
@@ -380,7 +446,7 @@
             font-weight: 600;
             margin-bottom: 5px;
             line-height: 1.4;
-            max-height: 2.8em; /* Limit to 2 lines */
+            max-height: 2.8em;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -390,52 +456,38 @@
         .video-card .video-channel,
         .video-card .video-views-date {
             font-size: 0.9em;
-            color: #666; /* Lighter color for secondary info */
+            color: #666;
             margin-bottom: 3px;
         }
-        @media (prefers-color-scheme: dark) {
-            .video-card .video-channel,
-            .video-card .video-views-date {
-                color: #b0b0b0;
-            }
-        }
         .load-more-btn {
-            background-color: var(--card-background-light);
             color: var(--text-color-light);
-            border: 1px solid var(--border-color-light);
             padding: 12px 25px;
             border-radius: var(--border-radius-medium);
             margin-top: 30px;
             margin-bottom: 20px;
             font-size: 1.1em;
             font-weight: 500;
-            display: none; /* Hidden by default */
-            transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+            display: none;
+            transition: all var(--transition-speed); /* Apply smoother transition */
         }
         .load-more-btn:hover {
             background-color: var(--accent-color-light);
             color: #fff;
             border-color: var(--accent-color-light);
-            box-shadow: 0 4px 8px rgba(98, 0, 238, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
         }
         @media (prefers-color-scheme: dark) {
-            .load-more-btn {
-                background-color: var(--card-background-dark);
-                color: var(--text-color-dark);
-                border-color: var(--border-color-dark);
-            }
             .load-more-btn:hover {
                 background-color: var(--accent-color-dark);
                 color: var(--text-color-dark);
                 border-color: var(--accent-color-dark);
-                box-shadow: 0 4px 8px rgba(187, 134, 252, 0.2);
+                box-shadow: 0 4px 10px rgba(100, 210, 255, 0.3);
             }
         }
 
-
         /* Video Player Page */
         .video-player-page {
-            display: none; /* Hidden by default */
+            display: none;
             width: 100%;
             flex-direction: column;
             align-items: center;
@@ -443,12 +495,10 @@
         .video-player-container {
             width: 100%;
             max-width: 900px;
-            aspect-ratio: 16 / 9; /* Standard video aspect ratio */
+            aspect-ratio: 16 / 9;
             border-radius: var(--border-radius-large);
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             margin-bottom: 20px;
-            border: 1px solid var(--border-color-light);
         }
         .video-player-container iframe {
             width: 100%;
@@ -459,6 +509,9 @@
             width: 100%;
             max-width: 900px;
             padding: 0 10px 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align text to start */
         }
         .video-player-info h2 {
             font-size: 24px;
@@ -469,30 +522,6 @@
             font-size: 16px;
             color: #666;
             margin-bottom: 5px;
-        }
-        @media (prefers-color-scheme: dark) {
-            .video-player-info p {
-                color: #b0b0b0;
-            }
-        }
-        .back-to-home-btn {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background-color: var(--accent-color-light);
-            color: white;
-            padding: 10px 15px;
-            border-radius: var(--border-radius-medium);
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(98, 0, 238, 0.2);
-        }
-        @media (prefers-color-scheme: dark) {
-            .back-to-home-btn {
-                background-color: var(--accent-color-dark);
-            }
-        }
-        .back-to-home-btn:hover {
-            opacity: 0.9;
         }
         .related-videos {
             width: 100%;
@@ -511,27 +540,24 @@
 
         /* History Page */
         .history-page {
-            display: none; /* Hidden by default */
+            display: none;
             width: 100%;
             max-width: 800px;
-            margin-top: 0; /* Removed margin-top to allow header to stick to top of content area */
-            position: relative; /* Needed for sticky header containment */
-            height: 100%; /* Ensure content area takes full height for scroll */
-            overflow: hidden; /* Hide overflow to manage scrolling manually */
-            flex-direction: column; /* Ensure children stack vertically */
+            margin-top: 0;
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+            flex-direction: column;
         }
         .history-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0; /* Adjusted margin as it's part of sticky header */
-            padding: 20px 10px; /* Add padding here for spacing */
-            position: sticky; /* Make it sticky */
-            top: 0; /* Stick to the top of its parent (.history-page) */
-            z-index: 10; /* Ensure it stays above scrolling content */
-            background-color: var(--card-background-light); /* Background for sticky header */
-            border-bottom: 1px solid var(--border-color-light); /* Add a border for separation */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Optional shadow for depth */
+            margin-bottom: 0;
+            padding: 20px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
             border-top-left-radius: var(--border-radius-large);
             border-top-right-radius: var(--border-radius-large);
         }
@@ -546,31 +572,45 @@
             margin: 0;
         }
         .history-clear-btn {
-            background-color: var(--accent-color-light);
-            color: white;
+            background-color: transparent; /* Glass effect */
+            color: var(--text-color-light); /* Changed to text-color-light */
+            border: 1px solid var(--border-color-light); /* Added border */
             padding: 10px 15px;
             border-radius: var(--border-radius-medium);
             display: flex;
             align-items: center;
             gap: 5px;
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
         }
         @media (prefers-color-scheme: dark) {
             .history-clear-btn {
-                background-color: var(--accent-color-dark);
+                color: var(--text-color-dark);
+                border-color: var(--border-color-dark);
             }
         }
         .history-clear-btn:hover {
             opacity: 0.9;
+            background-color: var(--accent-color-hover-light); /* Keep accent color for hover */
+            color: #fff; /* White text on hover */
+            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+        }
+        @media (prefers-color-scheme: dark) {
+            .history-clear-btn:hover {
+                background-color: var(--accent-color-hover-dark);
+                color: var(--text-color-dark);
+                box-shadow: 0 4px 10px rgba(100, 210, 255, 0.3);
+            }
         }
 
         .history-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            padding: 15px 10px; /* Padding for the list content */
-            overflow-y: auto; /* Enable scrolling for the list */
-            flex-grow: 1; /* Allow the list to take remaining height */
-            /* Removed fixed height, let flex-grow manage it */
+            padding: 0 10px 15px 10px;
+            overflow-y: auto;
+            flex-grow: 1;
         }
         .history-item {
             display: flex;
@@ -578,13 +618,12 @@
             gap: 15px;
             padding: 15px;
             border-radius: var(--border-radius-large);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            border: 1px solid var(--border-color-light);
         }
         .history-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
         }
         .history-item img {
             width: 120px;
@@ -612,29 +651,42 @@
             font-size: 0.9em;
             color: #666;
         }
-        @media (prefers-color-scheme: dark) {
-            .history-item .video-channel {
-                color: #b0b0b0;
-            }
-        }
         .history-item button {
-            background-color: #f44336; /* Keep red for delete for visual cue */
-            color: white;
+            background-color: transparent; /* Glass effect */
+            color: var(--text-color-light); /* Changed to text-color-light */
+            border: 1px solid var(--border-color-light); /* Added border */
             padding: 8px 12px;
             border-radius: var(--border-radius-medium);
             font-size: 0.9em;
             display: flex;
             align-items: center;
             gap: 5px;
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+        @media (prefers-color-scheme: dark) {
+            .history-item button {
+                color: var(--text-color-dark);
+                border-color: var(--border-color-dark);
+            }
         }
         .history-item button:hover {
-            background-color: #d32f2f;
+            background-color: rgba(244, 67, 54, 0.8); /* Red for delete, slightly opaque */
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+        }
+        @media (prefers-color-scheme: dark) {
+            .history-item button:hover {
+                background-color: rgba(244, 67, 54, 0.8);
+                color: var(--text-color-dark);
+            }
         }
 
         /* Scroll to top button */
         .scroll-to-top-btn {
             position: fixed;
-            bottom: 90px; /* Adjust based on mobile menu */
+            bottom: 90px;
             right: 20px;
             background-color: var(--accent-color-light);
             color: white;
@@ -650,17 +702,355 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.2s ease-in-out;
             z-index: 999;
         }
         .scroll-to-top-btn.visible {
             opacity: 1;
             visibility: visible;
         }
+        .scroll-to-top-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
         @media (prefers-color-scheme: dark) {
             .scroll-to-top-btn {
                 background-color: var(--accent-color-dark);
+                color: var(--text-color-dark); /* Ensure text color is readable */
             }
+        }
+
+        /* Back to Video Button */
+        #backToVideoContainer {
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        #backToVideoContainer.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-video-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: var(--border-radius-medium);
+            color: var(--text-color-light);
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
+        }
+        .back-to-video-btn:hover {
+            background-color: var(--accent-color-light);
+            color: #fff;
+            border-color: var(--accent-color-light);
+            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+        }
+        @media (prefers-color-scheme: dark) {
+            .back-to-video-btn {
+                background-color: var(--card-background-dark);
+                color: var(--text-color-dark);
+                border-color: var(--border-color-dark);
+            }
+            .back-to-video-btn:hover {
+                background-color: var(--accent-color-dark);
+                color: var(--text-color-dark);
+                border-color: var(--accent-color-dark);
+                box-shadow: 0 4px 10px rgba(100, 210, 255, 0.3);
+            }
+        }
+        .back-to-video-btn .material-icons {
+            font-size: 20px;
+        }
+        .back-to-video-btn .video-title-preview {
+            max-width: 150px; /* Limit width for preview text */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Mini Player */
+        #floatingMiniPlayer {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 300px;
+            height: 170px;
+            z-index: 9999;
+            border-radius: var(--border-radius-medium);
+            overflow: hidden;
+            display: none; /* Hidden by default */
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, top 0.1s linear, left 0.1s linear; /* Add top/left for smooth dragging */
+            transform: scale(0.8);
+            opacity: 0;
+            cursor: grab; /* Indicate it's draggable */
+        }
+        #floatingMiniPlayer.visible {
+            display: block;
+            transform: scale(1);
+            opacity: 1;
+        }
+        #floatingMiniPlayer iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none; /* Prevent clicks on iframe during drag */
+        }
+        #floatingMiniPlayer .mini-player-controls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            pointer-events: none; /* Controls are hidden by default, not interactive */
+        }
+        #floatingMiniPlayer:hover .mini-player-controls {
+            opacity: 1;
+            pointer-events: auto; /* Make controls interactive on hover */
+        }
+        #floatingMiniPlayer .mini-player-controls button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 5px;
+            cursor: pointer;
+            pointer-events: auto; /* Ensure buttons are clickable */
+        }
+        #floatingMiniPlayer .mini-player-controls button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            position: fixed;
+            top: 70px; /* Adjust based on header height */
+            right: 20px;
+            width: 300px;
+            padding: 20px;
+            border-radius: var(--border-radius-large);
+            z-index: 1001;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+        .settings-panel h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .settings-panel label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: color var(--transition-speed);
+        }
+        .settings-panel input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color-light);
+            border-radius: 5px;
+            background-color: var(--card-background-light);
+            cursor: pointer;
+            position: relative;
+            transition: all var(--transition-speed);
+        }
+        @media (prefers-color-scheme: dark) {
+            .settings-panel input[type="checkbox"] {
+                border-color: var(--border-color-dark);
+                background-color: var(--card-background-dark);
+            }
+        }
+        .settings-panel input[type="checkbox"]:checked {
+            background-color: var(--accent-color-light);
+            border-color: var(--accent-color-light);
+        }
+        @media (prefers-color-scheme: dark) {
+            .settings-panel input[type="checkbox"]:checked {
+                background-color: var(--accent-color-dark);
+                border-color: var(--accent-color-dark);
+            }
+        }
+        .settings-panel input[type="checkbox"]:checked::after {
+            content: '✔';
+            color: white;
+            font-size: 14px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @media (prefers-color-scheme: dark) {
+            .settings-panel input[type="checkbox"]:checked::after {
+                color: var(--text-color-dark);
+            }
+        }
+        .settings-panel button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border-radius: var(--border-radius-medium);
+            background-color: transparent;
+            border: 1px solid var(--border-color-light);
+            color: var(--text-color-light);
+            font-weight: 500;
+        }
+        .settings-panel button:hover {
+            background-color: var(--accent-color-hover-light);
+            color: #fff;
+        }
+        @media (prefers-color-scheme: dark) {
+            .settings-panel button {
+                border-color: var(--border-color-dark);
+                color: var(--text-color-dark);
+            }
+            .settings-panel button:hover {
+                background-color: var(--accent-color-hover-dark);
+                color: var(--text-color-dark);
+            }
+        }
+
+        /* Theater Mode CSS */
+        body.theater-mode .main-layout {
+            flex-direction: column;
+            align-items: center;
+        }
+        body.theater-mode .nav-menu-pc,
+        body.theater-mode .nav-menu-mobile,
+        body.theater-mode .header {
+            display: none !important; /* Ẩn sidebar và header */
+        }
+        body.theater-mode .video-player-container {
+            max-width: 100vw;
+            width: 100vw;
+            height: 80vh; /* hoặc full viewport */
+            border-radius: 0;
+        }
+        body.theater-mode .video-player-page {
+            width: 100vw;
+            padding: 0;
+        }
+        body.theater-mode .video-player-info {
+            max-width: 100vw;
+            padding: 20px;
+            text-align: center;
+        }
+        .theater-mode-btn {
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+            background-color: var(--accent-color-light);
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        @media (prefers-color-scheme: dark) {
+            .theater-mode-btn {
+                background-color: var(--accent-color-dark);
+                color: var(--text-color-dark);
+            }
+        }
+
+        /* Swipe Page (TikTok-like) */
+        .swipe-page {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: black;
+            position: fixed; /* Use fixed to cover entire viewport */
+            top: 0;
+            left: 0;
+            z-index: 1000; /* Above most other content, below popups */
+        }
+        .swipe-container {
+            height: 100%;
+            width: 100%;
+            position: relative; /* Changed to relative for child positioning */
+            overflow: hidden;
+        }
+        .swipe-video-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease-out; /* Smoother transition */
+            background-color: black; /* Ensure black background during transition */
+        }
+        .swipe-video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: contain; /* Ensure video fits without cropping */
+            pointer-events: none; /* Disable interaction with iframe for swiping */
+        }
+        .swipe-video-info {
+            position: absolute;
+            bottom: 80px; /* Adjust as needed */
+            left: 20px;
+            right: 20px;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            pointer-events: none; /* Do not interfere with swiping */
+        }
+        .swipe-video-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.4em;
+            line-height: 1.2;
+        }
+        .swipe-video-info p {
+            margin: 0;
+            font-size: 1em;
+            opacity: 0.8;
+        }
+        .swipe-close-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+        .swipe-close-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
         }
 
         /* Responsive adjustments */
@@ -671,47 +1061,55 @@
                 padding: 10px 15px;
                 border-radius: 0;
                 margin: 0;
-                box-shadow: none; /* Remove shadow on mobile header */
-                border-bottom: none; /* Remove border on mobile header */
-                position: relative; /* Allow absolute positioning of logo */
+                box-shadow: none;
+                border: none;
+                position: relative;
             }
             .header .logo-wrapper {
-                width: 100%; /* Take full width */
-                justify-content: center; /* Center logo within its wrapper */
+                width: 100%;
+                justify-content: center;
                 margin-bottom: 10px;
             }
             .header .logo {
-                position: static; /* Reset position for mobile */
+                position: static;
                 transform: none;
-                margin: 0 auto 10px auto; /* Center logo and add bottom margin */
+                margin: 0 auto 10px auto;
             }
             .search-container {
                 width: 100%;
                 margin: 0;
+                border-radius: var(--border-radius-medium);
+            }
+            .settings-icon-btn {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                margin-left: 0;
             }
             .main-layout {
                 flex-direction: column;
                 min-height: auto;
+                padding: 0;
             }
             .nav-menu-pc {
-                display: none; /* Hide PC menu on mobile */
+                display: none;
             }
             .nav-menu-mobile {
-                display: flex; /* Show mobile menu */
+                display: flex;
             }
             .content {
                 padding: 15px;
-                padding-bottom: 80px; /* Space for fixed mobile menu */
+                padding-bottom: 80px;
             }
             .video-grid {
-                grid-template-columns: 1fr; /* Single column on mobile */
+                grid-template-columns: 1fr;
                 gap: 15px;
             }
             .video-card {
                 border-radius: var(--border-radius-medium);
             }
             .video-card img {
-                height: 200px; /* Slightly taller for mobile */
+                height: 200px;
                 border-top-left-radius: var(--border-radius-medium);
                 border-top-right-radius: var(--border-radius-medium);
             }
@@ -722,12 +1120,12 @@
                 max-width: 100%;
             }
             .history-header {
-                border-radius: 0; /* Remove border radius on mobile */
-                position: static; /* Make it static on mobile if fixed position causes issues */
-                padding: 15px; /* Adjust padding for mobile */
+                border-radius: 0;
+                position: sticky;
+                padding: 15px;
             }
             .history-list {
-                padding-top: 0; /* Remove top padding if header padding is enough */
+                padding-top: 0;
             }
             .history-item {
                 flex-direction: column;
@@ -748,7 +1146,36 @@
                 margin-top: 10px;
             }
             .scroll-to-top-btn {
-                bottom: 80px; /* Adjust for smaller mobile menu padding */
+                bottom: 80px;
+            }
+            #backToVideoContainer {
+                bottom: 80px;
+                left: 10px; /* Adjust position for mobile */
+                right: 10px;
+                width: auto; /* Allow content to dictate width */
+            }
+            .back-to-video-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 10px;
+            }
+            .back-to-video-btn .video-title-preview {
+                max-width: 60%; /* Adjust for smaller screens */
+            }
+            #floatingMiniPlayer {
+                bottom: 80px;
+                right: 10px;
+                width: 250px;
+                height: 140px;
+            }
+            .settings-panel {
+                width: calc(100% - 40px);
+                right: 20px;
+                left: 20px;
+                top: 120px; /* Below the search bar on mobile */
+            }
+            .swipe-video-info {
+                bottom: 100px; /* Adjust for mobile menu */
             }
         }
     </style>
@@ -759,9 +1186,11 @@
             <div class="logo">KhoaTube</div>
         </div>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm video bất kì mà không quảng cáo...">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm trên KhoaTube...">
             <button id="searchClearBtn" class="search-clear-btn material-icons">close</button>
+            <button id="searchIconBtn" class="search-icon-btn material-icons">search</button>
         </div>
+        <button id="settingsIconBtn" class="settings-icon-btn material-icons">settings<span class="notification-dot"></span></button>
     </div>
 
     <div class="main-layout">
@@ -773,6 +1202,10 @@
             <div class="nav-menu-item" data-page="history">
                 <span class="material-icons">history</span>
                 <span>Lịch sử</span>
+            </div>
+            <div class="nav-menu-item" data-page="swipe">
+                <span class="material-icons">swipe</span>
+                <span>Video lướt</span>
             </div>
         </div>
 
@@ -786,9 +1219,6 @@
             </div>
 
             <div id="videoPlayerPage" class="video-player-page">
-                <button id="backToHomeBtn" class="back-to-home-btn">
-                    <span class="material-icons">arrow_back</span> Quay lại trang chủ
-                </button>
                 <div class="video-player-container">
                     <iframe id="videoPlayerIframe" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>
@@ -796,6 +1226,7 @@
                     <h2 id="playerVideoTitle"></h2>
                     <p id="playerVideoChannel"></p>
                     <p id="playerVideoViewsDate"></p>
+                    <button id="toggleTheaterModeBtn" class="theater-mode-btn">🎬 Chế độ xem rạp</button>
                 </div>
                 <div class="related-videos">
                     <h3>Video liên quan</h3>
@@ -814,6 +1245,12 @@
                 <div id="historyList" class="history-list">
                 </div>
             </div>
+
+            <div id="swipePage" class="swipe-page">
+                <button id="swipeCloseBtn" class="swipe-close-btn material-icons">close</button>
+                <div id="swipeContainer" class="swipe-container">
+                    </div>
+            </div>
         </div>
     </div>
 
@@ -826,14 +1263,49 @@
             <span class="material-icons">history</span>
             <span>Lịch sử</span>
         </div>
+        <div class="nav-menu-item" data-page="swipe">
+            <span class="material-icons">swipe</span>
+            <span>Video lướt</span>
+        </div>
     </div>
 
     <button id="scrollToTopBtn" class="scroll-to-top-btn material-icons">arrow_upward</button>
 
+    <div id="backToVideoContainer">
+        <button id="backToVideoBtn" class="back-to-video-btn">
+            <span class="material-icons">arrow_back</span> Trở về Video cũ: <span class="video-title-preview"></span>
+        </button>
+    </div>
+
+    <div id="floatingMiniPlayer" class="video-player-container">
+        <iframe id="miniPlayerIframe" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="mini-player-controls">
+            <button id="miniPlayerPlayPauseBtn" class="material-icons">pause</button>
+            <button id="miniPlayerCloseBtn" class="material-icons">close</button>
+        </div>
+    </div>
+
+    <div id="settingsPanel" class="settings-panel">
+        <h3>KhoaTube Settings</h3>
+        <label>
+            <input type="checkbox" id="backgroundPlaybackToggle">
+            <span>Phát nhạc nền</span>
+        </label>
+        <label>
+            <input type="checkbox" id="autoplayNextVideoToggle">
+            <span>Tự động phát video tiếp theo</span>
+        </label>
+        <label>
+            <input type="checkbox" id="blockIframeAdsToggle">
+            <span>Chặn quảng cáo</span>
+        </label>
+        <button id="closeSettingsBtn">Đóng</button>
+    </div>
+
     <script>
         const API_KEYS = [
             'AIzaSyC45El3EMCPOblydSDVvLgycfWrAkoS9Ko',
-            'AIzaSyDN-6wwPIkbzsBgd0lmwY2ePCeORUg7ojs',
+            'AIzaSyDN-6wwPIkbzsBgd0lmwY2ePCePCeORUg7ojs',
             'AIzaSyDdiPKTKm60beD-KchAp-03_qdf9UnUR7M',
             'AIzaSyBelqF8Es856eH0Ufp3D6DZU88q1Ws1wK4',
             'AIzaSyC8YeO_HtkIbp1wy4kwcCozG3tlu26fcRo',
@@ -862,31 +1334,83 @@
 
         const searchInput = document.getElementById('searchInput');
         const searchClearBtn = document.getElementById('searchClearBtn');
+        const searchIconBtn = document.getElementById('searchIconBtn');
         const videoGrid = document.getElementById('videoGrid');
         const introMessage = document.querySelector('.intro-message');
         const loadingMore = document.getElementById('loadingMore');
-        const loadMoreBtn = document.getElementById('loadMoreBtn'); // New button
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
 
         const homePage = document.getElementById('homePage');
         const videoPlayerPage = document.getElementById('videoPlayerPage');
         const historyPage = document.getElementById('historyPage');
+        const swipePage = document.getElementById('swipePage'); // New: Swipe Page
 
         const videoPlayerIframe = document.getElementById('videoPlayerIframe');
         const playerVideoTitle = document.getElementById('playerVideoTitle');
         const playerVideoChannel = document.getElementById('playerVideoChannel');
         const playerVideoViewsDate = document.getElementById('playerVideoViewsDate');
-        const backToHomeBtn = document.getElementById('backToHomeBtn');
         const relatedVideoGrid = document.getElementById('relatedVideoGrid');
 
         const historyList = document.getElementById('historyList');
         const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 
         const navMenuItems = document.querySelectorAll('.nav-menu-item');
-        const scrollToTopBtn = document.getElementById('scrollToTopBtn'); // Scroll to top button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        const backToVideoContainer = document.getElementById('backToVideoContainer');
+        const backToVideoBtn = document.getElementById('backToVideoBtn');
+        const backToVideoTitlePreview = backToVideoBtn.querySelector('.video-title-preview');
+
+        const floatingMiniPlayer = document.getElementById('floatingMiniPlayer');
+        const miniPlayerIframe = document.getElementById('miniPlayerIframe');
+        const miniPlayerPlayPauseBtn = document.getElementById('miniPlayerPlayPauseBtn');
+        const miniPlayerCloseBtn = document.getElementById('miniPlayerCloseBtn');
+
+        const settingsIconBtn = document.getElementById('settingsIconBtn');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const backgroundPlaybackToggle = document.getElementById('backgroundPlaybackToggle');
+        const autoplayNextVideoToggle = document.getElementById('autoplayNextVideoToggle');
+        const blockIframeAdsToggle = document.getElementById('blockIframeAdsToggle');
+        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const settingsNotificationDot = settingsIconBtn.querySelector('.notification-dot');
+
+        // Theater mode button
+        const toggleTheaterModeBtn = document.getElementById('toggleTheaterModeBtn');
+
+        // New: Swipe to Watch elements
+        const swipeContainer = document.getElementById('swipeContainer');
+        const swipeCloseBtn = document.getElementById('swipeCloseBtn');
 
         let nextPageToken = '';
         let currentSearchQuery = '';
-        let isLoading = false; // Flag to prevent multiple calls
+        let isLoading = false;
+        let lastPlayedVideo = null; // Store information about the last played video (full details)
+        let currentPlayingVideoId = null; // Store the ID of the currently playing video
+        let isMiniPlayerActive = false;
+        let originalPlayerTime = 0; // To store playback position of the main player
+        let miniPlayerCurrentTime = 0; // To store playback position of the mini player
+
+        // Mini-player dragging variables
+        let isDraggingMiniPlayer = false;
+        let miniPlayerOffsetX, miniPlayerOffsetY;
+
+        // Swipe to Watch variables
+        let currentSwipeIndex = 0;
+        let swipeVideos = []; // Stores objects: { videoId, title, channel, views, date }
+        let swipeStartY = 0;
+        let isSwiping = false;
+        let initialTranslateY = 0;
+        let currentPopularVideosPageToken = ''; // To load more popular videos for swipe mode
+
+
+        // Settings from localStorage (default to true if not set)
+        let settings = {
+            backgroundPlayback: localStorage.getItem('backgroundPlayback') !== null ? JSON.parse(localStorage.getItem('backgroundPlayback')) : true,
+            autoplayNextVideo: localStorage.getItem('autoplayNextVideo') !== null ? JSON.parse(localStorage.getItem('autoplayNextVideo')) : true,
+            blockIframeAds: localStorage.getItem('blockIframeAds') !== null ? JSON.parse(localStorage.getItem('blockIframeAds')) : true
+        };
+        let settingsDotShown = localStorage.getItem('settingsDotShown') === 'true';
+
 
         // --- Utility Functions ---
         function formatNumber(num) {
@@ -912,6 +1436,31 @@
             return Math.floor(seconds) + " giây trước";
         }
 
+        function saveSettings() {
+            localStorage.setItem('backgroundPlayback', settings.backgroundPlayback);
+            localStorage.setItem('autoplayNextVideo', settings.autoplayNextVideo);
+            localStorage.setItem('blockIframeAds', settings.blockIframeAds);
+            applySettings();
+        }
+
+        function applySettings() {
+            backgroundPlaybackToggle.checked = settings.backgroundPlayback;
+            autoplayNextVideoToggle.checked = settings.autoplayNextVideo;
+            blockIframeAdsToggle.checked = settings.blockIframeAds;
+        }
+
+        function showSettingsDot() {
+            if (!settingsDotShown) {
+                settingsNotificationDot.classList.add('visible');
+            }
+        }
+
+        function hideSettingsDot() {
+            settingsNotificationDot.classList.remove('visible');
+            settingsDotShown = true;
+            localStorage.setItem('settingsDotShown', 'true');
+        }
+
         // --- API Key Management ---
         async function fetchWithApiKey(url) {
             let attempt = 0;
@@ -923,11 +1472,11 @@
                     if (!response.ok) {
                         const errorData = await response.json();
                         console.error(`API Error with key ${currentApiKeyIndex}:`, errorData);
-                        if (errorData.error.errors[0].reason === 'quotaExceeded') {
+                        if (errorData.error && errorData.error.errors && errorData.error.errors[0].reason === 'quotaExceeded') {
                             console.warn(`Quota exceeded for API Key ${currentApiKeyIndex}. Switching to next key.`);
                             currentApiKeyIndex = (currentApiKeyIndex + 1) % API_KEYS.length;
                             attempt++;
-                            continue; // Try with the next key
+                            continue;
                         } else {
                             throw new Error(`API request failed: ${response.status} ${response.statusText}`);
                         }
@@ -951,12 +1500,14 @@
             const pages = {
                 'home': homePage,
                 'videoPlayer': videoPlayerPage,
-                'history': historyPage
+                'history': historyPage,
+                'swipe': swipePage // New: Swipe Page
             };
 
             for (let id in pages) {
                 if (id === pageId) {
                     pages[id].style.display = 'flex';
+                    if (id === 'swipe') pages[id].style.display = 'block'; // Swipe page needs block
                 } else {
                     pages[id].style.display = 'none';
                 }
@@ -970,42 +1521,69 @@
                 }
             });
 
-            // Handle intro message visibility
             if (pageId === 'home' && !currentSearchQuery && videoGrid.children.length === 0) {
                 introMessage.classList.remove('hidden');
             } else {
                 introMessage.classList.add('hidden');
             }
 
-            // Hide scroll to top button if not on home page
             if (pageId !== 'home') {
                 scrollToTopBtn.classList.remove('visible');
+            }
+
+            // Manage "Back to Video" button visibility
+            if (pageId !== 'videoPlayer' && lastPlayedVideo && currentPlayingVideoId) {
+                // If mini-player is not active, show "back to video"
+                if (!isMiniPlayerActive) {
+                    backToVideoContainer.classList.add('visible');
+                }
+                backToVideoTitlePreview.textContent = lastPlayedVideo.title;
+            } else {
+                backToVideoContainer.classList.remove('visible');
+            }
+
+            // Manage mini-player visibility based on current page
+            if (pageId !== 'videoPlayer' && currentPlayingVideoId && pageId !== 'swipe') { // Don't show mini-player in swipe mode
+                activateMiniPlayer();
+            } else {
+                deactivateMiniPlayer();
             }
         }
 
         navMenuItems.forEach(item => {
             item.addEventListener('click', () => {
-                showPage(item.dataset.page);
                 if (item.dataset.page === 'history') {
                     renderHistory();
+                } else if (item.dataset.page === 'swipe') {
+                    deactivateMiniPlayer(); // Deactivate mini-player when going to swipe mode
+                    loadSwipeVideos();
                 }
+                showPage(item.dataset.page);
             });
         });
 
         // --- Search Functionality ---
+        async function performSearch() {
+            deactivateMiniPlayer();
+            currentSearchQuery = searchInput.value.trim();
+            showPage('home');
+            searchVideos(currentSearchQuery);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         async function searchVideos(query, pageToken = '', append = false) {
             if (!query) {
-                videoGrid.innerHTML = ''; // Clear results if query is empty
-                introMessage.classList.remove('hidden'); // Show intro message
-                loadMoreBtn.style.display = 'none'; // Hide load more button
+                videoGrid.innerHTML = '';
+                introMessage.classList.remove('hidden');
+                loadMoreBtn.style.display = 'none';
                 return;
             }
-            
-            introMessage.classList.add('hidden'); // Hide intro message on search
+
+            introMessage.classList.add('hidden');
 
             isLoading = true;
             loadingMore.style.display = 'block';
-            loadMoreBtn.style.display = 'none'; // Hide load more button during loading
+            loadMoreBtn.style.display = 'none';
 
             let url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent(query)}`;
             if (pageToken) {
@@ -1015,27 +1593,26 @@
             try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
-                renderVideos(data.items, !append); // Clear existing videos if it's a new search (not appending)
+                renderVideos(data.items, !append);
                 if (nextPageToken) {
-                    loadMoreBtn.style.display = 'block'; // Show load more button if there's a next page
+                    loadMoreBtn.style.display = 'block';
                 } else {
                     loadMoreBtn.style.display = 'none';
                 }
             } catch (error) {
                 console.error('Error fetching YouTube videos:', error);
-                loadMoreBtn.style.display = 'none'; // Hide button on error
+                loadMoreBtn.style.display = 'none';
             } finally {
                 loadingMore.style.display = 'none';
                 isLoading = false;
             }
         }
 
-        // Function to fetch and render popular videos on initial load
         async function fetchAndRenderPopularVideos(pageToken = '', append = false) {
-            introMessage.classList.add('hidden'); // Hide intro message
+            introMessage.classList.add('hidden');
             isLoading = true;
             loadingMore.style.display = 'block';
-            loadMoreBtn.style.display = 'none'; // Hide load more button during loading
+            loadMoreBtn.style.display = 'none';
 
             let url = YOUTUBE_POPULAR_VIDEO_URL;
             if (pageToken) {
@@ -1044,10 +1621,11 @@
 
             try {
                 const data = await fetchWithApiKey(url);
-                nextPageToken = data.nextPageToken || ''; // Populate nextPageToken
-                renderVideos(data.items, !append); // Clear existing and render popular videos
+                nextPageToken = data.nextPageToken || '';
+                currentPopularVideosPageToken = data.nextPageToken || ''; // Store for swipe mode
+                renderVideos(data.items, !append);
                 if (nextPageToken) {
-                    loadMoreBtn.style.display = 'block'; // Show load more button if there's a next page
+                    loadMoreBtn.style.display = 'block';
                 } else {
                     loadMoreBtn.style.display = 'none';
                 }
@@ -1055,7 +1633,7 @@
                 console.error('Error fetching popular YouTube videos:', error);
                 introMessage.textContent = 'Không thể tải video phổ biến. Vui lòng thử lại sau.';
                 introMessage.classList.remove('hidden');
-                loadMoreBtn.style.display = 'none'; // Hide button on error
+                loadMoreBtn.style.display = 'none';
             } finally {
                 loadingMore.style.display = 'none';
                 isLoading = false;
@@ -1119,15 +1697,12 @@
 
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                // If a video is currently playing, stop it before searching
-                if (videoPlayerPage.style.display === 'flex') {
-                    videoPlayerIframe.src = ''; 
-                }
-                currentSearchQuery = searchInput.value.trim();
-                showPage('home'); // Ensure we are on the home page for search results
-                searchVideos(currentSearchQuery);
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top after new search
+                performSearch();
             }
+        });
+
+        searchIconBtn.addEventListener('click', () => {
+            performSearch();
         });
 
         searchClearBtn.addEventListener('click', () => {
@@ -1135,44 +1710,58 @@
             searchClearBtn.classList.remove('visible');
             videoGrid.innerHTML = '';
             introMessage.classList.remove('hidden');
-            nextPageToken = ''; // Reset pagination
+            nextPageToken = '';
             currentSearchQuery = '';
-            loadMoreBtn.style.display = 'none'; // Hide load more button
-            fetchAndRenderPopularVideos(); // Load popular videos again after clearing search
-            
-            // If a video is currently playing, stop it when clearing search
+            loadMoreBtn.style.display = 'none';
+            fetchAndRenderPopularVideos();
+
+            deactivateMiniPlayer();
             if (videoPlayerPage.style.display === 'flex') {
                 videoPlayerIframe.src = '';
-                showPage('home'); // Go back to home page
+                lastPlayedVideo = null;
+                currentPlayingVideoId = null;
+                showPage('home');
             }
         });
-
 
         // --- Load More Button Functionality ---
         loadMoreBtn.addEventListener('click', () => {
             if (currentSearchQuery) {
-                searchVideos(currentSearchQuery, nextPageToken, true); // Append results
+                searchVideos(currentSearchQuery, nextPageToken, true);
             } else {
-                fetchAndRenderPopularVideos(nextPageToken, true); // Append popular videos
+                fetchAndRenderPopularVideos(nextPageToken, true);
             }
         });
 
         // --- Video Playback ---
-        function playVideo(videoId, title, channel, views, date) {
+        function playVideo(videoId, title, channel, views, date, startTime = 0) {
+            currentPlayingVideoId = videoId; // Set current playing video ID
+            // Save the current video being played
+            lastPlayedVideo = { videoId, title, channel, views, date };
+
             showPage('videoPlayer');
-            // Corrected YouTube embed URL format
-            videoPlayerIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            let iframeSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1&start=${startTime}`;
+            if (settings.blockIframeAds) {
+                // Using modestbranding and rel=0 to reduce related videos/branding which sometimes contain ads
+                iframeSrc += '&modestbranding=1&rel=0';
+                // Add sandbox attribute for stricter ad blocking, but might break some video functionalities
+                videoPlayerIframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
+            } else {
+                videoPlayerIframe.removeAttribute('sandbox');
+            }
+            videoPlayerIframe.src = iframeSrc;
+
             playerVideoTitle.textContent = title;
             playerVideoChannel.textContent = channel;
             playerVideoViewsDate.textContent = `${views} lượt xem • ${date}`;
             addVideoToHistory({ videoId, title, channel, thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` });
 
-            // Scroll to the top of the video player when a video starts playing
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
 
+            // Collect related videos from the current grid (if available)
             renderRelatedVideos(Array.from(videoGrid.children).map(card => {
                 return {
                     id: { videoId: card.dataset.videoId },
@@ -1180,22 +1769,19 @@
                         title: card.querySelector('.video-title').textContent,
                         channelTitle: card.querySelector('.video-channel').textContent,
                         thumbnails: { high: { url: card.querySelector('img').src } },
-                        publishedAt: 'N/A' // We don't have publishedAt in the card, so use N/A or fetch if needed
+                        publishedAt: 'N/A' // Placeholder, as full details aren't in card
                     }
                 };
             }).filter(video => video.id.videoId !== videoId));
+
+            deactivateMiniPlayer(); // Hide mini-player when full player is active
         }
 
         function renderRelatedVideos(videos) {
             relatedVideoGrid.innerHTML = '';
-            const limitedVideos = videos.slice(0, 12);
+            const limitedVideos = videos.slice(0, 12); // Limit to 12 related videos for display
             renderVideos(limitedVideos, false, relatedVideoGrid);
         }
-        
-        backToHomeBtn.addEventListener('click', () => {
-            showPage('home');
-            videoPlayerIframe.src = ''; // Stop video playback
-        });
 
         // --- History Management ---
         function getHistory() {
@@ -1259,11 +1845,11 @@
                         <span class="material-icons">delete</span> Xóa
                     </button>
                 `;
-                historyItem.querySelector('img').addEventListener('click', () => {
-                    playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A');
-                });
-                historyItem.querySelector('.video-info').addEventListener('click', () => {
-                    playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A');
+                historyItem.addEventListener('click', (event) => {
+                    if (!event.target.closest('.remove-history-btn')) {
+                        // When playing from history, we don't have views/date readily available, use N/A
+                        playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A');
+                    }
                 });
                 historyList.appendChild(historyItem);
             });
@@ -1280,10 +1866,20 @@
 
         // --- Scroll to Top Functionality ---
         window.addEventListener('scroll', () => {
-            if (homePage.style.display === 'flex' && window.scrollY > 300) { // Show button after scrolling down 300px on home page
+            if (homePage.style.display === 'flex' && window.scrollY > 300) {
                 scrollToTopBtn.classList.add('visible');
             } else {
                 scrollToTopBtn.classList.remove('visible');
+            }
+
+            // Mini-player toggle on scroll
+            if (videoPlayerPage.style.display === 'flex') {
+                const playerRect = videoPlayerContainer.getBoundingClientRect();
+                if (playerRect.bottom < 0 && currentPlayingVideoId) {
+                    activateMiniPlayer(true); // Activate if scrolled past the player
+                } else if (playerRect.bottom >= 0 && isMiniPlayerActive) {
+                    deactivateMiniPlayer(true); // Deactivate if scrolled back to player
+                }
             }
         });
 
@@ -1294,14 +1890,609 @@
             });
         });
 
+        // --- Back to Video Functionality ---
+        backToVideoBtn.addEventListener('click', () => {
+            if (lastPlayedVideo) {
+                // Restore the original video player iframe source with stored time
+                playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date, miniPlayerCurrentTime);
+            }
+        });
+
+        // --- Mini-Player Functionality ---
+        function activateMiniPlayer(fromScroll = false) {
+            if (!currentPlayingVideoId) return;
+
+            if (!isMiniPlayerActive) {
+                let iframeSrc = `https://www.youtube.com/embed/${currentPlayingVideoId}?autoplay=1&enablejsapi=1&start=${originalPlayerTime}`;
+                if (settings.blockIframeAds) {
+                    iframeSrc += '&modestbranding=1&rel=0';
+                    miniPlayerIframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation');
+                } else {
+                    miniPlayerIframe.removeAttribute('sandbox');
+                }
+
+                miniPlayerIframe.src = iframeSrc;
+                floatingMiniPlayer.classList.add('visible');
+                isMiniPlayerActive = true;
+                miniPlayerPlayPauseBtn.textContent = 'pause'; // Assume playing
+            }
+
+            // Hide the "Back to Video" button when mini-player is active
+            backToVideoContainer.classList.remove('visible');
+        }
+
+        function deactivateMiniPlayer(fromScroll = false) {
+            if (isMiniPlayerActive) {
+                // Pause mini player and store current time if not navigating back to full player
+                if (miniPlayerIframe.contentWindow && miniPlayerIframe.contentWindow.postMessage) {
+                    miniPlayerIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                    miniPlayerIframe.contentWindow.postMessage('{"event":"command","func":"getCurrentTime","args":""}', '*');
+                }
+                miniPlayerIframe.src = ''; // Clear iframe to stop playback
+                floatingMiniPlayer.classList.remove('visible');
+                isMiniPlayerActive = false;
+
+                // If mini-player is deactivated not by scrolling back to full player,
+                // and there's a last played video, show "Back to Video" button.
+                if (!fromScroll && videoPlayerPage.style.display !== 'flex' && lastPlayedVideo && swipePage.style.display === 'none') {
+                    backToVideoContainer.classList.add('visible');
+                }
+            }
+        }
+
+        miniPlayerPlayPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent clicking on the iframe behind
+            if (miniPlayerIframe.contentWindow && miniPlayerIframe.contentWindow.postMessage) {
+                if (miniPlayerPlayPauseBtn.textContent === 'pause') {
+                    miniPlayerIframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                    miniPlayerPlayPauseBtn.textContent = 'play_arrow';
+                } else {
+                    miniPlayerIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                    miniPlayerPlayPauseBtn.textContent = 'pause';
+                }
+            }
+        });
+
+        miniPlayerCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent clicking on the iframe behind
+            deactivateMiniPlayer();
+            currentPlayingVideoId = null;
+            lastPlayedVideo = null; // Clear last played if mini player is explicitly closed
+            backToVideoContainer.classList.remove('visible');
+        });
+
+        floatingMiniPlayer.addEventListener('click', (e) => {
+            // Only activate full player if not dragging or clicking controls
+            if (!isDraggingMiniPlayer && !e.target.closest('.mini-player-controls button')) {
+                if (lastPlayedVideo) {
+                    // Restore full player with the last played video and current time from mini-player
+                    playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date, miniPlayerCurrentTime);
+                }
+            }
+        });
+
+        // Mini-player dragging functionality
+        floatingMiniPlayer.addEventListener('mousedown', startDrag);
+        floatingMiniPlayer.addEventListener('touchstart', startDrag);
+
+        function startDrag(e) {
+            e.preventDefault(); // Prevent text selection etc.
+            isDraggingMiniPlayer = true;
+            floatingMiniPlayer.style.cursor = 'grabbing';
+            const rect = floatingMiniPlayer.getBoundingClientRect();
+            miniPlayerOffsetX = (e.clientX || e.touches[0].clientX) - rect.left;
+            miniPlayerOffsetY = (e.clientY || e.touches[0].clientY) - rect.top;
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false }); // Needs passive: false for preventDefault
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+
+            // Disable pointer events on iframe to allow dragging from anywhere on the mini-player
+            miniPlayerIframe.style.pointerEvents = 'none';
+        }
+
+        function drag(e) {
+            if (!isDraggingMiniPlayer) return;
+            e.preventDefault();
+
+            let clientX = e.clientX || e.touches[0].clientX;
+            let clientY = e.clientY || e.touches[0].clientY;
+
+            let newLeft = clientX - miniPlayerOffsetX;
+            let newTop = clientY - miniPlayerOffsetY;
+
+            // Boundary checks
+            const maxX = window.innerWidth - floatingMiniPlayer.offsetWidth;
+            const maxY = window.innerHeight - floatingMiniPlayer.offsetHeight;
+
+            newLeft = Math.max(0, Math.min(newLeft, maxX));
+            newTop = Math.max(0, Math.min(newTop, maxY));
+
+            floatingMiniPlayer.style.left = `${newLeft}px`;
+            floatingMiniPlayer.style.top = `${newTop}px`;
+            floatingMiniPlayer.style.right = 'auto'; // Disable right/bottom when dragging
+            floatingMiniPlayer.style.bottom = 'auto';
+        }
+
+        function endDrag() {
+            isDraggingMiniPlayer = false;
+            floatingMiniPlayer.style.cursor = 'grab';
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', endDrag);
+            document.removeEventListener('touchend', endDrag);
+
+            // Re-enable pointer events on iframe
+            miniPlayerIframe.style.pointerEvents = 'auto';
+        }
+
+
+        // Listen for messages from the YouTube iframe (for current time)
+        window.addEventListener('message', (event) => {
+            // YouTube embeds can be on different origins, e.g., https://www.youtube.com or https://www.youtube-nocookie.com
+            // For security, always check the origin.
+            const allowedOrigins = ['https://www.youtube.com', 'https://www.youtube-nocookie.com'];
+            if (!allowedOrigins.includes(event.origin) && !event.origin.includes('googleusercontent.com/youtube.com')) {
+                return;
+            }
+
+            try {
+                const data = JSON.parse(event.data);
+                if (data.event === 'infoDelivery' && data.info && typeof data.info.currentTime !== 'undefined') {
+                    if (event.source === videoPlayerIframe.contentWindow) {
+                        originalPlayerTime = data.info.currentTime;
+                    } else if (event.source === miniPlayerIframe.contentWindow) {
+                        miniPlayerCurrentTime = data.info.currentTime;
+                    }
+                }
+                if (data.event === 'infoDelivery' && data.info && typeof data.info.playerState !== 'undefined') {
+                    // Handle autoplay for next video
+                    if (event.source === videoPlayerIframe.contentWindow) { // Only main player triggers autoplay
+                        if (data.info.playerState === 0 && settings.autoplayNextVideo) { // 0 means ended
+                            playNextRelatedVideo();
+                        }
+                    }
+                    // Sync mini-player button with main player state
+                    if (event.source === videoPlayerIframe.contentWindow && videoPlayerIframe.src.includes(currentPlayingVideoId)) {
+                        if (data.info.playerState === 1) { // Playing
+                            miniPlayerPlayPauseBtn.textContent = 'pause';
+                        } else if (data.info.playerState === 2) { // Paused
+                            miniPlayerPlayPauseBtn.textContent = 'play_arrow';
+                        }
+                    } else if (event.source === miniPlayerIframe.contentWindow && miniPlayerIframe.src.includes(currentPlayingVideoId)) {
+                         if (data.info.playerState === 1) { // Playing
+                            miniPlayerPlayPauseBtn.textContent = 'pause';
+                        } else if (data.info.playerState === 2) { // Paused
+                            miniPlayerPlayPauseBtn.textContent = 'play_arrow';
+                        }
+                    }
+
+                    // For Swipe Mode: Automatically advance to next video if current ends
+                    if (swipePage.style.display === 'block') {
+                        const activeIframe = swipeContainer.querySelector(`.swipe-video-wrapper:nth-child(${currentSwipeIndex + 1}) iframe`);
+                        if (event.source === activeIframe.contentWindow) {
+                            if (data.info.playerState === 0) { // Video ended
+                                if (currentSwipeIndex < swipeVideos.length - 1) {
+                                    currentSwipeIndex++;
+                                    updateSwipePosition();
+                                    playSwipeVideo(currentSwipeIndex);
+                                } else {
+                                    // If at the end of current videos, load more popular videos
+                                    loadMorePopularVideosForSwipe();
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                // console.warn("Could not parse message from iframe:", event.data, e);
+            }
+        });
+
+        function playNextRelatedVideo() {
+            const currentVideoIndex = Array.from(relatedVideoGrid.children).findIndex(card => card.dataset.videoId === currentPlayingVideoId);
+            if (currentVideoIndex !== -1 && currentVideoIndex < relatedVideoGrid.children.length - 1) {
+                const nextVideoCard = relatedVideoGrid.children[currentVideoIndex + 1];
+                // Manually trigger the playVideo function with details from the next card
+                playVideo(
+                    nextVideoCard.dataset.videoId,
+                    nextVideoCard.querySelector('.video-title').textContent,
+                    nextVideoCard.querySelector('.video-channel').textContent,
+                    nextVideoCard.querySelector('.video-views-date').textContent.split(' ')[0], // Extract views
+                    nextVideoCard.querySelector('.video-views-date').textContent.split('• ')[1] // Extract date
+                );
+            } else {
+                // If no more related videos, load more popular videos or similar (optional)
+                // For now, just stop or go back to home
+                showPage('home');
+                deactivateMiniPlayer();
+            }
+        }
+
+        // Polling to get current time from main player to store it
+        setInterval(() => {
+            if (videoPlayerPage.style.display === 'flex' && videoPlayerIframe.contentWindow && videoPlayerIframe.contentWindow.postMessage) {
+                // The API needs a message with the command and no args for getCurrentTime
+                videoPlayerIframe.contentWindow.postMessage(JSON.stringify({
+                    "event": "command",
+                    "func": "getCurrentTime",
+                    "args": []
+                }), '*');
+            }
+            if (isMiniPlayerActive && miniPlayerIframe.contentWindow && miniPlayerIframe.contentWindow.postMessage) {
+                miniPlayerIframe.contentWindow.postMessage(JSON.stringify({
+                    "event": "command",
+                    "func": "getCurrentTime",
+                    "args": []
+                }), '*');
+            }
+        }, 1000); // Poll every second
+
+        // --- Settings Panel ---
+        settingsIconBtn.addEventListener('click', () => {
+            settingsPanel.style.display = settingsPanel.style.display === 'flex' ? 'none' : 'flex';
+            if (settingsPanel.style.display === 'flex') {
+                hideSettingsDot();
+            }
+        });
+
+        closeSettingsBtn.addEventListener('click', () => {
+            settingsPanel.style.display = 'none';
+        });
+
+        backgroundPlaybackToggle.addEventListener('change', (e) => {
+            settings.backgroundPlayback = e.target.checked;
+            saveSettings();
+            if (!settings.backgroundPlayback && isMiniPlayerActive) {
+                // If background playback is disabled and mini player is active, pause it.
+                if (miniPlayerIframe.contentWindow && miniPlayerIframe.contentWindow.postMessage) {
+                    miniPlayerIframe.contentWindow.postMessage(JSON.stringify({
+                        "event": "command",
+                        "func": "pauseVideo",
+                        "args": []
+                    }), '*');
+                    miniPlayerPlayPauseBtn.textContent = 'play_arrow';
+                }
+            }
+        });
+
+        autoplayNextVideoToggle.addEventListener('change', (e) => {
+            settings.autoplayNextVideo = e.target.checked;
+            saveSettings();
+        });
+
+        blockIframeAdsToggle.addEventListener('change', (e) => {
+            settings.blockIframeAds = e.target.checked;
+            saveSettings();
+            // Re-render current video to apply sandbox setting immediately
+            if (currentPlayingVideoId && lastPlayedVideo) {
+                playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date, originalPlayerTime);
+            }
+            // Also apply to mini-player if active
+            if (isMiniPlayerActive && currentPlayingVideoId) {
+                activateMiniPlayer(); // Re-activates with new sandbox setting
+            }
+            // Also apply to swipe videos if active
+            if (swipePage.style.display === 'block') {
+                renderSwipeVideos(); // Re-renders all swipe videos with new setting
+            }
+        });
+
+        // --- Theater Mode ---
+        toggleTheaterModeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('theater-mode');
+            if (document.body.classList.contains('theater-mode')) {
+                toggleTheaterModeBtn.textContent = '🚪 Thoát chế độ rạp';
+            } else {
+                toggleTheaterModeBtn.textContent = '🎬 Chế độ xem rạp';
+            }
+        });
+
+        // --- Swipe to Watch (TikTok-like) Functionality ---
+        async function loadSwipeVideos() {
+            swipeContainer.innerHTML = ''; // Clear existing videos
+            swipeVideos = []; // Clear array
+
+            try {
+                const data = await fetchWithApiKey(`${YOUTUBE_POPULAR_VIDEO_URL}&maxResults=20`); // Start with 20 popular videos
+                swipeVideos = data.items.map(item => ({
+                    videoId: item.id,
+                    title: item.snippet.title,
+                    channel: item.snippet.channelTitle,
+                    views: item.statistics ? formatNumber(item.statistics.viewCount) : 'N/A',
+                    date: item.snippet.publishedAt ? timeSince(item.snippet.publishedAt) : 'N/A'
+                }));
+                currentPopularVideosPageToken = data.nextPageToken || '';
+                renderSwipeVideos();
+                currentSwipeIndex = 0; // Reset to the first video
+                updateSwipePosition();
+                playSwipeVideo(currentSwipeIndex); // Start playing the first video
+            } catch (error) {
+                console.error('Error loading swipe videos:', error);
+                swipeContainer.innerHTML = '<p style="color: white; text-align: center; padding-top: 50px;">Không thể tải video khám phá. Vui lòng thử lại sau.</p>';
+            }
+        }
+
+        async function loadMorePopularVideosForSwipe() {
+            if (!currentPopularVideosPageToken) return; // No more pages
+
+            try {
+                const data = await fetchWithApiKey(`${YOUTUBE_POPULAR_VIDEO_URL}&pageToken=${currentPopularVideosPageToken}&maxResults=20`);
+                const newVideos = data.items.map(item => ({
+                    videoId: item.id,
+                    title: item.snippet.title,
+                    channel: item.snippet.channelTitle,
+                    views: item.statistics ? formatNumber(item.statistics.viewCount) : 'N/A',
+                    date: item.snippet.publishedAt ? timeSince(item.snippet.publishedAt) : 'N/A'
+                }));
+                swipeVideos = swipeVideos.concat(newVideos); // Add new videos to the list
+                currentPopularVideosPageToken = data.nextPageToken || '';
+                renderSwipeVideos(true); // Render only new videos appended
+            } catch (error) {
+                console.error('Error loading more popular videos for swipe:', error);
+            }
+        }
+
+        function renderSwipeVideos(appendOnly = false) {
+            if (!appendOnly) {
+                swipeContainer.innerHTML = '';
+            }
+
+            const startIndex = appendOnly ? swipeContainer.children.length : 0;
+
+            for (let i = startIndex; i < swipeVideos.length; i++) {
+                const video = swipeVideos[i];
+                const videoWrapper = document.createElement('div');
+                videoWrapper.classList.add('swipe-video-wrapper');
+                videoWrapper.style.transform = `translateY(${i * 100}%)`;
+                videoWrapper.dataset.videoId = video.videoId;
+
+                let iframeSrc = `https://www.youtube.com/embed/${video.videoId}?autoplay=1&mute=1&controls=0&enablejsapi=1`;
+                if (settings.blockIframeAds) {
+                    iframeSrc += '&modestbranding=1&rel=0';
+                }
+
+                videoWrapper.innerHTML = `
+                    <iframe src="${iframeSrc}" frameborder="0" allow="autoplay; encrypted-media;" allowfullscreen
+                    ${settings.blockIframeAds ? 'sandbox="allow-scripts allow-same-origin allow-presentation"' : ''}></iframe>
+                    <div class="swipe-video-info">
+                        <h3>${video.title}</h3>
+                        <p>${video.channel}</p>
+                    </div>
+                `;
+                swipeContainer.appendChild(videoWrapper);
+            }
+            updateSwipePosition(); // Ensure all videos are correctly positioned
+        }
+
+
+        function updateSwipePosition() {
+            const iframes = swipeContainer.querySelectorAll('.swipe-video-wrapper');
+            iframes.forEach((wrapper, index) => {
+                wrapper.style.transform = `translateY(${(index - currentSwipeIndex) * 100}%)`;
+            });
+            // Stop previous video and play current one
+            playSwipeVideo(currentSwipeIndex);
+            if (currentSwipeIndex === swipeVideos.length - 1 && currentPopularVideosPageToken) {
+                loadMorePopularVideosForSwipe(); // Load more when approaching the end
+            }
+        }
+
+        function playSwipeVideo(index) {
+            // Pause all videos except the current one
+            swipeContainer.querySelectorAll('iframe').forEach((iframe, idx) => {
+                if (iframe.contentWindow && iframe.contentWindow.postMessage) {
+                    if (idx === index) {
+                        iframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "playVideo", "args": [] }), '*');
+                        iframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "unMute", "args": [] }), '*'); // Unmute current
+                    } else {
+                        iframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "pauseVideo", "args": [] }), '*');
+                        iframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "mute", "args": [] }), '*'); // Mute others
+                    }
+                }
+            });
+        }
+
+
+        // Touch swipe for Mobile
+        swipePage.addEventListener('touchstart', e => {
+            if (e.touches.length === 1) {
+                isSwiping = true;
+                swipeStartY = e.touches[0].clientY;
+                initialTranslateY = parseFloat(swipeContainer.querySelector(`.swipe-video-wrapper:nth-child(${currentSwipeIndex + 1})`).style.transform.replace('translateY(', '').replace('%)', ''));
+                swipeContainer.style.transition = 'none'; // Disable transition during drag
+            }
+        }, { passive: false }); // Needs passive: false for preventDefault
+
+        swipePage.addEventListener('touchmove', e => {
+            if (!isSwiping) return;
+            e.preventDefault(); // Prevent page scrolling
+            const currentY = e.touches[0].clientY;
+            const diffY = currentY - swipeStartY;
+            const percentageMoved = (diffY / window.innerHeight) * 100;
+
+            const iframes = swipeContainer.querySelectorAll('.swipe-video-wrapper');
+            iframes.forEach((wrapper, index) => {
+                // Apply the drag amount relative to their current position
+                wrapper.style.transform = `translateY(${((index - currentSwipeIndex) * 100) + percentageMoved}%)`;
+            });
+        }, { passive: false });
+
+        swipePage.addEventListener('touchend', e => {
+            if (!isSwiping) return;
+            isSwiping = false;
+            swipeContainer.style.transition = 'transform 0.3s ease-out'; // Re-enable transition
+
+            const endY = e.changedTouches[0].clientY;
+            const diffY = endY - swipeStartY;
+
+            // Define a threshold for a successful swipe (e.g., 20% of screen height)
+            const swipeThreshold = window.innerHeight * 0.2;
+
+            if (Math.abs(diffY) > swipeThreshold) {
+                if (diffY < 0 && currentSwipeIndex < swipeVideos.length - 1) {
+                    // Swiped up, go to next video
+                    currentSwipeIndex++;
+                } else if (diffY > 0 && currentSwipeIndex > 0) {
+                    // Swiped down, go to previous video
+                    currentSwipeIndex--;
+                }
+            }
+            updateSwipePosition();
+        });
+
+        // Mouse swipe for PC
+        let mouseStartY = 0;
+        let isMouseDown = false;
+
+        swipePage.addEventListener('mousedown', e => {
+            if (e.button === 0) { // Left click
+                isMouseDown = true;
+                mouseStartY = e.clientY;
+                initialTranslateY = parseFloat(swipeContainer.querySelector(`.swipe-video-wrapper:nth-child(${currentSwipeIndex + 1})`).style.transform.replace('translateY(', '').replace('%)', ''));
+                swipeContainer.style.transition = 'none';
+            }
+        });
+
+        swipePage.addEventListener('mousemove', e => {
+            if (!isMouseDown) return;
+            e.preventDefault(); // Prevent text selection
+            const currentY = e.clientY;
+            const diffY = currentY - mouseStartY;
+            const percentageMoved = (diffY / window.innerHeight) * 100;
+
+            const iframes = swipeContainer.querySelectorAll('.swipe-video-wrapper');
+            iframes.forEach((wrapper, index) => {
+                wrapper.style.transform = `translateY(${((index - currentSwipeIndex) * 100) + percentageMoved}%)`;
+            });
+        });
+
+        swipePage.addEventListener('mouseup', e => {
+            if (!isMouseDown) return;
+            isMouseDown = false;
+            swipeContainer.style.transition = 'transform 0.3s ease-out';
+
+            const endY = e.clientY;
+            const diffY = endY - mouseStartY;
+            const swipeThreshold = window.innerHeight * 0.2;
+
+            if (Math.abs(diffY) > swipeThreshold) {
+                if (diffY < 0 && currentSwipeIndex < swipeVideos.length - 1) {
+                    currentSwipeIndex++;
+                } else if (diffY > 0 && currentSwipeIndex > 0) {
+                    currentSwipeIndex--;
+                }
+            }
+            updateSwipePosition();
+        });
+
+        swipePage.addEventListener('mouseleave', () => {
+            if (isMouseDown) { // If mouse leaves while dragging, treat as endDrag
+                isMouseDown = false;
+                swipeContainer.style.transition = 'transform 0.3s ease-out';
+                updateSwipePosition(); // Snap back or to new position
+            }
+        });
+
+
+        swipeCloseBtn.addEventListener('click', () => {
+            swipeContainer.querySelectorAll('iframe').forEach(iframe => {
+                if (iframe.contentWindow && iframe.contentWindow.postMessage) {
+                    iframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "pauseVideo", "args": [] }), '*');
+                    iframe.src = ''; // Stop video playback
+                }
+            });
+            showPage('home'); // Go back to home page
+        });
+
+
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', () => {
+            applySettings(); // Apply saved settings on load
             showPage('home');
             if (searchInput.value.trim()) {
                  currentSearchQuery = searchInput.value.trim();
                  searchVideos(currentSearchQuery);
             } else {
                 fetchAndRenderPopularVideos();
+            }
+            showSettingsDot(); // Show the notification dot on load
+
+            // Preload swipe videos if possible (optional, might consume more data/quota)
+            // loadSwipeVideos();
+        });
+
+        // Prevent background playback for main iframe when user navigates away or closes screen
+        document.addEventListener('visibilitychange', () => {
+            if (!settings.backgroundPlayback && videoPlayerPage.style.display === 'flex') {
+                if (document.hidden) {
+                    if (videoPlayerIframe.contentWindow && videoPlayerIframe.contentWindow.postMessage) {
+                        videoPlayerIframe.contentWindow.postMessage(JSON.stringify({
+                            "event": "command",
+                            "func": "pauseVideo",
+                            "args": []
+                        }), '*');
+                    }
+                } else {
+                    // You might choose to resume playback here, or let the user manually resume
+                    // videoPlayerIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                }
+            } else if (settings.backgroundPlayback && isMiniPlayerActive) {
+                 // For mini-player, we want it to keep playing if background playback is enabled
+                 if (document.hidden) {
+                     // No action needed, iframe handles it
+                 } else {
+                     // No action needed
+                 }
+            }
+
+            // Handle swipe page visibility for pausing/playing
+            if (swipePage.style.display === 'block') {
+                const currentIframe = swipeContainer.querySelector(`.swipe-video-wrapper:nth-child(${currentSwipeIndex + 1}) iframe`);
+                if (currentIframe && currentIframe.contentWindow && currentIframe.contentWindow.postMessage) {
+                    if (document.hidden) {
+                        currentIframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "pauseVideo", "args": [] }), '*');
+                    } else {
+                        // Resume playing if returning to visible state, or if background playback is enabled
+                        if (settings.backgroundPlayback || !document.hidden) {
+                             currentIframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "playVideo", "args": [] }), '*');
+                        }
+                    }
+                }
+            }
+        });
+
+        // Handle page unload/close for background playback
+        window.addEventListener('beforeunload', () => {
+            if (settings.backgroundPlayback && currentPlayingVideoId) {
+                // On some browsers, iframes might continue playing.
+                // For more robust background playback, a dedicated AudioContext might be needed
+                // or using a service worker, which is beyond simple HTML/JS.
+                // The current implementation relies on YouTube's iframe autoplay in background tabs,
+                // which is not guaranteed on all mobile browsers or power-saving modes.
+            } else {
+                // If background playback is not enabled, ensure videos are paused/stopped on unload
+                if (videoPlayerIframe.contentWindow && videoPlayerIframe.contentWindow.postMessage) {
+                    videoPlayerIframe.contentWindow.postMessage(JSON.stringify({
+                        "event": "command",
+                        "func": "pauseVideo",
+                        "args": []
+                    }), '*');
+                }
+                if (miniPlayerIframe.contentWindow && miniPlayerIframe.contentWindow.postMessage) {
+                    miniPlayerIframe.contentWindow.postMessage(JSON.stringify({
+                        "event": "command",
+                        "func": "pauseVideo",
+                        "args": []
+                    }), '*');
+                }
+                 // Pause all swipe videos on unload
+                swipeContainer.querySelectorAll('iframe').forEach(iframe => {
+                    if (iframe.contentWindow && iframe.contentWindow.postMessage) {
+                        iframe.contentWindow.postMessage(JSON.stringify({ "event": "command", "func": "pauseVideo", "args": [] }), '*');
+                    }
+                });
             }
         });
     </script>
