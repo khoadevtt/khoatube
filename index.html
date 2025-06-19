@@ -701,7 +701,7 @@
             position: fixed;
             bottom: 90px;
             right: 20px;
-            background-color: var(--accent-color-light);
+            /* background-color: var(--accent-color-light); */
             color: white;
             border: none;
             border-radius: 50%;
@@ -715,6 +715,12 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             transition: transform 0.2s ease-in-out; /* Removed opacity/visibility from transition */
             z-index: 999;
+            background: var(--card-background-light), var(--glass-overlay); /* Apply overlay */
+            border: 1px solid var(--border-color-light); /* Apply glass border */
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            box-shadow: var(--glass-shadow), var(--glass-inset-shadow); /* Apply inset shadow */
+            color: var(--text-color-light);
         }
         .scroll-to-top-btn.visible {
             display: flex; /* Changed from opacity/visibility to display: flex */
@@ -725,7 +731,8 @@
         }
         @media (prefers-color-scheme: dark) {
             .scroll-to-top-btn {
-                background-color: var(--accent-color-dark);
+                background: var(--card-background-dark), var(--glass-overlay);
+                border-color: var(--border-color-dark);
                 color: var(--text-color-dark); /* Ensure text color is readable */
             }
         }
@@ -1076,15 +1083,21 @@
                 <span class="material-icons">history</span>
                 <span>Lịch sử</span>
             </div>
+            <div class="nav-menu-item" data-page="credits">
+                <span class="material-icons">info</span>
+                <span>Credits</span>
+            </div>
         </div>
 
         <div class="content">
             <div id="homePage" class="home-page">
                 <div class="intro-message">Tìm kiếm video bất kì mà không quảng cáo.</div>
+
                 <div class="featured-section">
-                  <h2 class="section-title">🔥 Video nổi bật</h2>
-                  <div id="featuredSlider" class="video-slider"></div>
+                  <h2 class="section-title">✨ Video nổi bật</h2>
+                  <div id="featuredVideoSlider" class="video-slider"></div>
                 </div>
+
                 <div class="popular-section">
                   <h2 class="section-title">📈 Video phổ biến</h2>
                   <div id="videoGrid" class="video-grid"></div>
@@ -1102,13 +1115,7 @@
                     <p id="playerVideoViewsDate"></p>
                 </div>
                 <div id="playerControls" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; justify-content: center;">
-                    <label class="glass-toggle">
-                        <input type="checkbox" id="audioOnlyCheckbox">
-                        <span class="slider"></span>
-                        Phát nhạc nền
-                    </label>
                 </div>
-                <div class="scroll-down-message">Kéo xuống dưới để xem thêm Video</div>
                 <div class="related-videos">
                     <h3>Video liên quan</h3>
                     <div id="relatedVideoGrid" class="video-grid related-video-list">
@@ -1222,14 +1229,14 @@
         const searchClearBtn = document.getElementById('searchClearBtn');
         const searchIconBtn = document.getElementById('searchIconBtn');
         const videoGrid = document.getElementById('videoGrid');
-        const featuredSlider = document.getElementById('featuredSlider');
+        const featuredVideoSlider = document.getElementById('featuredVideoSlider'); // New element
         const introMessage = document.querySelector('.intro-message');
         const loadingIndicator = document.getElementById('loadingIndicator');
 
         const homePage = document.getElementById('homePage');
         const videoPlayerPage = document.getElementById('videoPlayerPage');
         const historyPage = document.getElementById('historyPage');
-        const creditsPage = document.getElementById('creditsPage'); // Added Credits Page
+        const creditsPage = document.getElementById('creditsPage');
 
         const playerVideoTitle = document.getElementById('playerVideoTitle');
         const playerVideoChannel = document.getElementById('playerVideoChannel');
@@ -1248,7 +1255,6 @@
         const backToVideoBtn = document.getElementById('backToVideoBtn');
         const backToVideoTitlePreview = backToVideoBtn.querySelector('.video-title-preview');
 
-        const audioOnlyCheckbox = document.getElementById('audioOnlyCheckbox');
         const videoPlayerContainer = document.querySelector('.video-player-container');
 
         const mainHeader = document.getElementById('mainHeader');
@@ -1268,6 +1274,8 @@
         let ytPlayer; // Declare ytPlayer globally
         let timeUpdateInterval; // To store the interval ID for saving playback time
         let isKidMode = false;
+        let popularVideosCache = []; // To store popular video IDs to ensure featured videos are different
+        let featuredVideosCache = []; // To store featured video IDs
 
         const KID_MODE_KEYWORDS = ['hoạt hình', 'trẻ em', 'kids', 'children', 'cartoon', 'anime', 'kid', 'bé', 'vui nhộn', 'giáo dục', 'thiếu nhi'];
         const SENSITIVE_KEYWORDS = ['bạo lực', 'máu', 'sex', 'người lớn', 'chết chóc', 'kinh dị', 'đánh nhau', 'chiến tranh', '18+'];
@@ -1388,6 +1396,7 @@
                  currentSearchQuery = searchInput.value.trim();
                  videoGrid.innerHTML = '';
                  nextPageToken = '';
+                 popularVideosCache = []; // Clear cache on new search
             }
            
             if (!currentSearchQuery && !isKidMode) { // If no search query and not in Kid Mode, fetch popular
@@ -1413,7 +1422,11 @@
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
                 const filteredVideos = filterForKidMode(data.items);
-                await renderVideos(filteredVideos, false, videoGrid);
+                // Filter out videos already shown in featured
+                const uniqueVideos = filteredVideos.filter(video => !featuredVideosCache.includes(video.id.videoId));
+                uniqueVideos.forEach(video => popularVideosCache.push(video.id.videoId));
+
+                await renderVideos(uniqueVideos, false, videoGrid);
             } catch (error) {
                 console.error('Error searching YouTube videos:', error);
             } finally {
@@ -1427,9 +1440,7 @@
              if (clear) {
                 videoGrid.innerHTML = '';
                 nextPageToken = '';
-                if (!currentSearchQuery) { // Only clear featured if no search is active
-                    featuredSlider.innerHTML = '';
-                }
+                popularVideosCache = [];
              }
              isLoading = true;
              introMessage.classList.add('hidden');
@@ -1437,14 +1448,18 @@
              
              let url = `${YOUTUBE_POPULAR_VIDEO_URL}&pageToken=${nextPageToken}`;
              if (isKidMode) { // If in Kid Mode, search for popular cartoons
-                 url = `${YOUTUBE_API_BASE_URL}part=snippet,statistics&maxResults=50&type=video&q=${encodeURIComponent('hoạt hình phổ biến')}&pageToken=${nextPageToken}`;
+                 url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent('hoạt hình phổ biến')}&pageToken=${nextPageToken}`;
              }
 
              try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
                 const filteredVideos = filterForKidMode(data.items);
-                await renderVideos(filteredVideos, false, videoGrid);
+                // Filter out videos already shown in featured
+                const uniqueVideos = filteredVideos.filter(video => !featuredVideosCache.includes(video.id.videoId));
+                uniqueVideos.forEach(video => popularVideosCache.push(video.id.videoId));
+
+                await renderVideos(uniqueVideos, false, videoGrid);
             } catch (error) {
                 console.error('Error fetching popular videos:', error);
                 introMessage.textContent = 'Không thể tải video. Vui lòng thử lại.';
@@ -1455,19 +1470,37 @@
             }
         }
 
-        async function fetchFeaturedVideos() {
-            let query = 'trending';
-            if (isKidMode) {
-                query = 'hoạt hình nổi bật';
+        async function fetchAndRenderFeaturedVideos() {
+            let featuredVideos = [];
+            let currentFeaturedPageToken = '';
+            const desiredCount = 30;
+            let attempts = 0;
+            const maxAttempts = 5; // To prevent infinite loops if unable to find unique videos
+
+            while (featuredVideos.length < desiredCount && attempts < maxAttempts) {
+                const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent('phim hoạt hình giải trí')}&pageToken=${currentFeaturedPageToken}&order=relevance`;
+                try {
+                    const data = await fetchWithApiKey(url);
+                    const newVideos = filterForKidMode(data.items);
+                    
+                    newVideos.forEach(video => {
+                        const videoId = video.id.videoId;
+                        if (videoId && !featuredVideosCache.includes(videoId) && !popularVideosCache.includes(videoId) && featuredVideos.length < desiredCount) {
+                            featuredVideos.push(video);
+                            featuredVideosCache.push(videoId); // Add to featured cache
+                        }
+                    });
+                    
+                    currentFeaturedPageToken = data.nextPageToken;
+                    if (!currentFeaturedPageToken) break; // No more pages
+                    attempts++;
+
+                } catch (error) {
+                    console.error('Error fetching featured videos:', error);
+                    break;
+                }
             }
-            const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=10&type=video&order=viewCount&q=${encodeURIComponent(query)}`;
-            try {
-                const data = await fetchWithApiKey(url);
-                const filteredVideos = filterForKidMode(data.items);
-                await renderVideos(filteredVideos, true, featuredSlider);
-            } catch (error) {
-                console.error('Error fetching featured videos:', error);
-            }
+            renderVideos(featuredVideos, true, featuredVideoSlider);
         }
 
         async function fetchVideoDetails(videoIds) {
@@ -1485,7 +1518,7 @@
             }
         }
         
-        async function renderVideos(videos, clearExisting = false, targetGrid = videoGrid) {
+        async function renderVideos(videos, clearExisting = false, targetGrid) {
             if (clearExisting) targetGrid.innerHTML = '';
 
             const videoIds = videos.map(video => video.id.videoId || video.id).filter(Boolean);
@@ -1543,8 +1576,8 @@
             searchInput.value = '';
             searchClearBtn.classList.remove('visible');
             introMessage.classList.remove('hidden');
-            fetchAndRenderPopularVideos(true);
-            fetchFeaturedVideos(); // Reload featured videos as well
+            fetchAndRenderPopularVideos(true); // Re-fetch popular videos
+            fetchAndRenderFeaturedVideos(); // Re-fetch featured videos
         });
 
         // --- YouTube Player API ---
@@ -1732,107 +1765,6 @@
         });
 
 
-        audioOnlyCheckbox.addEventListener('change', () => {
-            if (audioOnlyCheckbox.checked) {
-                videoPlayerContainer.style.display = 'none'; // ẩn video
-            } else {
-                videoPlayerContainer.style.display = 'block'; // hiện lại video
-            }
-        });
-
-        // --- Draggable Scroll for Video Sliders ---
-        function makeScrollableDraggable(element) {
-            let isDragging = false;
-            let startX;
-            let scrollLeft;
-            let momentumInterval;
-            let velocity = 0;
-            const friction = 0.95; // Controls how fast momentum decays
-
-            element.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                element.classList.add('grabbing');
-                startX = e.pageX - element.offsetLeft;
-                scrollLeft = element.scrollLeft;
-                clearInterval(momentumInterval); // Stop any existing momentum scroll
-            });
-
-            element.addEventListener('mouseleave', () => {
-                if (isDragging) {
-                    isDragging = false;
-                    element.classList.remove('grabbing');
-                    startMomentumScroll();
-                }
-            });
-
-            element.addEventListener('mouseup', () => {
-                if (isDragging) {
-                    isDragging = false;
-                    element.classList.remove('grabbing');
-                    startMomentumScroll();
-                }
-            });
-
-            element.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const x = e.pageX - element.offsetLeft;
-                const walk = (x - startX) * 1.5; // Multiplier for faster scroll
-                element.scrollLeft = scrollLeft - walk;
-                velocity = (scrollLeft - element.scrollLeft); // Calculate velocity for momentum
-            });
-
-            function startMomentumScroll() {
-                if (Math.abs(velocity) > 0.5) { // Only start if there's significant velocity
-                    momentumInterval = setInterval(() => {
-                        element.scrollLeft += velocity;
-                        velocity *= friction; // Apply friction
-                        if (Math.abs(velocity) < 0.5) { // Stop when velocity is very low
-                            clearInterval(momentumInterval);
-                        }
-                    }, 1000 / 60); // 60 frames per second
-                }
-            }
-
-
-            // For touch devices
-            let lastTouchX = 0;
-            let touchStartTime = 0;
-            let touchStartScrollLeft = 0;
-
-            element.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                element.classList.add('grabbing');
-                lastTouchX = e.touches[0].clientX;
-                touchStartTime = Date.now();
-                touchStartScrollLeft = element.scrollLeft;
-                clearInterval(momentumInterval);
-            }, { passive: true });
-
-            element.addEventListener('touchend', () => {
-                if (isDragging) {
-                    isDragging = false;
-                    element.classList.remove('grabbing');
-                    // Calculate velocity from the last movement before touchend
-                    const deltaTime = Date.now() - touchStartTime;
-                    if (deltaTime > 0) {
-                        velocity = (touchStartScrollLeft - element.scrollLeft) / (deltaTime / 1000) * 0.5; // Adjust multiplier
-                    }
-                    startMomentumScroll();
-                }
-            });
-
-            element.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                const currentTouchX = e.touches[0].clientX;
-                const deltaX = currentTouchX - lastTouchX;
-                element.scrollLeft -= deltaX;
-                lastTouchX = currentTouchX;
-                // Don't update velocity here constantly, let touchend calculate final velocity
-            }, { passive: true });
-        }
-
-
         // --- Kid Mode ---
         function toggleKidMode(sourceCheckbox) {
             isKidMode = sourceCheckbox.checked; // Directly set kid mode state
@@ -1842,7 +1774,12 @@
 
             // Re-fetch videos based on new Kid Mode status
             showPage('home'); // Go back to home page
-            fetchFeaturedVideos();
+            featuredVideoSlider.innerHTML = ''; // Clear featured videos as they will be re-filtered
+            videoGrid.innerHTML = ''; // Clear popular videos
+            popularVideosCache = []; // Clear cache
+            featuredVideosCache = []; // Clear cache
+            nextPageToken = ''; // Reset pagination
+            fetchAndRenderFeaturedVideos();
             performSearch(true); // Re-perform search (or fetch popular) with Kid Mode filter
             alert(`Kid Mode đã được ${isKidMode ? 'bật' : 'tắt'}.`);
         }
@@ -1850,12 +1787,62 @@
         kidModeCheckboxMobile.addEventListener('change', (e) => toggleKidMode(e.target));
 
 
+        // --- Horizontal Scroll for Sliders (Mouse & Touch) ---
+        function applyDragScroll(sliderElement) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            sliderElement.addEventListener('mousedown', (e) => {
+                isDown = true;
+                sliderElement.classList.add('grabbing');
+                startX = e.pageX - sliderElement.offsetLeft;
+                scrollLeft = sliderElement.scrollLeft;
+            });
+
+            sliderElement.addEventListener('mouseleave', () => {
+                isDown = false;
+                sliderElement.classList.remove('grabbing');
+            });
+
+            sliderElement.addEventListener('mouseup', () => {
+                isDown = false;
+                sliderElement.classList.remove('grabbing');
+            });
+
+            sliderElement.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - sliderElement.offsetLeft;
+                const walk = (x - startX) * 2; // Increased sensitivity
+                sliderElement.scrollLeft = scrollLeft - walk;
+            });
+
+            // Touch events for mobile
+            sliderElement.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - sliderElement.offsetLeft;
+                scrollLeft = sliderElement.scrollLeft;
+            }, { passive: true });
+
+            sliderElement.addEventListener('touchend', () => {
+                isDown = false;
+            }, { passive: true });
+
+            sliderElement.addEventListener('touchmove', (e) => {
+                if (!isDown) return;
+                const x = e.touches[0].pageX - sliderElement.offsetLeft;
+                const walk = (x - startX) * 2;
+                sliderElement.scrollLeft = scrollLeft - walk;
+            }, { passive: true });
+        }
+
+
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', () => {
             showPage('home');
-            fetchFeaturedVideos();
-            fetchAndRenderPopularVideos(true);
-            makeScrollableDraggable(featuredSlider); // Make featured slider draggable
+            fetchAndRenderFeaturedVideos(); // Load featured videos first
+            fetchAndRenderPopularVideos(true); // Then load popular videos
 
             // --- Swipe-to-hide for Back to Video Button (Mobile only) ---
             let swipeStartX = null;
@@ -1876,6 +1863,9 @@
             backToVideoContainer.addEventListener('touchend', () => {
                 swipeStartX = null;
             });
+
+            // Apply drag-to-scroll to the featured video slider
+            applyDragScroll(featuredVideoSlider);
         });
     </script>
 </body>
