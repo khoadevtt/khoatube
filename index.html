@@ -177,7 +177,8 @@
             padding: 15px 20px;
             border-radius: var(--border-radius-large);
             margin: 10px;
-            position: relative;
+            position: sticky;
+            top: 10px;
             z-index: 100;
         }
         .header .logo {
@@ -266,6 +267,8 @@
             margin: 10px;
             margin-right: 10px;
             align-self: flex-start;
+            position: sticky;
+            top: 100px; /* Adjust based on header height + margin */
         }
         .nav-menu-pc .nav-menu-item {
             display: flex;
@@ -396,6 +399,16 @@
             overflow: hidden;
             cursor: pointer;
             transition: all var(--transition-speed); /* Apply smoother transition */
+            opacity: 0;
+            transform: scale(0.95);
+            animation: fadeInScale 0.5s forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
         .video-card:hover {
             transform: scale(1.02) translateY(-3px); /* Scale and translateY on hover */
@@ -430,30 +443,13 @@
             color: #666;
             margin-bottom: 3px;
         }
-        .load-more-btn {
-            color: var(--text-color-light);
-            padding: 12px 25px;
-            border-radius: var(--border-radius-medium);
-            margin-top: 30px;
-            margin-bottom: 20px;
+
+        #loadingIndicator {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
             font-size: 1.1em;
-            font-weight: 500;
             display: none;
-            transition: all var(--transition-speed); /* Apply smoother transition */
-        }
-        .load-more-btn:hover {
-            background-color: var(--accent-color-light);
-            color: #fff;
-            border-color: var(--accent-color-light);
-            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
-        }
-        @media (prefers-color-scheme: dark) {
-            .load-more-btn:hover {
-                background-color: var(--accent-color-dark);
-                color: var(--text-color-dark);
-                border-color: var(--accent-color-dark);
-                box-shadow: 0 4px 10px rgba(100, 210, 255, 0.3);
-            }
         }
 
         /* Video Player Page */
@@ -866,7 +862,7 @@
             <div class="logo">KhoaTube</div>
         </div>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm tr">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm trên KhoaTube...">
             <button id="searchClearBtn" class="search-clear-btn material-icons">close</button>
             <button id="searchIconBtn" class="search-icon-btn material-icons">search</button>
         </div>
@@ -889,13 +885,12 @@
                 <div class="intro-message">Tìm kiếm video bất kì mà không quảng cáo.</div>
                 <div id="videoGrid" class="video-grid">
                 </div>
-                <button id="loadMoreBtn" class="load-more-btn">Xem thêm</button>
-                <div id="loadingMore" style="display: none; padding: 20px; text-align: center;">Đang tải thêm...</div>
+                <div id="loadingIndicator">Đang tải thêm...</div>
             </div>
 
             <div id="videoPlayerPage" class="video-player-page">
                 <div class="video-player-container">
-                    <iframe id="videoPlayerIframe" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    <div id="videoPlayer"></div> 
                 </div>
                 <div class="video-player-info">
                     <h2 id="playerVideoTitle"></h2>
@@ -941,6 +936,7 @@
         </button>
     </div>
 
+    <script src="https://www.youtube.com/iframe_api"></script> 
     <script>
         const API_KEYS = [
             'AIzaSyC45El3EMCPOblydSDVvLgycfWrAkoS9Ko',
@@ -973,17 +969,15 @@
 
         const searchInput = document.getElementById('searchInput');
         const searchClearBtn = document.getElementById('searchClearBtn');
-        const searchIconBtn = document.getElementById('searchIconBtn'); // New search icon button
+        const searchIconBtn = document.getElementById('searchIconBtn');
         const videoGrid = document.getElementById('videoGrid');
         const introMessage = document.querySelector('.intro-message');
-        const loadingMore = document.getElementById('loadingMore');
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
 
         const homePage = document.getElementById('homePage');
         const videoPlayerPage = document.getElementById('videoPlayerPage');
         const historyPage = document.getElementById('historyPage');
 
-        const videoPlayerIframe = document.getElementById('videoPlayerIframe');
         const playerVideoTitle = document.getElementById('playerVideoTitle');
         const playerVideoChannel = document.getElementById('playerVideoChannel');
         const playerVideoViewsDate = document.getElementById('playerVideoViewsDate');
@@ -1002,10 +996,12 @@
         let nextPageToken = '';
         let currentSearchQuery = '';
         let isLoading = false;
-        let lastPlayedVideo = null; // Store information about the last played video
+        let lastPlayedVideo = null;
+        let ytPlayer; // Declare ytPlayer globally
 
         // --- Utility Functions ---
         function formatNumber(num) {
+            if (!num) return 'N/A';
             if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
             if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
             return num;
@@ -1064,141 +1060,82 @@
 
         // --- UI Navigation ---
         function showPage(pageId) {
-            const pages = {
-                'home': homePage,
-                'videoPlayer': videoPlayerPage,
-                'history': historyPage
-            };
-
-            for (let id in pages) {
-                if (id === pageId) {
-                    pages[id].style.display = 'flex';
-                } else {
-                    pages[id].style.display = 'none';
-                }
-            }
+            const pages = { 'home': homePage, 'videoPlayer': videoPlayerPage, 'history': historyPage };
+            Object.keys(pages).forEach(id => pages[id].style.display = (id === pageId) ? 'flex' : 'none');
 
             navMenuItems.forEach(item => {
-                if (item.dataset.page === pageId) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
+                item.classList.toggle('active', item.dataset.page === pageId);
             });
 
-            if (pageId === 'home' && !currentSearchQuery && videoGrid.children.length === 0) {
-                introMessage.classList.remove('hidden');
-            } else {
-                introMessage.classList.add('hidden');
-            }
-
-            if (pageId !== 'home') {
-                scrollToTopBtn.classList.remove('visible');
-            }
-
-            // Manage "Back to Video" button visibility
-            if (pageId !== 'videoPlayer' && lastPlayedVideo) {
-                backToVideoContainer.classList.add('visible');
-                backToVideoTitlePreview.textContent = lastPlayedVideo.title;
-            } else {
-                backToVideoContainer.classList.remove('visible');
-            }
+            introMessage.classList.toggle('hidden', !(pageId === 'home' && !currentSearchQuery && videoGrid.children.length === 0));
+            if (pageId !== 'home') scrollToTopBtn.classList.remove('visible');
+            backToVideoContainer.classList.toggle('visible', pageId !== 'videoPlayer' && lastPlayedVideo);
+            if (lastPlayedVideo) backToVideoTitlePreview.textContent = lastPlayedVideo.title;
         }
 
         navMenuItems.forEach(item => {
             item.addEventListener('click', () => {
-                showPage(item.dataset.page);
-                if (item.dataset.page === 'history') {
-                    renderHistory();
-                }
-                if (videoPlayerPage.style.display === 'flex' && item.dataset.page !== 'videoPlayer') {
-                    // Only clear iframe if navigating away from video player
-                    // and not returning to the same video via "Back to Video" button
-                    if (!backToVideoBtn.classList.contains('active-restore')) { // Custom class for "restore" action
-                        videoPlayerIframe.src = '';
-                        lastPlayedVideo = null; // Clear last played if user explicitly navigates away
-                    }
-                    backToVideoBtn.classList.remove('active-restore');
-                }
+                const page = item.dataset.page;
+                showPage(page);
+                if (page === 'history') renderHistory();
             });
         });
-
+        
         // --- Search Functionality ---
-        async function performSearch() {
-            if (videoPlayerPage.style.display === 'flex') {
-                videoPlayerIframe.src = '';
-                lastPlayedVideo = null; // Clear last played if user searches new video
+        async function performSearch(isNewSearch = true) {
+            if(isNewSearch) {
+                 currentSearchQuery = searchInput.value.trim();
+                 videoGrid.innerHTML = '';
+                 nextPageToken = '';
             }
-            currentSearchQuery = searchInput.value.trim();
-            showPage('home');
-            searchVideos(currentSearchQuery);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        async function searchVideos(query, pageToken = '', append = false) {
-            if (!query) {
-                videoGrid.innerHTML = '';
-                introMessage.classList.remove('hidden');
-                loadMoreBtn.style.display = 'none';
+           
+            if (!currentSearchQuery) {
+                fetchAndRenderPopularVideos(true);
                 return;
             }
-            
-            introMessage.classList.add('hidden');
 
+            if (isLoading) return;
             isLoading = true;
-            loadingMore.style.display = 'block';
-            loadMoreBtn.style.display = 'none';
+            introMessage.classList.add('hidden');
+            loadingIndicator.style.display = 'block';
 
-            let url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent(query)}`;
-            if (pageToken) {
-                url += `&pageToken=${pageToken}`;
-            }
-
+            const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent(currentSearchQuery)}&pageToken=${nextPageToken}`;
+            
             try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
-                renderVideos(data.items, !append);
-                if (nextPageToken) {
-                    loadMoreBtn.style.display = 'block';
-                } else {
-                    loadMoreBtn.style.display = 'none';
-                }
+                await renderVideos(data.items, false);
             } catch (error) {
-                console.error('Error fetching YouTube videos:', error);
-                loadMoreBtn.style.display = 'none';
+                console.error('Error searching YouTube videos:', error);
             } finally {
-                loadingMore.style.display = 'none';
+                loadingIndicator.style.display = 'none';
                 isLoading = false;
             }
         }
 
-        async function fetchAndRenderPopularVideos(pageToken = '', append = false) {
-            introMessage.classList.add('hidden');
-            isLoading = true;
-            loadingMore.style.display = 'block';
-            loadMoreBtn.style.display = 'none';
+        async function fetchAndRenderPopularVideos(clear = false) {
+             if (isLoading) return;
+             if (clear) {
+                videoGrid.innerHTML = '';
+                nextPageToken = '';
+                currentSearchQuery = '';
+             }
+             isLoading = true;
+             introMessage.classList.add('hidden');
+             loadingIndicator.style.display = 'block';
+             
+             const url = `${YOUTUBE_POPULAR_VIDEO_URL}&pageToken=${nextPageToken}`;
 
-            let url = YOUTUBE_POPULAR_VIDEO_URL;
-            if (pageToken) {
-                url += `&pageToken=${pageToken}`;
-            }
-
-            try {
+             try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
-                renderVideos(data.items, !append);
-                if (nextPageToken) {
-                    loadMoreBtn.style.display = 'block';
-                } else {
-                    loadMoreBtn.style.display = 'none';
-                }
+                await renderVideos(data.items, false);
             } catch (error) {
-                console.error('Error fetching popular YouTube videos:', error);
-                introMessage.textContent = 'Không thể tải video phổ biến. Vui lòng thử lại sau.';
+                console.error('Error fetching popular videos:', error);
+                introMessage.textContent = 'Không thể tải video. Vui lòng thử lại.';
                 introMessage.classList.remove('hidden');
-                loadMoreBtn.style.display = 'none';
             } finally {
-                loadingMore.style.display = 'none';
+                loadingIndicator.style.display = 'none';
                 isLoading = false;
             }
         }
@@ -1208,39 +1145,40 @@
             const url = `${YOUTUBE_VIDEO_DETAIL_BASE_URL}part=statistics&id=${videoIds.join(',')}`;
             try {
                 const data = await fetchWithApiKey(url);
-                const details = {};
-                data.items.forEach(item => {
-                    details[item.id] = item.statistics;
-                });
-                return details;
+                return data.items.reduce((acc, item) => {
+                    acc[item.id] = item.statistics;
+                    return acc;
+                }, {});
             } catch (error) {
                 console.error('Error fetching video details:', error);
                 return {};
             }
         }
-
-        async function renderVideos(videos, clearExisting = true, targetGrid = videoGrid) {
-            if (clearExisting) {
-                targetGrid.innerHTML = '';
-            }
+        
+        async function renderVideos(videos, clearExisting = false, targetGrid = videoGrid) {
+            if (clearExisting) targetGrid.innerHTML = '';
 
             const videoIds = videos.map(video => video.id.videoId || video.id).filter(Boolean);
             const videoDetails = await fetchVideoDetails(videoIds);
-
+            
+            const fragment = document.createDocumentFragment();
             videos.forEach(video => {
                 const videoId = video.id.videoId || video.id;
                 if (!videoId) return;
 
                 const title = video.snippet.title;
                 const channel = video.snippet.channelTitle;
-                const thumbnail = video.snippet.thumbnails && video.snippet.thumbnails.high ? video.snippet.thumbnails.high.url : `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+                const thumbnail = video.snippet.thumbnails?.high?.url || `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
                 const publishedAt = video.snippet.publishedAt;
-                const views = videoDetails[videoId] ? formatNumber(videoDetails[videoId].viewCount) : 'N/A';
+                const views = formatNumber(videoDetails[videoId]?.viewCount);
                 const date = timeSince(publishedAt);
 
                 const videoCard = document.createElement('div');
-                videoCard.classList.add('video-card');
+                videoCard.className = 'video-card';
                 videoCard.dataset.videoId = videoId;
+                // Add a delay to the animation for a staggered effect
+                videoCard.style.animationDelay = `${(targetGrid.children.length % 25) * 20}ms`;
+
                 videoCard.innerHTML = `
                     <img src="${thumbnail}" alt="${title}">
                     <div class="video-info">
@@ -1250,8 +1188,9 @@
                     </div>
                 `;
                 videoCard.addEventListener('click', () => playVideo(videoId, title, channel, views, date));
-                targetGrid.appendChild(videoCard);
+                fragment.appendChild(videoCard);
             });
+            targetGrid.appendChild(fragment);
         }
 
         searchInput.addEventListener('input', () => {
@@ -1260,112 +1199,134 @@
 
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                performSearch();
+                showPage('home');
+                performSearch(true);
             }
         });
         
-        searchIconBtn.addEventListener('click', () => { // Event listener for search icon button
-            performSearch();
+        searchIconBtn.addEventListener('click', () => {
+            showPage('home');
+            performSearch(true);
         });
 
         searchClearBtn.addEventListener('click', () => {
             searchInput.value = '';
             searchClearBtn.classList.remove('visible');
-            videoGrid.innerHTML = '';
             introMessage.classList.remove('hidden');
-            nextPageToken = '';
-            currentSearchQuery = '';
-            loadMoreBtn.style.display = 'none';
-            fetchAndRenderPopularVideos();
-            
-            if (videoPlayerPage.style.display === 'flex') {
-                videoPlayerIframe.src = '';
-                lastPlayedVideo = null; // Clear last played if user clears search
-                showPage('home');
-            }
+            fetchAndRenderPopularVideos(true);
         });
 
-        // --- Load More Button Functionality ---
-        loadMoreBtn.addEventListener('click', () => {
-            if (currentSearchQuery) {
-                searchVideos(currentSearchQuery, nextPageToken, true);
-            } else {
-                fetchAndRenderPopularVideos(nextPageToken, true);
-            }
-        });
+        // --- YouTube Player API ---
+        function onYouTubeIframeAPIReady() {
+            // This function is called by the YouTube Iframe API when it's ready
+            // Player will be initialized when a video is played for the first time
+        }
 
-        // --- Video Playback ---
+        let timeUpdateInterval; // To store the interval ID for saving playback time
+
         function playVideo(videoId, title, channel, views, date) {
-            // Save the current video being played
             lastPlayedVideo = { videoId, title, channel, views, date };
-
             showPage('videoPlayer');
-            videoPlayerIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+            const savedTime = getSavedTime(videoId);
+            
+            if (ytPlayer) {
+                // If player exists, load new video and seek to saved time
+                ytPlayer.loadVideoById(videoId, savedTime);
+            } else {
+                // Create new player if it doesn't exist
+                ytPlayer = new YT.Player('videoPlayer', { // 'videoPlayer' is the ID of the div
+                    height: '100%',
+                    width: '100%',
+                    videoId: videoId,
+                    playerVars: {
+                        autoplay: 1,
+                        start: savedTime, // Start from the saved time
+                    },
+                    events: {
+                        'onStateChange': onPlayerStateChange,
+                    },
+                });
+            }
+
             playerVideoTitle.textContent = title;
             playerVideoChannel.textContent = channel;
             playerVideoViewsDate.textContent = `${views} lượt xem • ${date}`;
             addVideoToHistory({ videoId, title, channel, thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` });
 
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Collect related videos from the current grid (if available)
-            renderRelatedVideos(Array.from(videoGrid.children).map(card => {
-                return {
-                    id: { videoId: card.dataset.videoId },
-                    snippet: {
-                        title: card.querySelector('.video-title').textContent,
-                        channelTitle: card.querySelector('.video-channel').textContent,
-                        thumbnails: { high: { url: card.querySelector('img').src } },
-                        publishedAt: 'N/A' // Placeholder, as full details aren't in card
-                    }
-                };
-            }).filter(video => video.id.videoId !== videoId));
+            // Render related videos (simplified: re-use current search/popular list)
+            const currentVideos = Array.from(videoGrid.children).map(card => ({
+                id: { videoId: card.dataset.videoId },
+                snippet: {
+                    title: card.querySelector('.video-title').textContent,
+                    channelTitle: card.querySelector('.video-channel').textContent,
+                    thumbnails: { high: { url: card.querySelector('img').src } },
+                    publishedAt: new Date().toISOString()
+                }
+            })).filter(video => video.id.videoId !== videoId);
+            
+            renderRelatedVideos(currentVideos);
         }
 
-        function renderRelatedVideos(videos) {
-            relatedVideoGrid.innerHTML = '';
-            const limitedVideos = videos.slice(0, 12);
-            renderVideos(limitedVideos, false, relatedVideoGrid);
+        function onPlayerStateChange(event) {
+            clearInterval(timeUpdateInterval); // Clear any existing interval
+
+            if (event.data === YT.PlayerState.PLAYING) {
+                // Start saving current time periodically when video is playing
+                timeUpdateInterval = setInterval(() => {
+                    if (ytPlayer && lastPlayedVideo) {
+                        const currentTime = ytPlayer.getCurrentTime();
+                        localStorage.setItem(`video_time_${lastPlayedVideo.videoId}`, currentTime);
+                    }
+                }, 5000); // Save every 5 seconds
+            } else {
+                // When video stops (paused, ended, buffered, etc.), save final time
+                if (ytPlayer && lastPlayedVideo) {
+                    const currentTime = ytPlayer.getCurrentTime();
+                    localStorage.setItem(`video_time_${lastPlayedVideo.videoId}`, currentTime);
+                }
+            }
+        }
+
+        function getSavedTime(videoId) {
+            const time = localStorage.getItem(`video_time_${videoId}`);
+            return time ? parseFloat(time) : 0; // Return 0 if no time is saved
         }
         
-        // --- History Management ---
-        function getHistory() {
-            try {
-                const history = JSON.parse(localStorage.getItem('khoatube_history')) || [];
-                return history;
-            } catch (e) {
-                console.error("Error parsing history from localStorage:", e);
-                return [];
-            }
+        function renderRelatedVideos(videos) {
+            relatedVideoGrid.innerHTML = '';
+            renderVideos(videos.slice(0, 12), true, relatedVideoGrid);
         }
 
-        function saveHistory(history) {
-            localStorage.setItem('khoatube_history', JSON.stringify(history));
-        }
+        // --- History Management ---
+        const getHistory = () => JSON.parse(localStorage.getItem('khoatube_history')) || [];
+        const saveHistory = (history) => localStorage.setItem('khoatube_history', JSON.stringify(history));
 
         function addVideoToHistory(videoInfo) {
-            let history = getHistory();
-            history = history.filter(item => item.videoId !== videoInfo.videoId);
+            let history = getHistory().filter(item => item.videoId !== videoInfo.videoId);
             history.unshift(videoInfo);
-            if (history.length > 50) {
-                history = history.slice(0, 50);
-            }
+            if (history.length > 50) history.pop();
             saveHistory(history);
         }
 
         function removeHistoryItem(videoId) {
-            let history = getHistory();
-            history = history.filter(item => item.videoId !== videoId);
-            saveHistory(history);
+            saveHistory(getHistory().filter(item => item.videoId !== videoId));
+            localStorage.removeItem(`video_time_${videoId}`); // Remove saved time
             renderHistory();
         }
 
         function clearAllHistory() {
-            if (confirm('Bạn có chắc chắn muốn xóa tất cả lịch sử xem video?')) {
+            if (confirm('Bạn có chắc muốn xóa tất cả lịch sử xem không?')) {
                 localStorage.removeItem('khoatube_history');
+                // Clear all saved video times
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('video_time_')) {
+                        localStorage.removeItem(key);
+                    }
+                }
                 renderHistory();
             }
         }
@@ -1373,65 +1334,64 @@
         function renderHistory() {
             const history = getHistory();
             historyList.innerHTML = '';
+            clearHistoryBtn.style.display = history.length > 0 ? 'flex' : 'none';
+
             if (history.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; color: #888; padding-top: 20px;">Chưa có video nào trong lịch sử.</p>';
-                clearHistoryBtn.style.display = 'none';
+                historyList.innerHTML = '<p style="text-align: center; padding-top: 20px;">Lịch sử xem trống.</p>';
                 return;
             }
-            clearHistoryBtn.style.display = 'flex';
 
             history.forEach(item => {
                 const historyItem = document.createElement('div');
-                historyItem.classList.add('history-item');
+                historyItem.className = 'history-item';
                 historyItem.innerHTML = `
-                    <img src="${item.thumbnail}" alt="${item.title}">
+                    <img src="${item.thumbnail}" alt="${item.title}" class="history-thumbnail">
                     <div class="video-info">
                         <div class="video-title">${item.title}</div>
                         <div class="video-channel">${item.channel}</div>
                     </div>
-                    <button class="remove-history-btn" data-video-id="${item.videoId}">
-                        <span class="material-icons">delete</span> Xóa
-                    </button>
+                    <button class="remove-history-btn" data-video-id="${item.videoId}"><span class="material-icons">delete</span> Xóa</button>
                 `;
-                historyItem.addEventListener('click', (event) => {
-                    if (!event.target.closest('.remove-history-btn')) {
+                historyItem.addEventListener('click', (e) => {
+                    if (!e.target.closest('.remove-history-btn')) {
                         playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A');
                     }
                 });
                 historyList.appendChild(historyItem);
             });
 
-            document.querySelectorAll('.remove-history-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const videoId = e.target.dataset.videoId || e.target.closest('button').dataset.videoId;
-                    removeHistoryItem(videoId);
+            document.querySelectorAll('.remove-history-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeHistoryItem(btn.dataset.videoId);
                 });
             });
         }
-
         clearHistoryBtn.addEventListener('click', clearAllHistory);
 
-        // --- Scroll to Top Functionality ---
+        // --- Scroll & Infinite Load ---
         window.addEventListener('scroll', () => {
-            if (homePage.style.display === 'flex' && window.scrollY > 300) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
-            }
+            scrollToTopBtn.classList.toggle('visible', homePage.style.display === 'flex' && window.scrollY > 300);
         });
 
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !isLoading && nextPageToken) {
+                if(currentSearchQuery) {
+                    performSearch(false);
+                } else {
+                    fetchAndRenderPopularVideos();
+                }
+            }
+        }, { rootMargin: '200px' });
+
+        observer.observe(loadingIndicator);
+
 
         // --- Back to Video Functionality ---
         backToVideoBtn.addEventListener('click', () => {
             if (lastPlayedVideo) {
-                // Add a temporary class to signal that navigation is for restoring video
-                backToVideoBtn.classList.add('active-restore'); 
                 playVideo(lastPlayedVideo.videoId, lastPlayedVideo.title, lastPlayedVideo.channel, lastPlayedVideo.views, lastPlayedVideo.date);
             }
         });
@@ -1439,12 +1399,7 @@
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', () => {
             showPage('home');
-            if (searchInput.value.trim()) {
-                 currentSearchQuery = searchInput.value.trim();
-                 searchVideos(currentSearchQuery);
-            } else {
-                fetchAndRenderPopularVideos();
-            }
+            fetchAndRenderPopularVideos(true);
         });
     </script>
 </body>
