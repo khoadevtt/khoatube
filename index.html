@@ -7,40 +7,39 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
-            /* Light Mode Colors */
-            --background-color-light: #f0f2f5; /* Slightly darker light grey background */
-            --text-color-light: #212121; /* Dark grey text */
-            --card-background-light: rgba(255, 255, 255, 0.25); /* Translucent white for glass effect, reduced opacity */
-            --border-color-light: rgba(224, 224, 224, 0.5); /* Lighter, more translucent border */
-            --accent-color-light: rgba(0, 122, 255, 0.8); /* iOS Blue, slightly translucent */
-            --accent-color-hover-light: rgba(0, 86, 179, 0.9); /* Darker blue on hover, more opaque */
-            --logo-color-light: linear-gradient(135deg, rgba(0, 122, 255, 0.8), rgba(0, 198, 255, 0.8)); /* iOS Gradient Blue, translucent */
+  /* Light Mode Colors */
+  --background-color-light: #f7f9fc; /* Rất sáng, tạo cảm giác nhẹ nhàng */
+  --text-color-light: #1c1c1e; /* Gần đen, tăng độ tương phản */
+  --card-background-light: rgba(255, 255, 255, 0.35); /* Hiệu ứng glass nhẹ */
+  --border-color-light: rgba(0, 0, 0, 0.05); /* Viền rất nhẹ, gần như trong suốt */
+  --accent-color-light: #3b82f6; /* Màu xanh hiện đại (tailwind) */
+  --accent-color-hover-light: #2563eb; /* Hover đậm hơn một chút */
+  --logo-color-light: linear-gradient(135deg, #3b82f6, #06b6d4); /* Gradient xanh hiện đại */
 
-            /* Dark Mode Colors */
-            --background-color-dark: #1a1a1a; /* Darker background */
-            --text-color-dark: #e0e0e0; /* Light grey text */
-            --card-background-dark: rgba(30, 30, 30, 0.25); /* Translucent dark for glass effect, reduced opacity */
-            --border-color-dark: rgba(58, 58, 58, 0.5); /* Darker, more translucent border */
-            --accent-color-dark: rgba(100, 210, 255, 0.8); /* Lighter blue for dark mode, translucent */
-            --accent-color-hover-dark: rgba(63, 179, 227, 0.9); /* Darker lighter blue on hover, more opaque */
-            --logo-color-dark: linear-gradient(135deg, rgba(100, 210, 255, 0.8), rgba(0, 191, 255, 0.8)); /* iOS Gradient Light Blue, translucent */
+  /* Dark Mode Colors */
+  --background-color-dark: #0f1117; /* Gần đen, không quá chói */
+  --text-color-dark: #f1f5f9; /* Màu sáng dịu, dễ đọc */
+  --card-background-dark: rgba(255, 255, 255, 0.05); /* Glass nhẹ cho nền tối */
+  --border-color-dark: rgba(255, 255, 255, 0.08); /* Viền nhẹ cho dark mode */
+  --accent-color-dark: #60a5fa; /* Màu xanh sáng */
+  --accent-color-hover-dark: #3b82f6; /* Hover mạnh hơn */
+  --logo-color-dark: linear-gradient(135deg, #60a5fa, #06b6d4); /* Gradient xanh sáng hơn */
 
-            /* Glass Effect Properties */
-            --glass-blur: 30px; /* Increased blur for more liquid feel */
-            --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.12); /* Enhanced shadow */
-            --glass-overlay: linear-gradient(120deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)); /* Overlay for light reflection */
-            --glass-border: 1px solid var(--border-color-light); /* Dynamic border based on mode */
-            --glass-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.3); /* Inset shadow for light reflection */
+  /* Glass Effect */
+  --glass-blur: 25px; /* Blur mịn */
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Bóng mờ tinh tế */
+  --glass-overlay: linear-gradient(120deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)); 
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1); 
+  --glass-inset-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
 
+  /* Border Radii */
+  --border-radius-large: 24px;
+  --border-radius-medium: 16px;
+  --border-radius-small: 6px;
 
-            /* Border Radii */
-            --border-radius-large: 30px; /* Larger border radius */
-            --border-radius-medium: 20px; /* Medium border radius */
-            --border-radius-small: 8px;
-
-            /* Transition Speed */
-            --transition-speed: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
-        }
+  /* Transition */
+  --transition-speed: 0.3s ease-in-out;
+}
 
         html {
             scroll-behavior: smooth;
@@ -62,7 +61,7 @@
                 color: var(--text-color-dark);
             }
             .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
-            .history-header, .back-to-video-btn, .nav-menu-pc, .glass-toggle { /* Apply glass effect to history-header and back-to-video-btn as well */
+            .history-header, .back-to-video-btn, .nav-menu-pc, .glass-toggle, .credits-page { /* Removed .kid-mode-toggle here */
                 background: var(--card-background-dark), var(--glass-overlay); /* Apply overlay */
                 border: 1px solid var(--border-color-dark); /* Apply glass border */
                 backdrop-filter: blur(var(--glass-blur));
@@ -80,7 +79,7 @@
             .nav-menu-item.active {
                 background-color: rgb(98 149 142 / 24%);
             }
-            .history-clear-btn, .history-item button {
+            .history-clear-btn, .history-item button, .kid-mode-toggle { /* Added .kid-mode-toggle back here */
                 background-color: transparent; /* Transparent background for glass effect */
                 color: var(--text-color-dark);
                 border: 1px solid var(--border-color-dark); /* Add border */
@@ -88,7 +87,8 @@
             .nav-menu-pc .nav-menu-item:hover, .nav-menu-mobile .nav-menu-item:hover {
                 background-color: rgba(255,255,255,0.08); /* Dark hover */
             }
-            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover {
+            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover,
+            .kid-mode-toggle:hover {
                 background-color: var(--accent-color-hover-dark);
                 color: var(--text-color-dark); /* Ensure text color is readable on hover */
             }
@@ -100,11 +100,12 @@
             .video-player-info p, .history-item .video-channel, .video-card .video-channel, .video-card .video-views-date {
                 color: #b0b0b0;
             }
-            .glass-toggle .slider {
+            .glass-toggle .slider, .kid-mode-toggle .slider {
                 background-color: rgba(255, 255, 255, 0.15);
             }
 
-            .glass-toggle input:checked + .slider {
+            .glass-toggle input:checked + .slider,
+            .kid-mode-toggle input:checked + .slider {
                 background-color: var(--accent-color-dark);
             }
         }
@@ -116,7 +117,7 @@
                 color: var(--text-color-light);
             }
             .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
-            .history-header, .back-to-video-btn, .nav-menu-pc, .glass-toggle { /* Apply glass effect to history-header and back-to-video-btn as well */
+            .history-header, .back-to-video-btn, .nav-menu-pc, .glass-toggle, .credits-page { /* Removed .kid-mode-toggle here */
                 background: var(--card-background-light), var(--glass-overlay); /* Apply overlay */
                 border: 1px solid var(--border-color-light); /* Apply glass border */
                 backdrop-filter: blur(var(--glass-blur));
@@ -134,7 +135,7 @@
             .nav-menu-item.active {
                 background-color: var(--accent-color-light);
             }
-            .history-clear-btn, .history-item button {
+            .history-clear-btn, .history-item button, .kid-mode-toggle { /* Added .kid-mode-toggle back here */
                 background-color: transparent; /* Transparent background for glass effect */
                 color: var(--text-color-light); /* Changed to text-color-light for consistency */
                 border: 1px solid var(--border-color-light); /* Add border */
@@ -142,7 +143,8 @@
             .nav-menu-pc .nav-menu-item:hover, .nav-menu-mobile .nav-menu-item:hover {
                 background-color: rgba(0,0,0,0.05); /* Light hover */
             }
-            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover {
+            .history-item button:hover, .load-more-btn:hover, .scroll-to-top-btn:hover, .back-to-video-btn:hover,
+            .kid-mode-toggle:hover {
                 background-color: var(--accent-color-hover-light);
                 color: #fff; /* Ensure text color is readable on hover */
             }
@@ -154,7 +156,8 @@
             .intro-message {
                 color: var(--text-color-light);
             }
-            .glass-toggle input:checked + .slider {
+            .glass-toggle input:checked + .slider,
+            .kid-mode-toggle input:checked + .slider {
                 background-color: var(--accent-color-light);
             }
         }
@@ -190,6 +193,12 @@
             position: sticky;
             top: 10px;
             z-index: 100;
+            transition: transform var(--transition-speed), opacity var(--transition-speed);
+        }
+        .header.hidden {
+            transform: translateY(-100px);
+            opacity: 0;
+            pointer-events: none;
         }
         .header .logo {
             font-size: 28px;
@@ -223,6 +232,14 @@
         }
 
         /* Search Bar */
+        .search-container {
+            transition: transform var(--transition-speed), opacity var(--transition-speed);
+        }
+        .search-container.hidden {
+            transform: translateY(-100px);
+            opacity: 0;
+            pointer-events: none;
+        }
         .search-container input[type="text"] {
             flex-grow: 1;
             padding: 12px 15px;
@@ -279,6 +296,12 @@
             align-self: flex-start;
             position: sticky;
             top: 100px; /* Adjust based on header height + margin */
+            transition: transform var(--transition-speed), opacity var(--transition-speed);
+        }
+        .nav-menu-pc.hidden {
+            transform: translateX(-200px);
+            opacity: 0;
+            pointer-events: none;
         }
         .nav-menu-pc .nav-menu-item {
             display: flex;
@@ -333,6 +356,11 @@
             display: flex;
             justify-content: space-around;
             z-index: 1000;
+        }
+        .nav-menu-mobile.hidden {
+            transform: translateY(100%);
+            opacity: 0;
+            pointer-events: none;
         }
         .nav-menu-mobile .nav-menu-item {
             flex: 1;
@@ -473,6 +501,7 @@
             flex-direction: column;
             align-items: center;
         }
+
         .video-player-container {
             width: 100%;
             max-width: 900px;
@@ -500,6 +529,12 @@
             font-size: 16px;
             color: #666;
             margin-bottom: 5px;
+        }
+        .scroll-down-message {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #888;
         }
         .related-videos {
             width: 100%;
@@ -782,14 +817,19 @@
             padding-bottom: 20px; /* Add some padding at the bottom for scrollbar */
             cursor: grab; /* Indicate draggable */
             -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+            scroll-behavior: smooth; /* Make programmatic scrolls smooth */
         }
         .video-slider.grabbing {
             cursor: grabbing;
         }
         .video-slider .video-card {
-            min-width: 280px;
+            min-width: 200px; /* Smaller width for featured videos on mobile */
+            max-width: 250px; /* Max width for consistency */
             scroll-snap-align: start;
             flex-shrink: 0;
+        }
+        .video-slider .video-card img {
+            height: 120px; /* Smaller height for featured video thumbnails */
         }
         /* Style for scrollbar (optional, to make it less intrusive) */
         .video-slider::-webkit-scrollbar {
@@ -929,12 +969,12 @@
             }
         }
 
-        .glass-toggle {
+        .glass-toggle, .kid-mode-toggle {
             position: relative;
             display: inline-flex;
             align-items: center;
             font-size: 16px;
-            background: var(--card-background-light);
+            background: var(--card-background-light), var(--glass-overlay); /* Apply overlay here too */
             border: var(--glass-border);
             border-radius: var(--border-radius-medium);
             padding: 10px 15px;
@@ -944,11 +984,20 @@
             cursor: pointer;
             user-select: none;
             gap: 10px;
+            transition: background-color var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
         }
-        .glass-toggle input[type="checkbox"] {
+        @media (prefers-color-scheme: dark) {
+            .glass-toggle, .kid-mode-toggle {
+                background: var(--card-background-dark), var(--glass-overlay);
+                border: 1px solid var(--border-color-dark);
+            }
+        }
+        .glass-toggle input[type="checkbox"],
+        .kid-mode-toggle input[type="checkbox"] {
             display: none;
         }
-        .glass-toggle .slider {
+        .glass-toggle .slider,
+        .kid-mode-toggle .slider {
             width: 40px;
             height: 20px;
             background-color: rgba(255, 255, 255, 0.3);
@@ -956,7 +1005,8 @@
             position: relative;
             transition: background-color 0.3s ease;
         }
-        .glass-toggle .slider::before {
+        .glass-toggle .slider::before,
+        .kid-mode-toggle .slider::before {
             content: "";
             position: absolute;
             width: 16px;
@@ -968,10 +1018,12 @@
             transition: transform 0.3s ease;
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-        .glass-toggle input:checked + .slider::before {
+        .glass-toggle input:checked + .slider::before,
+        .kid-mode-toggle input:checked + .slider::before {
             transform: translateX(20px);
         }
-        .glass-toggle input:checked + .slider {
+        .glass-toggle input:checked + .slider,
+        .kid-mode-toggle input:checked + .slider {
             background-color: var(--accent-color-light);
         }
 
@@ -981,14 +1033,36 @@
             opacity: 0;
             transition: transform 0.4s ease, opacity 0.4s ease;
         }
+
+        /* Credits Page Styles */
+        .credits-page {
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: var(--border-radius-large);
+            margin-top: 20px;
+            text-align: center;
+            line-height: 1.8;
+        }
+        .credits-page h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .credits-page p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .credits-page strong {
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
+    <div class="header" id="mainHeader">
         <div class="logo-wrapper">
             <div class="logo">KhoaTube</div>
         </div>
-        <div class="search-container">
+        <div class="search-container" id="searchContainer">
             <input type="text" id="searchInput" placeholder="Tìm kiếm trên KhoaTube...">
             <button id="searchClearBtn" class="search-clear-btn material-icons">close</button>
             <button id="searchIconBtn" class="search-icon-btn material-icons">search</button>
@@ -996,7 +1070,7 @@
     </div>
 
     <div class="main-layout">
-        <div class="nav-menu-pc">
+        <div class="nav-menu-pc" id="navMenuPc">
             <div class="nav-menu-item active" data-page="home">
                 <span class="material-icons">home</span>
                 <span>Trang chủ</span>
@@ -1030,13 +1104,14 @@
                     <p id="playerVideoChannel"></p>
                     <p id="playerVideoViewsDate"></p>
                 </div>
-                <div id="audioOnlyToggleContainer" style="margin-bottom: 20px;">
+                <div id="playerControls" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; justify-content: center;">
                     <label class="glass-toggle">
                         <input type="checkbox" id="audioOnlyCheckbox">
                         <span class="slider"></span>
-                        Nghe nhạc nền
+                        Phát nhạc nền
                     </label>
                 </div>
+                <div class="scroll-down-message">Kéo xuống dưới để xem thêm Video</div>
                 <div class="related-videos">
                     <h3>Video liên quan</h3>
                     <div id="relatedVideoGrid" class="video-grid related-video-list">
@@ -1054,6 +1129,13 @@
                 <div id="historyList" class="history-list">
                 </div>
             </div>
+
+            <div id="creditsPage" class="credits-page" style="display: none; flex-direction: column; align-items: center; padding: 20px;">
+                <h2>Cảm ơn bạn đã sử dụng KhoaTube!</h2>
+                <p>Thiết kế và lập trình bởi <strong>Khoa Anh 07</strong></p>
+                <p>🧠 Ý tưởng từ nền tảng YouTube, TikTok và UI hiện đại</p>
+                <p style="margin-top: 20px; font-size: 14px; color: gray;">© 2025 KhoaTube. All rights reserved.</p>
+            </div>
         </div>
     </div>
 
@@ -1065,6 +1147,18 @@
         <div class="nav-menu-item" data-page="history">
             <span class="material-icons">history</span>
             <span>Lịch sử</span>
+        </div>
+        <div class="nav-menu-item" id="kidModeToggleMobileContainer">
+            <label class="kid-mode-toggle">
+                <input type="checkbox" id="kidModeCheckboxMobile">
+                <span class="slider"></span>
+                <span class="material-icons">child_friendly</span>
+                <span>Kid Mode</span>
+            </label>
+        </div>
+        <div class="nav-menu-item" data-page="credits">
+          <span class="material-icons">info</span>
+          <span>Credits</span>
         </div>
     </div>
 
@@ -1105,7 +1199,7 @@
             'AIzaSyAF5F3rGlVMF1zQtriTKmMdKHDnBxoDs8M',
             'AIzaSyDAqmNUaPd4k1o1alytM-jXuiioyKIAAek',
             'AIzaSyDdGfJQbRdR9fpkRj3PFao8WLt9lxYgNDA',
-            'AIzaSyDeWpaYCGXvYpMPMEEm74rNLLlprGNOaAU',
+            'AIzaSyDeWpaYCGXvYpMPMEEm74rNLLLprGNOaAU',
             'AIzaSyAySLdVOJmt3-s3TTBIzjZmkWSKh1ZIXuc',
             'AIzaSyDLpiPGA8HdMUix0YPhZoMjZxbhi6r78k0',
             'AIzaSyCGqHUc29iIXnvFhZXUiaX5hq7E909ieAY',
@@ -1127,7 +1221,6 @@
         const YOUTUBE_VIDEO_DETAIL_BASE_URL = 'https://www.googleapis.com/youtube/v3/videos?';
         const YOUTUBE_POPULAR_VIDEO_URL = 'https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=VN&maxResults=50';
 
-
         const searchInput = document.getElementById('searchInput');
         const searchClearBtn = document.getElementById('searchClearBtn');
         const searchIconBtn = document.getElementById('searchIconBtn');
@@ -1139,11 +1232,14 @@
         const homePage = document.getElementById('homePage');
         const videoPlayerPage = document.getElementById('videoPlayerPage');
         const historyPage = document.getElementById('historyPage');
+        const creditsPage = document.getElementById('creditsPage'); // Added Credits Page
 
         const playerVideoTitle = document.getElementById('playerVideoTitle');
         const playerVideoChannel = document.getElementById('playerVideoChannel');
         const playerVideoViewsDate = document.getElementById('playerVideoViewsDate');
         const relatedVideoGrid = document.getElementById('relatedVideoGrid');
+        const scrollDownMessage = document.querySelector('.scroll-down-message');
+
 
         const historyList = document.getElementById('historyList');
         const clearHistoryBtn = document.getElementById('clearHistoryBtn');
@@ -1155,11 +1251,29 @@
         const backToVideoBtn = document.getElementById('backToVideoBtn');
         const backToVideoTitlePreview = backToVideoBtn.querySelector('.video-title-preview');
 
+        const audioOnlyCheckbox = document.getElementById('audioOnlyCheckbox');
+        const videoPlayerContainer = document.querySelector('.video-player-container');
+
+        const mainHeader = document.getElementById('mainHeader');
+        const searchContainer = document.getElementById('searchContainer');
+        const navMenuPc = document.getElementById('navMenuPc');
+        const playerControls = document.getElementById('playerControls');
+        const navMenuMobile = document.querySelector('.nav-menu-mobile');
+
+
+        const kidModeCheckboxMobile = document.getElementById('kidModeCheckboxMobile');
+
+
         let nextPageToken = '';
         let currentSearchQuery = '';
         let isLoading = false;
         let lastPlayedVideo = null;
         let ytPlayer; // Declare ytPlayer globally
+        let timeUpdateInterval; // To store the interval ID for saving playback time
+        let isKidMode = false;
+
+        const KID_MODE_KEYWORDS = ['hoạt hình', 'trẻ em', 'kids', 'children', 'cartoon', 'anime', 'kid', 'bé', 'vui nhộn', 'giáo dục', 'thiếu nhi'];
+        const SENSITIVE_KEYWORDS = ['bạo lực', 'máu', 'sex', 'người lớn', 'chết chóc', 'kinh dị', 'đánh nhau', 'chiến tranh', '18+'];
 
         // --- Utility Functions ---
         function formatNumber(num) {
@@ -1184,6 +1298,26 @@
             interval = seconds / 60;
             if (interval > 1) return Math.floor(interval) + " phút trước";
             return Math.floor(seconds) + " giây trước";
+        }
+
+        function filterForKidMode(videos) {
+            if (!isKidMode) return videos;
+
+            return videos.filter(video => {
+                const title = video.snippet.title.toLowerCase();
+                const description = video.snippet.description ? video.snippet.description.toLowerCase() : '';
+                const channelTitle = video.snippet.channelTitle.toLowerCase();
+
+                const hasKidKeyword = KID_MODE_KEYWORDS.some(keyword =>
+                    title.includes(keyword) || description.includes(keyword) || channelTitle.includes(keyword)
+                );
+
+                const hasSensitiveKeyword = SENSITIVE_KEYWORDS.some(keyword =>
+                    title.includes(keyword) || description.includes(keyword) || channelTitle.includes(keyword)
+                );
+
+                return hasKidKeyword && !hasSensitiveKeyword;
+            });
         }
 
         // --- API Key Management ---
@@ -1222,15 +1356,19 @@
 
         // --- UI Navigation ---
         function showPage(pageId) {
-            const pages = { 'home': homePage, 'videoPlayer': videoPlayerPage, 'history': historyPage };
+            const pages = { 'home': homePage, 'videoPlayer': videoPlayerPage, 'history': historyPage, 'credits': creditsPage };
             Object.keys(pages).forEach(id => pages[id].style.display = (id === pageId) ? 'flex' : 'none');
 
             navMenuItems.forEach(item => {
+                // Special handling for mobile kid mode toggle
+                if (item.id === 'kidModeToggleMobileContainer') return;
                 item.classList.toggle('active', item.dataset.page === pageId);
             });
 
             introMessage.classList.toggle('hidden', !(pageId === 'home' && !currentSearchQuery && videoGrid.children.length === 0));
             if (pageId !== 'home') scrollToTopBtn.classList.remove('visible');
+            
+            // Only show back to video button if not on video player page AND a video was previously played
             backToVideoContainer.classList.toggle('visible', pageId !== 'videoPlayer' && lastPlayedVideo);
             if (lastPlayedVideo) backToVideoTitlePreview.textContent = lastPlayedVideo.title;
             // Ensure the swiped class is removed when the button becomes visible
@@ -1240,8 +1378,10 @@
         navMenuItems.forEach(item => {
             item.addEventListener('click', () => {
                 const page = item.dataset.page;
-                showPage(page);
-                if (page === 'history') renderHistory();
+                if (page) { // Check if data-page attribute exists
+                    showPage(page);
+                    if (page === 'history') renderHistory();
+                }
             });
         });
         
@@ -1253,7 +1393,7 @@
                  nextPageToken = '';
             }
            
-            if (!currentSearchQuery) {
+            if (!currentSearchQuery && !isKidMode) { // If no search query and not in Kid Mode, fetch popular
                 fetchAndRenderPopularVideos(true);
                 return;
             }
@@ -1263,12 +1403,20 @@
             introMessage.classList.add('hidden');
             loadingIndicator.style.display = 'block';
 
-            const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent(currentSearchQuery)}&pageToken=${nextPageToken}`;
+            let query = currentSearchQuery;
+            if (isKidMode && !query) { // If in Kid Mode but no specific search, default to "hoạt hình"
+                query = "hoạt hình";
+            } else if (isKidMode && query) { // If in Kid Mode and a search, append "hoạt hình"
+                query = `${query} hoạt hình`;
+            }
+
+            const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=50&type=video&q=${encodeURIComponent(query)}&pageToken=${nextPageToken}`;
             
             try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
-                await renderVideos(data.items, false, videoGrid);
+                const filteredVideos = filterForKidMode(data.items);
+                await renderVideos(filteredVideos, false, videoGrid);
             } catch (error) {
                 console.error('Error searching YouTube videos:', error);
             } finally {
@@ -1290,12 +1438,16 @@
              introMessage.classList.add('hidden');
              loadingIndicator.style.display = 'block';
              
-             const url = `${YOUTUBE_POPULAR_VIDEO_URL}&pageToken=${nextPageToken}`;
+             let url = `${YOUTUBE_POPULAR_VIDEO_URL}&pageToken=${nextPageToken}`;
+             if (isKidMode) { // If in Kid Mode, search for popular cartoons
+                 url = `${YOUTUBE_API_BASE_URL}part=snippet,statistics&maxResults=50&type=video&q=${encodeURIComponent('hoạt hình phổ biến')}&pageToken=${nextPageToken}`;
+             }
 
              try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
-                await renderVideos(data.items, false, videoGrid);
+                const filteredVideos = filterForKidMode(data.items);
+                await renderVideos(filteredVideos, false, videoGrid);
             } catch (error) {
                 console.error('Error fetching popular videos:', error);
                 introMessage.textContent = 'Không thể tải video. Vui lòng thử lại.';
@@ -1307,10 +1459,15 @@
         }
 
         async function fetchFeaturedVideos() {
-            const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=10&type=video&order=viewCount&q=trending`;
+            let query = 'trending';
+            if (isKidMode) {
+                query = 'hoạt hình nổi bật';
+            }
+            const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=10&type=video&order=viewCount&q=${encodeURIComponent(query)}`;
             try {
                 const data = await fetchWithApiKey(url);
-                await renderVideos(data.items, true, featuredSlider);
+                const filteredVideos = filterForKidMode(data.items);
+                await renderVideos(filteredVideos, true, featuredSlider);
             } catch (error) {
                 console.error('Error fetching featured videos:', error);
             }
@@ -1398,8 +1555,6 @@
             // This function is called by the YouTube Iframe API when it's ready
             // Player will be initialized when a video is played for the first time
         }
-
-        let timeUpdateInterval; // To store the interval ID for saving playback time
 
         function playVideo(videoId, title, channel, views, date) {
             lastPlayedVideo = { videoId, title, channel, views, date };
@@ -1507,14 +1662,13 @@
                 renderHistory();
             }
         }
+        clearHistoryBtn.addEventListener('click', clearAllHistory);
 
         function renderHistory() {
-            const history = getHistory();
             historyList.innerHTML = '';
-            clearHistoryBtn.style.display = history.length > 0 ? 'flex' : 'none';
-
+            const history = getHistory();
             if (history.length === 0) {
-                historyList.innerHTML = '<p style="text-align: center; padding-top: 20px;">Lịch sử xem trống.</p>';
+                historyList.innerHTML = '<p style="text-align: center; color: #888; padding: 20px;">Lịch sử xem trống.</p>';
                 return;
             }
 
@@ -1522,29 +1676,27 @@
                 const historyItem = document.createElement('div');
                 historyItem.className = 'history-item';
                 historyItem.innerHTML = `
-                    <img src="${item.thumbnail}" alt="${item.title}" class="history-thumbnail">
+                    <img src="${item.thumbnail}" alt="${item.title}">
                     <div class="video-info">
                         <div class="video-title">${item.title}</div>
                         <div class="video-channel">${item.channel}</div>
                     </div>
-                    <button class="remove-history-btn" data-video-id="${item.videoId}"><span class="material-icons">delete</span> Xóa</button>
+                    <button data-video-id="${item.videoId}"><span class="material-icons">delete</span></button>
                 `;
-                historyItem.addEventListener('click', (e) => {
-                    if (!e.target.closest('.remove-history-btn')) {
-                        playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A');
-                    }
+                historyItem.querySelector('img').addEventListener('click', () => {
+                    playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A'); // Views and date not stored in history
+                });
+                historyItem.querySelector('.video-info').addEventListener('click', () => {
+                    playVideo(item.videoId, item.title, item.channel, 'N/A', 'N/A');
+                });
+                historyItem.querySelector('button').addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent playing video when clicking delete
+                    removeHistoryItem(item.videoId);
                 });
                 historyList.appendChild(historyItem);
             });
-
-            document.querySelectorAll('.remove-history-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    removeHistoryItem(btn.dataset.videoId);
-                });
-            });
         }
-        clearHistoryBtn.addEventListener('click', clearAllHistory);
+
 
         // --- Scroll & Infinite Load ---
         window.addEventListener('scroll', () => {
@@ -1555,9 +1707,9 @@
 
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !isLoading && nextPageToken) {
-                if(currentSearchQuery) {
+                if(currentSearchQuery || isKidMode) { // Allow infinite scroll for search and kid mode
                     performSearch(false);
-                } else {
+                } else { // Or for popular videos
                     fetchAndRenderPopularVideos();
                 }
             }
@@ -1573,8 +1725,15 @@
             }
         });
 
-        const audioOnlyCheckbox = document.getElementById('audioOnlyCheckbox');
-        const videoPlayerContainer = document.querySelector('.video-player-container');
+        backToVideoContainer.addEventListener('transitionend', (event) => {
+            if (event.propertyName === 'transform' && backToVideoContainer.classList.contains('swiped')) {
+                // Stop audio if it's playing when the button is swiped away
+                if (ytPlayer && ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                    ytPlayer.pauseVideo();
+                }
+            }
+        });
+
 
         audioOnlyCheckbox.addEventListener('change', () => {
             if (audioOnlyCheckbox.checked) {
@@ -1589,50 +1748,109 @@
             let isDragging = false;
             let startX;
             let scrollLeft;
+            let momentumInterval;
+            let velocity = 0;
+            const friction = 0.95; // Controls how fast momentum decays
 
             element.addEventListener('mousedown', (e) => {
                 isDragging = true;
                 element.classList.add('grabbing');
                 startX = e.pageX - element.offsetLeft;
                 scrollLeft = element.scrollLeft;
+                clearInterval(momentumInterval); // Stop any existing momentum scroll
             });
 
             element.addEventListener('mouseleave', () => {
-                isDragging = false;
-                element.classList.remove('grabbing');
+                if (isDragging) {
+                    isDragging = false;
+                    element.classList.remove('grabbing');
+                    startMomentumScroll();
+                }
             });
 
             element.addEventListener('mouseup', () => {
-                isDragging = false;
-                element.classList.remove('grabbing');
+                if (isDragging) {
+                    isDragging = false;
+                    element.classList.remove('grabbing');
+                    startMomentumScroll();
+                }
             });
 
             element.addEventListener('mousemove', (e) => {
                 if (!isDragging) return;
                 e.preventDefault();
                 const x = e.pageX - element.offsetLeft;
-                const walk = (x - startX) * 2; // Multiplier for faster scroll
+                const walk = (x - startX) * 1.5; // Multiplier for faster scroll
                 element.scrollLeft = scrollLeft - walk;
+                velocity = (scrollLeft - element.scrollLeft); // Calculate velocity for momentum
             });
 
+            function startMomentumScroll() {
+                if (Math.abs(velocity) > 0.5) { // Only start if there's significant velocity
+                    momentumInterval = setInterval(() => {
+                        element.scrollLeft += velocity;
+                        velocity *= friction; // Apply friction
+                        if (Math.abs(velocity) < 0.5) { // Stop when velocity is very low
+                            clearInterval(momentumInterval);
+                        }
+                    }, 1000 / 60); // 60 frames per second
+                }
+            }
+
+
             // For touch devices
+            let lastTouchX = 0;
+            let touchStartTime = 0;
+            let touchStartScrollLeft = 0;
+
             element.addEventListener('touchstart', (e) => {
                 isDragging = true;
-                startX = e.touches[0].pageX - element.offsetLeft;
-                scrollLeft = element.scrollLeft;
+                element.classList.add('grabbing');
+                lastTouchX = e.touches[0].clientX;
+                touchStartTime = Date.now();
+                touchStartScrollLeft = element.scrollLeft;
+                clearInterval(momentumInterval);
             }, { passive: true });
 
             element.addEventListener('touchend', () => {
-                isDragging = false;
+                if (isDragging) {
+                    isDragging = false;
+                    element.classList.remove('grabbing');
+                    // Calculate velocity from the last movement before touchend
+                    const deltaTime = Date.now() - touchStartTime;
+                    if (deltaTime > 0) {
+                        velocity = (touchStartScrollLeft - element.scrollLeft) / (deltaTime / 1000) * 0.5; // Adjust multiplier
+                    }
+                    startMomentumScroll();
+                }
             });
 
             element.addEventListener('touchmove', (e) => {
                 if (!isDragging) return;
-                const x = e.touches[0].pageX - element.offsetLeft;
-                const walk = (x - startX) * 2;
-                element.scrollLeft = scrollLeft - walk;
+                const currentTouchX = e.touches[0].clientX;
+                const deltaX = currentTouchX - lastTouchX;
+                element.scrollLeft -= deltaX;
+                lastTouchX = currentTouchX;
+                // Don't update velocity here constantly, let touchend calculate final velocity
             }, { passive: true });
         }
+
+
+        // --- Kid Mode ---
+        function toggleKidMode(sourceCheckbox) {
+            isKidMode = sourceCheckbox.checked; // Directly set kid mode state
+
+            // Sync all Kid Mode checkboxes (only mobile checkbox exists now)
+            kidModeCheckboxMobile.checked = isKidMode;
+
+            // Re-fetch videos based on new Kid Mode status
+            showPage('home'); // Go back to home page
+            fetchFeaturedVideos();
+            performSearch(true); // Re-perform search (or fetch popular) with Kid Mode filter
+            alert(`Kid Mode đã được ${isKidMode ? 'bật' : 'tắt'}.`);
+        }
+
+        kidModeCheckboxMobile.addEventListener('change', (e) => toggleKidMode(e.target));
 
 
         // --- Initial Load ---
@@ -1641,8 +1859,6 @@
             fetchFeaturedVideos();
             fetchAndRenderPopularVideos(true);
             makeScrollableDraggable(featuredSlider); // Make featured slider draggable
-            // The popular video grid is a flex grid, not a slider, so it doesn't need this.
-            // If you change the popular videos to a slider, apply this to videoGrid as well.
 
             // --- Swipe-to-hide for Back to Video Button (Mobile only) ---
             let swipeStartX = null;
