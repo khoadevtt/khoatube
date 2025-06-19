@@ -62,7 +62,7 @@
                 color: var(--text-color-dark);
             }
             .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
-            .history-header, .back-to-video-btn, .nav-menu-pc { /* Apply glass effect to history-header and back-to-video-btn as well */
+            .history-header, .back-to-video-btn, .nav-menu-pc, .glass-toggle { /* Apply glass effect to history-header and back-to-video-btn as well */
                 background: var(--card-background-dark), var(--glass-overlay); /* Apply overlay */
                 border: 1px solid var(--border-color-dark); /* Apply glass border */
                 backdrop-filter: blur(var(--glass-blur));
@@ -100,6 +100,13 @@
             .video-player-info p, .history-item .video-channel, .video-card .video-channel, .video-card .video-views-date {
                 color: #b0b0b0;
             }
+            .glass-toggle .slider {
+                background-color: rgba(255, 255, 255, 0.15);
+            }
+
+            .glass-toggle input:checked + .slider {
+                background-color: var(--accent-color-dark);
+            }
         }
 
         /* Light Mode Preferences */
@@ -109,7 +116,7 @@
                 color: var(--text-color-light);
             }
             .header, .nav-menu-mobile, .search-container, .video-card, .video-player-container, .history-item, .load-more-btn,
-            .history-header, .back-to-video-btn, .nav-menu-pc { /* Apply glass effect to history-header and back-to-video-btn as well */
+            .history-header, .back-to-video-btn, .nav-menu-pc, .glass-toggle { /* Apply glass effect to history-header and back-to-video-btn as well */
                 background: var(--card-background-light), var(--glass-overlay); /* Apply overlay */
                 border: 1px solid var(--border-color-light); /* Apply glass border */
                 backdrop-filter: blur(var(--glass-blur));
@@ -146,6 +153,9 @@
             }
             .intro-message {
                 color: var(--text-color-light);
+            }
+            .glass-toggle input:checked + .slider {
+                background-color: var(--accent-color-light);
             }
         }
 
@@ -261,7 +271,7 @@
 
         /* PC Sidebar Menu */
         .nav-menu-pc {
-            width: 250px;
+            width: 180px; /* Smaller width */
             padding: 20px;
             border-radius: var(--border-radius-large);
             margin: 10px;
@@ -272,17 +282,21 @@
         }
         .nav-menu-pc .nav-menu-item {
             display: flex;
+            flex-direction: column; /* Stack icon and text */
             align-items: center;
-            padding: 12px 15px;
+            padding: 10px 5px; /* Smaller padding */
             margin-bottom: 10px;
             border-radius: var(--border-radius-medium);
             cursor: pointer;
             transition: all var(--transition-speed); /* Apply smoother transition */
             font-weight: 500;
+            font-size: 14px; /* Smaller font size */
+            text-align: center;
         }
         .nav-menu-pc .nav-menu-item .material-icons {
-            margin-right: 15px;
-            font-size: 24px;
+            margin-right: 0; /* Remove margin */
+            margin-bottom: 5px; /* Add margin below icon */
+            font-size: 22px; /* Smaller icon size */
         }
         .nav-menu-pc .nav-menu-item:hover {
             background-color: rgba(0,0,0,0.05);
@@ -301,7 +315,7 @@
         @media (prefers-color-scheme: dark) {
             .nav-menu-pc .nav-menu-item.active {
                 background-color: rgb(98 149 142 / 24%);
-                box-shadow: 0 4px 10px rgba(100, 210, 255, 0.2);
+                box-shadow: 0 44px 10px rgba(100, 210, 255, 0.2);
             }
         }
 
@@ -313,7 +327,7 @@
             left: 0;
             right: 0;
             width: 100%;
-            padding: 10px 0;
+            padding: 5px 0; /* Smaller padding */
             border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             display: flex;
@@ -323,19 +337,19 @@
         .nav-menu-mobile .nav-menu-item {
             flex: 1;
             text-align: center;
-            padding: 8px 0;
+            padding: 6px 0; /* Smaller padding */
             border-radius: var(--border-radius-large);
-            margin: 0 5px;
+            margin: 0 3px; /* Smaller margin */
             cursor: pointer;
             transition: background-color var(--transition-speed);
         }
         .nav-menu-mobile .nav-menu-item .material-icons {
-            font-size: 24px;
+            font-size: 22px; /* Smaller icon size */
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px; /* Smaller margin */
         }
         .nav-menu-mobile .nav-menu-item span {
-            font-size: 12px;
+            font-size: 11px; /* Smaller font size */
         }
         .nav-menu-mobile .nav-menu-item:hover {
             background-color: rgba(0,0,0,0.05);
@@ -749,6 +763,47 @@
             animation: shimmer 1.5s infinite linear;
         }
 
+        /* New Styles for Featured and Popular Sections */
+        .section-title {
+            font-size: 22px;
+            margin: 15px 0 10px;
+            padding-left: 5px;
+            width: 100%; /* Ensure title takes full width */
+            max-width: 1200px; /* Match video-grid max-width */
+        }
+        .video-slider {
+            display: flex;
+            overflow-x: scroll; /* Enable horizontal scrolling */
+            gap: 20px; /* Use the same gap as video-grid */
+            padding: 10px;
+            scroll-snap-type: x mandatory;
+            width: 100%; /* Ensure slider takes full width */
+            max-width: 1200px; /* Match video-grid max-width */
+            padding-bottom: 20px; /* Add some padding at the bottom for scrollbar */
+            cursor: grab; /* Indicate draggable */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+        }
+        .video-slider.grabbing {
+            cursor: grabbing;
+        }
+        .video-slider .video-card {
+            min-width: 280px;
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+        /* Style for scrollbar (optional, to make it less intrusive) */
+        .video-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+        .video-slider::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        .video-slider::-webkit-scrollbar-track {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
@@ -771,6 +826,11 @@
                 position: static;
                 transform: none;
                 margin: 0 auto 10px auto;
+            }
+            .featured-section,
+            .popular-section {
+                width: 100%;
+                overflow: visible;
             }
             .search-container {
                 width: 100%;
@@ -853,6 +913,73 @@
             .back-to-video-btn .video-title-preview {
                 max-width: 60%; /* Adjust for smaller screens */
             }
+            .video-slider {
+                gap: 15px; /* Adjust gap for mobile */
+            }
+            .video-slider .video-card {
+                min-width: 250px; /* Adjust min-width for mobile cards */
+            }
+            .section-title {
+                padding-left: 15px;
+                font-size: 18px; /* nhỏ hơn chút để vừa khung */
+                margin-top: 10px;
+                margin-bottom: 5px;
+                display: block; /* đảm bảo không bị inline */
+                white-space: nowrap; /* giữ nguyên 1 dòng nếu muốn */
+            }
+        }
+
+        .glass-toggle {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            font-size: 16px;
+            background: var(--card-background-light);
+            border: var(--glass-border);
+            border-radius: var(--border-radius-medium);
+            padding: 10px 15px;
+            box-shadow: var(--glass-shadow), var(--glass-inset-shadow);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            cursor: pointer;
+            user-select: none;
+            gap: 10px;
+        }
+        .glass-toggle input[type="checkbox"] {
+            display: none;
+        }
+        .glass-toggle .slider {
+            width: 40px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 999px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+        .glass-toggle .slider::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .glass-toggle input:checked + .slider::before {
+            transform: translateX(20px);
+        }
+        .glass-toggle input:checked + .slider {
+            background-color: var(--accent-color-light);
+        }
+
+        /* Additional CSS for swipe-to-hide effect */
+        #backToVideoContainer.swiped {
+            transform: translateX(-150%);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
         }
     </style>
 </head>
@@ -883,19 +1010,32 @@
         <div class="content">
             <div id="homePage" class="home-page">
                 <div class="intro-message">Tìm kiếm video bất kì mà không quảng cáo.</div>
-                <div id="videoGrid" class="video-grid">
+                <div class="featured-section">
+                  <h2 class="section-title">🔥 Video nổi bật</h2>
+                  <div id="featuredSlider" class="video-slider"></div>
+                </div>
+                <div class="popular-section">
+                  <h2 class="section-title">📈 Video phổ biến</h2>
+                  <div id="videoGrid" class="video-grid"></div>
                 </div>
                 <div id="loadingIndicator">Đang tải thêm...</div>
             </div>
 
             <div id="videoPlayerPage" class="video-player-page">
                 <div class="video-player-container">
-                    <div id="videoPlayer"></div> 
+                    <div id="videoPlayer"></div>
                 </div>
                 <div class="video-player-info">
                     <h2 id="playerVideoTitle"></h2>
                     <p id="playerVideoChannel"></p>
                     <p id="playerVideoViewsDate"></p>
+                </div>
+                <div id="audioOnlyToggleContainer" style="margin-bottom: 20px;">
+                    <label class="glass-toggle">
+                        <input type="checkbox" id="audioOnlyCheckbox">
+                        <span class="slider"></span>
+                        Nghe nhạc nền
+                    </label>
                 </div>
                 <div class="related-videos">
                     <h3>Video liên quan</h3>
@@ -936,7 +1076,7 @@
         </button>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script> 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const API_KEYS = [
             'AIzaSyC45El3EMCPOblydSDVvLgycfWrAkoS9Ko',
@@ -947,7 +1087,7 @@
             'AIzaSyDNiixU1B0Pqv4Fz-jTkGGrAf_eGZ6UzYU',
             'AIzaSyDUNaoEz0hFOZVDxKjZOLr58f6gavQstz0',
             'AIzaSyCGdDspUL-5Tg6x0TY_hy9b5M3URSYZgPY',
-            'AIzaSyD7ROKfYBCdVrYWHxJqPmRxfArGMf-2rl4',
+            'AIzaSyD7ROKfYBCdVrYWHxJqPmRxfArGMG-2rl4',
             'AIzaSyCUqmtyXZsMUOI223XL3IlptfAd02JGcBo',
             'AIzaSyDJgS8HMkIszXihjRARa8-1Z6Ra_-NmpJQ',
             'AIzaSyAUH8jYFHdGaqWMJWWQt19PY6-nEQeN4bI',
@@ -957,8 +1097,29 @@
             'AIzaSyA9Hncb8RitAjnv-Og6Pt7mlnTXKqjmHbo',
             'AIzaSyAH1I4J2Ev7YWQfmwJ4dLapCatRReGEQts',
             'AIzaSyCoW_ZsJSe9lVv8zqQLyY57w9w7qvO_1NbQ',
-            'AIzaSyCxH_tSSRYOKNAUkepir9wweilILhsgBQg'
-            // Add more API keys here if you have them
+            'AIzaSyCxH_tSSRYOKNAUkepir9wweilILhsgBQg',
+            'AIzaSyDh8PnO6Y5o2yrt0Wy4eQ3iqKGlgtxGwxw',
+            'AIzaSyBCRm5kbglDOG0iz_-N6S43cv0ORYyusik',
+            'AIzaSyBNnZoqO09AlNY41oaQlPb8AqS74r4GbFQ',
+            'AIzaSyCY8m0RQ611qyFrVCNE62YYrPDIApEfiIo',
+            'AIzaSyAF5F3rGlVMF1zQtriTKmMdKHDnBxoDs8M',
+            'AIzaSyDAqmNUaPd4k1o1alytM-jXuiioyKIAAek',
+            'AIzaSyDdGfJQbRdR9fpkRj3PFao8WLt9lxYgNDA',
+            'AIzaSyDeWpaYCGXvYpMPMEEm74rNLLlprGNOaAU',
+            'AIzaSyAySLdVOJmt3-s3TTBIzjZmkWSKh1ZIXuc',
+            'AIzaSyDLpiPGA8HdMUix0YPhZoMjZxbhi6r78k0',
+            'AIzaSyCGqHUc29iIXnvFhZXUiaX5hq7E909ieAY',
+            'AIzaSyCnG-hFi6NEWGoj8aNd-2LxaP5IhF71ROU',
+            'AIzaSyAwejRLcOPkDCLdfdyhjJF_BAPEsVwWIrI',
+            'AIzaSyBO_AIzwDqdWqu2RVxGe7pWAbyFOYDJaD0',
+            'AIzaSyAh8k-PyFWiKmsU8l3NES1HSq-B6nftdUA',
+            'AIzaSyAi-clYBRam0KEckhq83IsFK-j7lQYDvG4',
+            'AIzaSyAbMipOgkmovmEf25P_3gP7Maz6t65T-nI',
+            'AIzaSyC-C5PX_dwBQLM4Nmb9t65HoSFEPMOPhoM',
+            'AIzaSyDMGq1Kc97ZKkHrAjU93nOunbiFOi9aycw',
+            'AIzaSyCwFZnN0VHcepDjiipuT8jo2KvWInx1g90',
+            'AIzaSyCI9t1qV5glvZNlnDnt8Of4229MsuQFPwI',
+            'AIzaSyDFt4mPteEKPPKYt1az0PtbQ0SA3q3HA08'
         ];
         let currentApiKeyIndex = 0;
 
@@ -971,6 +1132,7 @@
         const searchClearBtn = document.getElementById('searchClearBtn');
         const searchIconBtn = document.getElementById('searchIconBtn');
         const videoGrid = document.getElementById('videoGrid');
+        const featuredSlider = document.getElementById('featuredSlider');
         const introMessage = document.querySelector('.intro-message');
         const loadingIndicator = document.getElementById('loadingIndicator');
 
@@ -1071,6 +1233,8 @@
             if (pageId !== 'home') scrollToTopBtn.classList.remove('visible');
             backToVideoContainer.classList.toggle('visible', pageId !== 'videoPlayer' && lastPlayedVideo);
             if (lastPlayedVideo) backToVideoTitlePreview.textContent = lastPlayedVideo.title;
+            // Ensure the swiped class is removed when the button becomes visible
+            backToVideoContainer.classList.remove('swiped');
         }
 
         navMenuItems.forEach(item => {
@@ -1104,7 +1268,7 @@
             try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
-                await renderVideos(data.items, false);
+                await renderVideos(data.items, false, videoGrid);
             } catch (error) {
                 console.error('Error searching YouTube videos:', error);
             } finally {
@@ -1118,7 +1282,9 @@
              if (clear) {
                 videoGrid.innerHTML = '';
                 nextPageToken = '';
-                currentSearchQuery = '';
+                if (!currentSearchQuery) { // Only clear featured if no search is active
+                    featuredSlider.innerHTML = '';
+                }
              }
              isLoading = true;
              introMessage.classList.add('hidden');
@@ -1129,7 +1295,7 @@
              try {
                 const data = await fetchWithApiKey(url);
                 nextPageToken = data.nextPageToken || '';
-                await renderVideos(data.items, false);
+                await renderVideos(data.items, false, videoGrid);
             } catch (error) {
                 console.error('Error fetching popular videos:', error);
                 introMessage.textContent = 'Không thể tải video. Vui lòng thử lại.';
@@ -1137,6 +1303,16 @@
             } finally {
                 loadingIndicator.style.display = 'none';
                 isLoading = false;
+            }
+        }
+
+        async function fetchFeaturedVideos() {
+            const url = `${YOUTUBE_API_BASE_URL}part=snippet&maxResults=10&type=video&order=viewCount&q=trending`;
+            try {
+                const data = await fetchWithApiKey(url);
+                await renderVideos(data.items, true, featuredSlider);
+            } catch (error) {
+                console.error('Error fetching featured videos:', error);
             }
         }
 
@@ -1214,6 +1390,7 @@
             searchClearBtn.classList.remove('visible');
             introMessage.classList.remove('hidden');
             fetchAndRenderPopularVideos(true);
+            fetchFeaturedVideos(); // Reload featured videos as well
         });
 
         // --- YouTube Player API ---
@@ -1396,10 +1573,96 @@
             }
         });
 
+        const audioOnlyCheckbox = document.getElementById('audioOnlyCheckbox');
+        const videoPlayerContainer = document.querySelector('.video-player-container');
+
+        audioOnlyCheckbox.addEventListener('change', () => {
+            if (audioOnlyCheckbox.checked) {
+                videoPlayerContainer.style.display = 'none'; // ẩn video
+            } else {
+                videoPlayerContainer.style.display = 'block'; // hiện lại video
+            }
+        });
+
+        // --- Draggable Scroll for Video Sliders ---
+        function makeScrollableDraggable(element) {
+            let isDragging = false;
+            let startX;
+            let scrollLeft;
+
+            element.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                element.classList.add('grabbing');
+                startX = e.pageX - element.offsetLeft;
+                scrollLeft = element.scrollLeft;
+            });
+
+            element.addEventListener('mouseleave', () => {
+                isDragging = false;
+                element.classList.remove('grabbing');
+            });
+
+            element.addEventListener('mouseup', () => {
+                isDragging = false;
+                element.classList.remove('grabbing');
+            });
+
+            element.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - element.offsetLeft;
+                const walk = (x - startX) * 2; // Multiplier for faster scroll
+                element.scrollLeft = scrollLeft - walk;
+            });
+
+            // For touch devices
+            element.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].pageX - element.offsetLeft;
+                scrollLeft = element.scrollLeft;
+            }, { passive: true });
+
+            element.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            element.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const x = e.touches[0].pageX - element.offsetLeft;
+                const walk = (x - startX) * 2;
+                element.scrollLeft = scrollLeft - walk;
+            }, { passive: true });
+        }
+
+
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', () => {
             showPage('home');
+            fetchFeaturedVideos();
             fetchAndRenderPopularVideos(true);
+            makeScrollableDraggable(featuredSlider); // Make featured slider draggable
+            // The popular video grid is a flex grid, not a slider, so it doesn't need this.
+            // If you change the popular videos to a slider, apply this to videoGrid as well.
+
+            // --- Swipe-to-hide for Back to Video Button (Mobile only) ---
+            let swipeStartX = null;
+
+            backToVideoContainer.addEventListener('touchstart', (e) => {
+                swipeStartX = e.touches[0].clientX;
+            }, { passive: true });
+
+            backToVideoContainer.addEventListener('touchmove', (e) => {
+                if (swipeStartX === null) return;
+                const deltaX = e.touches[0].clientX - swipeStartX;
+                if (deltaX < -60) { // Vuốt sang trái > 60px
+                    backToVideoContainer.classList.add('swiped');
+                    swipeStartX = null;
+                }
+            }, { passive: true });
+
+            backToVideoContainer.addEventListener('touchend', () => {
+                swipeStartX = null;
+            });
         });
     </script>
 </body>
